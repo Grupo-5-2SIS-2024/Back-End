@@ -16,7 +16,7 @@ class MedicoController(
 
     @PostMapping
     fun adicionarMedico(@RequestBody novoMedico: Medico): ResponseEntity<Medico> {
-        val medicoExistente = medicoRepository.findByEmail(novoMedico.email)
+        val medicoExistente = medicoRepository.findByEmail(novoMedico.email?:"")
         return if (medicoExistente != null) {
             ResponseEntity.status(401).build()
         } else {
@@ -34,6 +34,9 @@ class MedicoController(
             // Atualiza os dados do médico existente com os novos dados
             medicoEscolhido.nome = novoMedico.nome
             medicoEscolhido.sobrenome = novoMedico.sobrenome
+            medicoEscolhido.carterinha = novoMedico.carterinha
+            medicoEscolhido.telefone = novoMedico.telefone
+            medicoEscolhido.dataNascimento = novoMedico.dataNascimento
             medicoEscolhido.email = novoMedico.email
             medicoEscolhido.senha = novoMedico.senha
             medicoEscolhido.cpf = novoMedico.cpf
