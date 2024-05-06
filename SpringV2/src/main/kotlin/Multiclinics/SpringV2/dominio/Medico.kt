@@ -41,6 +41,10 @@ class Medico(
 
     @field:NotBlank(message = "O CPF não pode estar em branco.")
     @field:CPF(message = "O CPF fornecido não é válido.")
-    var cpf: String?
+    var cpf: String?,
+
+    var ativo:Boolean = false
+
+
 ){
 }

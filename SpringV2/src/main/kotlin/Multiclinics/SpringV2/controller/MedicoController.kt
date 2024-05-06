@@ -14,6 +14,35 @@ class MedicoController(
     val medicoRepository: MedicoRepository,
 ) {
 
+    @PutMapping("/login")
+    fun logarMedico(@RequestBody medico: Medico): ResponseEntity<Medico> {
+        val medicoLogado = medicoRepository.findByEmailAndSenha(medico.email ?: "", medico.senha ?: "")
+
+        return if (medicoLogado != null) {
+            medicoLogado.ativo = true
+            medicoRepository.save(medicoLogado) // Atualiza o médico como ativo no repositório
+            ResponseEntity.ok(medicoLogado)
+        } else {
+            ResponseEntity.status(401).build()
+        }
+    }
+
+    @PutMapping("/logout")
+    fun deslogarMedico(@RequestBody medico: Medico): ResponseEntity<Medico> {
+        val medicoLogado = medicoRepository.findByEmail(medico.email ?: "")
+
+        return if (medicoLogado != null && medicoLogado.ativo) {
+            // Marca o médico como inativo
+            medicoLogado.ativo = false
+            medicoRepository.save(medicoLogado) // Atualiza o médico como inativo no repositório
+            ResponseEntity.ok().build()
+        } else {
+            ResponseEntity.status(401).build()
+        }
+    }
+
+
+
     @PostMapping
     fun adicionarMedico(@RequestBody novoMedico: Medico): ResponseEntity<Medico> {
         val medicoExistente = medicoRepository.findByEmail(novoMedico.email?:"")
