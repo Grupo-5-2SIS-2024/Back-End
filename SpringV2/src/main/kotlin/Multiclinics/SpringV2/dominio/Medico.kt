@@ -1,9 +1,6 @@
 package Multiclinics.SpringV2.dominio
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
@@ -28,6 +25,12 @@ class Medico(
     @field:NotBlank(message = "A Carterinha não pode estar em branco.")
     var carterinha: String?,
 
+    @field: ManyToOne
+    var especificacaoMedica: EspecificacaoMedica,
+
+    @field: ManyToOne
+    var tipo_id : Permissionamento,
+
     @field:NotBlank(message = "O telefone não pode estar em branco.")
     var telefone: String?,
 
@@ -44,6 +47,8 @@ class Medico(
     var cpf: String?,
 
     var ativo:Boolean = false
+
+
 
 
 ){

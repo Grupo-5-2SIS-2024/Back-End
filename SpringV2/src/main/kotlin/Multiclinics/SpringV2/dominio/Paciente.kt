@@ -34,8 +34,14 @@ data class Paciente(
    @field:NotBlank(message = "O telefone não pode estar em branco.")
    var telefone: String?,
 
+   @field:OneToOne
+   var responsavel: Responsavel,
+
    @field:NotBlank(message = "A data de nascimento não pode estar em branco.")
    var dataNascimento: Date?,
+
+   @field: OneToOne
+   var endereco: Endereco
 
 
 

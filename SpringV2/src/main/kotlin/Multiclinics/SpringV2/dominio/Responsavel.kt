@@ -1,9 +1,6 @@
 package Multiclinics.SpringV2.dominio
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
@@ -32,11 +29,14 @@ data class Responsavel(
     @field:CPF(message = "O CPF fornecido não é válido.")
     var cpf: String?,
 
+    @field: OneToOne
+    var endereco: Endereco,
+
     @field:NotBlank(message = "O genero não pode estar em branco.")
     var Genero: String?,
 
 
     @field:NotBlank(message = "A data de nascimento não pode estar em branco.")
-    var dataNascimento: Date?,
+    var dataNascimento: Date?
 
     )

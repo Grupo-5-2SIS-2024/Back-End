@@ -16,12 +16,6 @@ data class Consulta(
     @field:GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int?,
 
-    @field: ManyToOne
-    var medico: Medico,
-
-    @field:NotBlank(message = "O nome do paciente não pode estar em branco.")
-    var paciente: String,
-
     @field:NotNull(message = "A data da consulta não pode ser nula.")
     var data: Date,
 
@@ -29,6 +23,16 @@ data class Consulta(
     var hora: Time,
 
     @field:NotBlank(message = "A área da consulta não pode estar em branco.")
-    var area: String
+    var area: String,
+
+    @field: ManyToOne
+    var medico: Medico,
+
+    @field: ManyToOne
+    var statusConsulta: StatusConsulta,
+
+
+    @field: ManyToOne
+    var paciente: Paciente,
 ) {
 }

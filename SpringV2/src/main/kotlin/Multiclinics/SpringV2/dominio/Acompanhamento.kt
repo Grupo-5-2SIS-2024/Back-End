@@ -4,6 +4,7 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.ManyToOne
 import jakarta.validation.constraints.NotBlank
 
 @Entity
@@ -17,4 +18,7 @@ data class Acompanhamento(
 
     @field:NotBlank(message = "O Relatorio não pode estar em branco.")
     var Relatorio: String?,
+
+    @field: ManyToOne
+    var consulta: Consulta
 )
