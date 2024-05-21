@@ -40,3 +40,15 @@ INSERT INTO Acompanhamento (idAcompanhamento, Resumo, Relatório, Consulta_id) V
 
 INSERT INTO Pendencia (idPendencia, Titulo, Descricao, Medico_id) VALUES
 (1, 'Exames pendentes', 'Paciente precisa fazer exames de EEG', 2);
+
+INSERT INTO TipoDeContato (Fase_contato) VALUES
+('Inicial'),
+('Intermediária'),
+('Final');
+
+INSERT INTO PossivelCliente (Nome, Sobrenome, email, cpf, Telefone, dtNasc, fk_Tipo_De_Contato) VALUES
+('Ana', 'Silva', 'ana.silva@example.com', '12345678901', '11987654321', '1990-01-15', 1),
+('Bruno', 'Santos', 'bruno.santos@example.com', '23456789012', '21987654321', '1985-05-20', 2),
+('Carla', 'Oliveira', 'carla.oliveira@example.com', '34567890123', '31987654321', '1992-09-10', 3),
+('Diego', 'Souza', 'diego.souza@example.com', '45678901234', '41987654321', '1988-12-25', 1),
+('Eva', 'Pereira', 'eva.pereira@example.com', '56789012345', '51987654321', '1995-07-30', 2);

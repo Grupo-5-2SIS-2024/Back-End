@@ -115,13 +115,41 @@ CREATE TABLE IF NOT EXISTS Acompanhamento (
     REFERENCES Consulta (idConsulta)
 );
 
-CREATE TABLE IF NOT EXISTS Pendencia (
+CREATE TABLE IF NOT EXISTS Notas (
   idPendencia INT NOT NULL AUTO_INCREMENT,
   Titulo VARCHAR(45) NULL,
   Descricao VARCHAR(90) NULL,
   Medico_id INT NOT NULL,
+  fk_Perm INT NOT NULL,
+  fk_Espec INT NOT NULL,
   PRIMARY KEY (idPendencia),
   CONSTRAINT fk_Pendencia_Medico1
     FOREIGN KEY (Medico_id)
-    REFERENCES Medico (idMedico)
+    REFERENCES Medico (idMedico),
+  CONSTRAINT fk_Notas_Perm
+    FOREIGN KEY (fk_Perm)
+    REFERENCES Permissionamento (idPerm),
+  CONSTRAINT fk_Notas_Espec
+    FOREIGN KEY (fk_Espec)
+    REFERENCES EspecificacaoMedica (idEspec)
+);
+
+CREATE TABLE IF NOT EXISTS TipoDeContato (
+  idTipoCont INT auto_increment PRIMARY KEY NOT NULL,
+  Fase_contato VARCHAR(45) NULL
+);
+
+CREATE TABLE IF NOT EXISTS PossivelCliente (
+  idPCliente INT NOT NULL AUTO_INCREMENT,
+  Nome VARCHAR(45) NULL,
+  Sobrenome VARCHAR(45) NULL,
+  email VARCHAR(45) NULL,
+  cpf CHAR(11) NULL,
+  Telefone CHAR(11) NULL,
+  dtNasc DATE NULL,
+  fk_Tipo_De_Contato INT NOT NULL,
+  PRIMARY KEY (idPCliente),
+  CONSTRAINT fk_Tipo_De_Contato
+    FOREIGN KEY (fk_Tipo_De_Contato)
+    REFERENCES TipoDeContato (idTipoCont)
 );
