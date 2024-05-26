@@ -14,7 +14,7 @@ class TipoDeContatoController(
 ) {
     @PostMapping
     fun adicionarTipo(@RequestBody novoTipo: TipoDeContato): ResponseEntity<TipoDeContato> {
-        val TipoExistente = tipoDeContatoRepository.findByFase_contato(novoTipo.Fase_contato?:"")
+        val TipoExistente = tipoDeContatoRepository.findByFaseContato(novoTipo.faseContato?:"")
         return if (TipoExistente != null) {
             ResponseEntity.status(401).build()
         } else {
@@ -30,7 +30,7 @@ class TipoDeContatoController(
             val TipoEscolhido = TipoExistente.get()
 
             // Atualiza os dados do médico existente com os novos dados
-            TipoEscolhido.Fase_contato = novoTipo.Fase_contato
+            TipoEscolhido.faseContato = novoTipo.faseContato
 
 
             val TipoAtualizado = tipoDeContatoRepository.save(TipoEscolhido)

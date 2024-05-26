@@ -14,7 +14,7 @@ class PermissionamentoCotroller(
 ) {
     @PostMapping
     fun adicionarPermissao(@RequestBody novaPermissao: Permissionamento): ResponseEntity<Permissionamento> {
-        val PermissaoExistente = permissionamentoRepository.findByNome(novaPermissao.Nome?:"")
+        val PermissaoExistente = permissionamentoRepository.findByNome(novaPermissao.nome?:"")
         return if (PermissaoExistente != null) {
             ResponseEntity.status(401).build()
         } else {
@@ -30,7 +30,7 @@ class PermissionamentoCotroller(
             val PermissaoEscolhido = PermissaoExistente.get()
 
             // Atualiza os dados do médico existente com os novos dados
-            PermissaoEscolhido.Nome = novaPermissao.Nome
+            PermissaoEscolhido.nome = novaPermissao.nome
 
 
             val PermissaoAtualizado = permissionamentoRepository.save(PermissaoEscolhido)

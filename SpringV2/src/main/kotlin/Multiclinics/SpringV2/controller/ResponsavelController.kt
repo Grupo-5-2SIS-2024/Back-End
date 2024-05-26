@@ -1,5 +1,6 @@
 package Multiclinics.SpringV2.controller
 
+import Multiclinics.SpringV2.Service.ResponsavelService
 import Multiclinics.SpringV2.dominio.Paciente
 import Multiclinics.SpringV2.dominio.Responsavel
 import Multiclinics.SpringV2.repository.ResponsavelRepository
@@ -10,17 +11,13 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/responsaveis")
 class ResponsavelController(
-    val responsavelRepository: ResponsavelRepository
+    val responsavelRepository: ResponsavelRepository,
+    val responsavelService: ResponsavelService
 ) {
     @PostMapping
     fun adicionarResponsavel(@RequestBody novoResponsavel: Responsavel): ResponseEntity<Responsavel> {
-        val ResponsavelExistente = responsavelRepository.findByEmail(novoResponsavel.email?:"")
-        return if (ResponsavelExistente != null) {
-            ResponseEntity.status(401).build()
-        } else {
-            responsavelRepository.save(novoResponsavel)
-            ResponseEntity.status(201).body(novoResponsavel)
-        }
+        responsavelService.salvar(novoResponsavel)
+        return ResponseEntity.status(201).body(novoResponsavel)
     }
 
     @PutMapping("/{id}")
@@ -29,18 +26,7 @@ class ResponsavelController(
         if (ResponsavelExistente.isPresent) {
             val ResponsavelEscolhido = ResponsavelExistente.get()
 
-            // Atualiza os dados do médico existente com os novos dados
-            ResponsavelEscolhido.nome = novoResponsavel.nome
-            ResponsavelEscolhido.sobrenome = novoResponsavel.sobrenome
-            ResponsavelEscolhido.email = novoResponsavel.email
-            ResponsavelEscolhido.cpf = novoResponsavel.cpf
-            ResponsavelEscolhido.Genero = novoResponsavel.Genero
-            ResponsavelEscolhido.telefone = novoResponsavel.telefone
-            ResponsavelEscolhido.dataNascimento = novoResponsavel.dataNascimento
-
-
-
-            val ResponsavelAtualizado = responsavelRepository.save(ResponsavelEscolhido)
+            val ResponsavelAtualizado = responsavelService.atualizar(novoResponsavel, ResponsavelEscolhido)
             return ResponseEntity.status(200).body(ResponsavelAtualizado)
         } else {
             return ResponseEntity.status(404).build()
@@ -58,7 +44,7 @@ class ResponsavelController(
 
     @GetMapping
     fun listarResponsavel(): ResponseEntity<List<Responsavel>> {
-        val responsaveis = responsavelRepository.findAll()
+        val responsaveis = responsavelService.getLista()
         return ResponseEntity.status(200).body(responsaveis)
     }
 

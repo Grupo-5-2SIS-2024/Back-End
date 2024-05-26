@@ -3,8 +3,10 @@ package Multiclinics.SpringV2.dominio
 import jakarta.persistence.*
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 import org.hibernate.validator.constraints.br.CPF
+import java.time.LocalDate
 import java.util.*
 
 @Entity
@@ -29,14 +31,13 @@ class Medico(
     var especificacaoMedica: EspecificacaoMedica,
 
     @field: ManyToOne
-    var tipo_id : Permissionamento,
+    var tipo : Permissionamento,
 
     @field:NotBlank(message = "O telefone não pode estar em branco.")
     var telefone: String?,
 
-    @field:NotBlank(message = "A data de nascimento não pode estar em branco.")
+    @field:NotNull(message = "A data de nascimento não pode estar em branco.")
     var dataNascimento: Date?,
-
 
     @field:NotBlank(message = "A senha não pode estar em branco.")
     @field:Size(min = 6, message = "A senha deve ter pelo menos 6 caracteres.")

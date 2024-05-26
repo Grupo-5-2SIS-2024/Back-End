@@ -13,5 +13,5 @@ data class Permissionamento(
     var id: Int?,
 
     @field:NotBlank(message = "O Nome não pode estar em branco.")
-    var Nome: String?,
+    var nome: String?,
 )

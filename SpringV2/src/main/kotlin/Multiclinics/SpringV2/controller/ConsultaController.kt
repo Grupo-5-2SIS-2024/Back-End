@@ -39,7 +39,8 @@ class ConsultaController(
                 paciente = novaConsulta.paciente,
                 data = novaConsulta.data,
                 hora = novaConsulta.hora,
-                area = novaConsulta.area
+                area = novaConsulta.area,
+                statusConsulta = novaConsulta.statusConsulta
             )
 
             val consultaAlterada = consultaRepository.save(consultaAtualizada)

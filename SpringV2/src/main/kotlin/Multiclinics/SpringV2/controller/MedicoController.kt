@@ -1,5 +1,6 @@
 package Multiclinics.SpringV2.controller
 
+import Multiclinics.SpringV2.Service.MedicoService
 import Multiclinics.SpringV2.dominio.Consulta
 import Multiclinics.SpringV2.dominio.Medico
 import Multiclinics.SpringV2.repository.ConsultaRepository
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/medicos")
 class MedicoController(
     val medicoRepository: MedicoRepository,
+    val medicoService: MedicoService
 ) {
 
     @PutMapping("/login")
@@ -44,33 +46,18 @@ class MedicoController(
 
 
     @PostMapping
-    fun adicionarMedico(@RequestBody novoMedico: Medico): ResponseEntity<Medico> {
-        val medicoExistente = medicoRepository.findByEmail(novoMedico.email?:"")
-        return if (medicoExistente != null) {
-            ResponseEntity.status(401).build()
-        } else {
-            medicoRepository.save(novoMedico)
-            ResponseEntity.status(201).body(novoMedico)
-        }
+    fun adicionarMedico(@RequestBody @Valid novoMedico: Medico): ResponseEntity<Medico> {
+        medicoService.salvar(novoMedico)
+        return ResponseEntity.status(201).body(novoMedico)
     }
 
     @PutMapping("/{id}")
     fun atualizarMedico(@PathVariable id: Int, @RequestBody @Valid novoMedico: Medico): ResponseEntity<Medico> {
         val medicoExistente = medicoRepository.findById(id)
         if (medicoExistente.isPresent) {
-            val medicoEscolhido = medicoExistente.get()
+            var medicoEscolhido = medicoExistente.get()
 
-            // Atualiza os dados do médico existente com os novos dados
-            medicoEscolhido.nome = novoMedico.nome
-            medicoEscolhido.sobrenome = novoMedico.sobrenome
-            medicoEscolhido.carterinha = novoMedico.carterinha
-            medicoEscolhido.telefone = novoMedico.telefone
-            medicoEscolhido.dataNascimento = novoMedico.dataNascimento
-            medicoEscolhido.email = novoMedico.email
-            medicoEscolhido.senha = novoMedico.senha
-            medicoEscolhido.cpf = novoMedico.cpf
-
-            val medicoAtualizado = medicoRepository.save(medicoEscolhido)
+            val medicoAtualizado = medicoService.atualizar(novoMedico, medicoEscolhido)
             return ResponseEntity.status(200).body(medicoAtualizado)
         } else {
             return ResponseEntity.status(404).build()
@@ -88,7 +75,7 @@ class MedicoController(
 
     @GetMapping
     fun listarMedicos(): ResponseEntity<List<Medico>> {
-        val medicos = medicoRepository.findAll()
+        val medicos = medicoService.getLista()
         return ResponseEntity.status(200).body(medicos)
     }
 

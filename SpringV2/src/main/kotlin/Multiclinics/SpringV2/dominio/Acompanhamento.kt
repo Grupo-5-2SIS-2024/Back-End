@@ -1,10 +1,6 @@
 package Multiclinics.SpringV2.dominio
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.ManyToOne
+import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 
 @Entity
@@ -16,8 +12,12 @@ data class Acompanhamento(
     @field:NotBlank(message = "O resumo não pode estar em branco.")
     var resumo: String?,
 
-    @field:NotBlank(message = "O Relatorio não pode estar em branco.")
+   @field:NotBlank(message = "O Relatorio não pode estar em branco.")
     var Relatorio: String?,
+
+    /*@field:Column(length = 3 * 1024 * 1024)
+    var Relatorio:ByteArray,*/
+
 
     @field: ManyToOne
     var consulta: Consulta

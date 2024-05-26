@@ -1,5 +1,6 @@
 package Multiclinics.SpringV2.controller
 
+import Multiclinics.SpringV2.Service.PacienteService
 import Multiclinics.SpringV2.dominio.Medico
 import Multiclinics.SpringV2.dominio.Paciente
 import Multiclinics.SpringV2.repository.PacienteRepository
@@ -10,17 +11,13 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/pacientes")
 class PacienteController(
-    val pacienteRepository: PacienteRepository
+    val pacienteRepository: PacienteRepository,
+    val pacienteService: PacienteService
 ) {
     @PostMapping
     fun adicionarPaciente(@RequestBody novoPaciente: Paciente): ResponseEntity<Paciente> {
-        val PacienteExistente = pacienteRepository.findByEmail(novoPaciente.email?:"")
-        return if (PacienteExistente != null) {
-            ResponseEntity.status(401).build()
-        } else {
-            pacienteRepository.save(novoPaciente)
-            ResponseEntity.status(201).body(novoPaciente)
-        }
+        pacienteService.salvar(novoPaciente)
+        return ResponseEntity.status(201).body(novoPaciente)
     }
 
     @PutMapping("/{id}")
@@ -29,18 +26,7 @@ class PacienteController(
         if (PacienteExistente.isPresent) {
             val PacienteEscolhido = PacienteExistente.get()
 
-            // Atualiza os dados do médico existente com os novos dados
-            PacienteEscolhido.nome = novoPaciente.nome
-            PacienteEscolhido.sobrenome = novoPaciente.sobrenome
-            PacienteEscolhido.email = novoPaciente.email
-            PacienteEscolhido.cpf = novoPaciente.cpf
-            PacienteEscolhido.Genero = novoPaciente.Genero
-            PacienteEscolhido.telefone = novoPaciente.telefone
-            PacienteEscolhido.dataNascimento = novoPaciente.dataNascimento
-
-
-
-            val pacienteAtualizado = pacienteRepository.save(PacienteEscolhido)
+            val pacienteAtualizado = pacienteService.atualizar(novoPaciente, PacienteEscolhido)
             return ResponseEntity.status(200).body(pacienteAtualizado)
         } else {
             return ResponseEntity.status(404).build()
@@ -58,7 +44,7 @@ class PacienteController(
 
     @GetMapping
     fun listarPaciente(): ResponseEntity<List<Paciente>> {
-        val pacientes = pacienteRepository.findAll()
+        val pacientes = pacienteService.getLista()
         return ResponseEntity.status(200).body(pacientes)
     }
 

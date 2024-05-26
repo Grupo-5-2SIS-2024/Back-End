@@ -1,7 +1,6 @@
 package Multiclinics.SpringV2.controller
 
 import Multiclinics.SpringV2.dominio.Lead
-import Multiclinics.SpringV2.dominio.Paciente
 import Multiclinics.SpringV2.repository.LeadRepository
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
@@ -9,7 +8,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/leads")
-class LeadContorller(
+class LeadController(
     val leadRepository: LeadRepository
 ) {
     @PostMapping

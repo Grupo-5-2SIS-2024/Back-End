@@ -14,5 +14,5 @@ data class TipoDeContato(
 
 
     @field:NotBlank(message = "O status não pode estar em branco.")
-    var Fase_contato: String?
+    var faseContato: String?
 )
