@@ -1,17 +1,16 @@
-package Multiclinics.SpringV2.dominio
+package Multiclinics.SpringV2.dto
 
-import jakarta.persistence.*
+import Multiclinics.SpringV2.dominio.Endereco
+import Multiclinics.SpringV2.dominio.Responsavel
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.OneToOne
 import jakarta.validation.constraints.*
 import org.hibernate.validator.constraints.br.CPF
 import java.time.LocalDate
-import java.util.*
 
-@Entity
-data class Responsavel(
-    @field:Id
-    @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int?,
-
+data class PacienteCriacaoDto (
     @field: Size(min = 3)
     var nome: String?,
 
@@ -21,22 +20,21 @@ data class Responsavel(
     @field:Email(message = "O email fornecido não é válido.")
     var email: String?,
 
-    @field:NotBlank(message = "O Telefone não pode estar em branco.")
-    var telefone: String?,
-
     @field:NotBlank(message = "O CPF não pode estar em branco.")
     @field:CPF(message = "O CPF fornecido não é válido.")
     var cpf: String?,
 
-    @field: OneToOne
-    var endereco: Endereco? = null,
-
     @field:NotBlank(message = "O genero não pode estar em branco.")
-    var Genero: String?,
+    var genero: String?,
 
+    @field:NotBlank(message = "O telefone não pode estar em branco.")
+    var telefone: String?,
+
+    var responsavel: Responsavel? = null,
 
     @field:NotNull
     @field:Past
-    var dataNascimento: LocalDate?
+    var dataNascimento: LocalDate?,
 
-    )
+    var cep: String
+)

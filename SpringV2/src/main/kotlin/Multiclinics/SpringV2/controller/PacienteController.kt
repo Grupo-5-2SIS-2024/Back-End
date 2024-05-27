@@ -3,6 +3,7 @@ package Multiclinics.SpringV2.controller
 import Multiclinics.SpringV2.Service.PacienteService
 import Multiclinics.SpringV2.dominio.Medico
 import Multiclinics.SpringV2.dominio.Paciente
+import Multiclinics.SpringV2.dto.PacienteCriacaoDto
 import Multiclinics.SpringV2.repository.PacienteRepository
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
@@ -15,9 +16,9 @@ class PacienteController(
     val pacienteService: PacienteService
 ) {
     @PostMapping
-    fun adicionarPaciente(@RequestBody novoPaciente: Paciente): ResponseEntity<Paciente> {
-        pacienteService.salvar(novoPaciente)
-        return ResponseEntity.status(201).body(novoPaciente)
+    fun adicionarPaciente(@RequestBody novoPaciente: PacienteCriacaoDto): ResponseEntity<Paciente> {
+        val pacienteCriado = pacienteService.salvar(novoPaciente)
+        return ResponseEntity.status(201).body(pacienteCriado)
     }
 
     @PutMapping("/{id}")

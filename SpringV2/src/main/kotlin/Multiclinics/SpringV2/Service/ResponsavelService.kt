@@ -18,15 +18,13 @@ class ResponsavelService(
         }
     }
 
-    fun salvar(novoResponsavel: Responsavel) {
+    fun salvar(novoResponsavel: Responsavel): Responsavel {
         val ResponsavelExistente = responsavelRepository.findByEmail(novoResponsavel.email?:"")
         if (ResponsavelExistente != null) {
             throw ResponseStatusException(
                 HttpStatusCode.valueOf(404))
-        } else {
-            responsavelRepository.save(novoResponsavel)
-            ResponseEntity.status(201).body(novoResponsavel)
         }
+        return responsavelRepository.save(novoResponsavel)
     }
     fun atualizar(novoResponsavel: Responsavel, ResponsavelEscolhido: Responsavel): Responsavel {
         ResponsavelEscolhido.nome = novoResponsavel.nome

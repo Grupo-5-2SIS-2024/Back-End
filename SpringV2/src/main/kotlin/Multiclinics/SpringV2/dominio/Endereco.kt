@@ -9,8 +9,8 @@ data class Endereco(
     @field:Id
     @field:GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int?,
-
-    @field:NotBlank(message = "O CPF não pode estar em branco.")
-    @field:Column(name = "cep", length = 8)
-    var cep: String?
+    var cep: String?,
+    var logradouro: String?,
+    var complemento: String?,
+    var bairro: String?
     )
