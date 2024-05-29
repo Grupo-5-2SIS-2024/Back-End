@@ -3,153 +3,185 @@ DROP DATABASE IF EXISTS multiclinics;
 CREATE SCHEMA IF NOT EXISTS multiclinics;
 USE multiclinics;
 
-CREATE TABLE IF NOT EXISTS Endereço (
-  idEndereço INT PRIMARY KEY NOT NULL,
-  cep VARCHAR(45) NULL
+CREATE TABLE IF NOT EXISTS endereco (
+  id_endereco INT PRIMARY KEY NOT NULL,
+  cep VARCHAR(45) NULL,
+  logradouro varchar(45),
+  complemento varchar(45),
+  bairro varchar(45),
+  localidade varchar(45),
+  UF varchar(45),
+  IBGE varchar(45),
+  gia varchar(45),
+  DDD varchar(45),
+  SIAFI varchar(45)
 );
 
-CREATE TABLE IF NOT EXISTS Responsavel (
-  idResponsavel INT NOT NULL AUTO_INCREMENT,
-  Nome VARCHAR(45) NULL,
-  Sobrenome VARCHAR(45) NULL,
-  Email VARCHAR(45) NULL,
-  Telefone VARCHAR(45) NULL,
+CREATE TABLE IF NOT EXISTS responsavel (
+  id_responsavel INT NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(45) NULL,
+  sobrenome VARCHAR(45) NULL,
+  email VARCHAR(45) NULL,
+  telefone VARCHAR(45) NULL,
   cpf VARCHAR(45) NULL,
-  Endereço_id INT NOT NULL,
+  endereco_id INT NOT NULL,
   genero VARCHAR(45) NULL,
-  dtNasc DATE NULL,
-  PRIMARY KEY (idResponsavel),
-  CONSTRAINT fk_Responsavel_Endereço1
-    FOREIGN KEY (Endereço_id)
-    REFERENCES Endereço (idEndereço)
+  dt_nasc DATE NULL,
+  PRIMARY KEY (id_responsavel),
+  CONSTRAINT fk_responsavel_endereco1
+    FOREIGN KEY (endereco_id)
+    REFERENCES endereco (id_endereco)
 );
 
-CREATE TABLE IF NOT EXISTS Paciente (
-  idPaciente INT NOT NULL AUTO_INCREMENT,
-  Nome VARCHAR(45) NULL,
-  Sobrenome VARCHAR(45) NULL,
+CREATE TABLE IF NOT EXISTS paciente (
+  id_paciente INT NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(45) NULL,
+  sobrenome VARCHAR(45) NULL,
   email VARCHAR(45) NULL,
   cpf CHAR(11) NULL,
-  Genero VARCHAR(45) NULL,
-  Telefone CHAR(11) NULL,
-  Responsavel_id INT NOT NULL,
-  Endereço_id INT NOT NULL,
-  dtNasc DATE NULL,
-  PRIMARY KEY (idPaciente),
-  CONSTRAINT fk_Paciente_Responsavel1
-    FOREIGN KEY (Responsavel_id)
-    REFERENCES Responsavel (idResponsavel),
-  CONSTRAINT fk_Paciente_Endereço1
-    FOREIGN KEY (Endereço_id)
-    REFERENCES Endereço (idEndereço)
+  genero VARCHAR(45) NULL,
+  telefone CHAR(11) NULL,
+  responsavel_id INT NOT NULL,
+  endereco_id INT NOT NULL,
+  dt_nasc DATE NULL,
+  dt_entrada DATE NULL,
+  dt_saida DATE NULL,
+  CNS varchar(45),
+  PRIMARY KEY (id_paciente),
+  CONSTRAINT fk_paciente_responsavel1
+    FOREIGN KEY (responsavel_id)
+    REFERENCES responsavel (id_responsavel),
+  CONSTRAINT fk_paciente_endereco1
+    FOREIGN KEY (endereco_id)
+    REFERENCES endereco (id_endereco)
 );
-ALTER TABLE Paciente MODIFY cpf CHAR(14);
+ALTER TABLE paciente MODIFY cpf CHAR(14);
 
-CREATE TABLE IF NOT EXISTS StatusConsulta (
-  idStatus INT NOT NULL AUTO_INCREMENT,
-  NomeStatus VARCHAR(45) NULL,
-  PRIMARY KEY (idStatus)
+CREATE TABLE IF NOT EXISTS status_consulta (
+  id_status INT NOT NULL AUTO_INCREMENT,
+  nome_status VARCHAR(45) NULL,
+  PRIMARY KEY (id_status)
 );
 
-CREATE TABLE IF NOT EXISTS Permissionamento (
-  idPerm INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS permissionamento (
+  id_perm INT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(45) NULL,
-  PRIMARY KEY (idPerm)
+  PRIMARY KEY (id_perm)
 );
 
-CREATE TABLE IF NOT EXISTS EspecificacaoMedica (
-  idEspec INT NOT NULL AUTO_INCREMENT,
-  Area VARCHAR(45) NULL,
-  PRIMARY KEY (idEspec)
+CREATE TABLE IF NOT EXISTS especificacao_medica (
+  id_espec INT NOT NULL AUTO_INCREMENT,
+  area VARCHAR(45) NULL,
+  PRIMARY KEY (id_espec)
 );
 
-CREATE TABLE IF NOT EXISTS Medico (
-  idMedico INT NOT NULL AUTO_INCREMENT,
-  Nome VARCHAR(45) NOT NULL,
-  Sobrenome VARCHAR(45) NOT NULL,
-  Email VARCHAR(45) NOT NULL,
-  Telefone VARCHAR(45) NOT NULL,
-  CarteiraRepresentante VARCHAR(45) NOT NULL,
-  Tipo_id INT NOT NULL,
-  EspecificaçãoMedica_id INT NOT NULL,
-  dtNasc DATE NULL,
+CREATE TABLE IF NOT EXISTS medico (
+  id_medico INT NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(45) NOT NULL,
+  sobrenome VARCHAR(45) NOT NULL,
+  email VARCHAR(45) NOT NULL,
+  telefone VARCHAR(45) NOT NULL,
+  carteira_representante VARCHAR(45) NOT NULL,
+  tipo_id INT NOT NULL,
+  especificacao_medica_id INT NOT NULL,
+  dt_nasc DATE NULL,
   senha VARCHAR(45) NULL,
   cpf CHAR(14) NULL,
-  Ativo TINYINT NOT NULL,
-  PRIMARY KEY (idMedico),
-  CONSTRAINT fk_Medico_Tipo1
-    FOREIGN KEY (Tipo_id)
-    REFERENCES Permissionamento (idPerm),
-  CONSTRAINT fk_Medico_EspecificaçãoMedica1
-    FOREIGN KEY (EspecificaçãoMedica_id)
-    REFERENCES EspecificacaoMedica (idEspec)
+  ativo TINYINT NOT NULL,
+  PRIMARY KEY (id_medico),
+  CONSTRAINT fk_medico_tipo1
+    FOREIGN KEY (tipo_id)
+    REFERENCES permissionamento (id_perm),
+  CONSTRAINT fk_medico_especificacao_medica1
+    FOREIGN KEY (especificacao_medica_id)
+    REFERENCES especificacao_medica (id_espec)
 );
 
-CREATE TABLE IF NOT EXISTS Consulta (
-  idConsulta INT NOT NULL AUTO_INCREMENT,
-  DataHoraConsulta DATETIME NULL,
-  Descricao VARCHAR(45) NULL,
-  Medico_id INT NOT NULL,
-  StatusConsulta_id INT NOT NULL,
-  Paciente_id INT NOT NULL,
-  PRIMARY KEY (idConsulta),
-  CONSTRAINT fk_Consulta_Medico1
-    FOREIGN KEY (Medico_id)
-    REFERENCES Medico (idMedico),
-  CONSTRAINT fk_Consulta_StatusConsulta1
-    FOREIGN KEY (StatusConsulta_id)
-    REFERENCES StatusConsulta (idStatus),
-  CONSTRAINT fk_Consulta_Paciente1
-    FOREIGN KEY (Paciente_id)
-    REFERENCES Paciente (idPaciente)
+CREATE TABLE IF NOT EXISTS consulta (
+  id_consulta INT NOT NULL AUTO_INCREMENT,
+  data_hora_consulta DATETIME NULL,
+  descricao VARCHAR(45) NULL,
+  medico_id INT NOT NULL,
+  status_consulta_id INT NOT NULL,
+  paciente_id INT NOT NULL,
+  PRIMARY KEY (id_consulta),
+  CONSTRAINT fk_consulta_medico_id
+    FOREIGN KEY (medico_id)
+    REFERENCES medico (id_medico),
+  CONSTRAINT fk_consulta_status_consulta_id
+    FOREIGN KEY (status_consulta_id)
+    REFERENCES status_consulta (id_status),
+  CONSTRAINT fk_consulta_paciente_id
+    FOREIGN KEY (paciente_id)
+    REFERENCES paciente (id_paciente)
 );
 
-CREATE TABLE IF NOT EXISTS Acompanhamento (
-  idAcompanhamento INT NOT NULL AUTO_INCREMENT,
-  Resumo VARCHAR(45) NULL,
-  Relatório VARCHAR(45) NULL,
-  Consulta_id INT NOT NULL,
-  PRIMARY KEY (idAcompanhamento),
-  CONSTRAINT fk_Acompanhamento_Consulta1
-    FOREIGN KEY (Consulta_id)
-    REFERENCES Consulta (idConsulta)
+CREATE TABLE IF NOT EXISTS acompanhamento (
+  id_acompanhamento INT NOT NULL AUTO_INCREMENT,
+  resumo VARCHAR(45) NULL,
+  relatorio VARCHAR(45) NULL,
+  consulta_id INT NOT NULL,
+  medico_id INT NOT NULL,
+  medico_tipo INT NOT NULL,
+  especificacao_medica_id INT NOT NULL,
+  status_consulta_id INT NOT NULL,
+  paciente_id INT NOT NULL,
+  PRIMARY KEY (id_acompanhamento),
+  CONSTRAINT fk_acompanhamento_consulta1
+    FOREIGN KEY (consulta_id)
+    REFERENCES consulta (id_consulta),
+  CONSTRAINT fk_acompanhamento_medico1
+    FOREIGN KEY (medico_id)
+    REFERENCES medico (id_medico),
+  CONSTRAINT fk_acompanhamento_medico_tipo1
+    FOREIGN KEY (medico_tipo)
+    REFERENCES permissionamento (id_perm),
+  CONSTRAINT fk_acompanhamento_especificacao_medica1
+    FOREIGN KEY (especificacao_medica_id)
+    REFERENCES especificacao_medica (id_espec),
+  CONSTRAINT fk_acompanhamento_status_consulta1
+    FOREIGN KEY (status_consulta_id)
+    REFERENCES status_consulta (id_status),
+  CONSTRAINT fk_acompanhamento_paciente1
+    FOREIGN KEY (paciente_id)
+    REFERENCES paciente (id_paciente)
 );
 
-CREATE TABLE IF NOT EXISTS Notas (
-  idPendencia INT NOT NULL AUTO_INCREMENT,
-  Titulo VARCHAR(45) NULL,
-  Descricao VARCHAR(90) NULL,
-  Medico_id INT NOT NULL,
-  fk_Perm INT NOT NULL,
-  fk_Espec INT NOT NULL,
-  PRIMARY KEY (idPendencia),
-  CONSTRAINT fk_Pendencia_Medico1
-    FOREIGN KEY (Medico_id)
-    REFERENCES Medico (idMedico),
-  CONSTRAINT fk_Notas_Perm
-    FOREIGN KEY (fk_Perm)
-    REFERENCES Permissionamento (idPerm),
-  CONSTRAINT fk_Notas_Espec
-    FOREIGN KEY (fk_Espec)
-    REFERENCES EspecificacaoMedica (idEspec)
+CREATE TABLE IF NOT EXISTS notas (
+  id_pendencia INT NOT NULL AUTO_INCREMENT,
+  titulo VARCHAR(45) NULL,
+  descricao VARCHAR(90) NULL,
+  medico_id INT NOT NULL,
+  fk_perm INT NOT NULL,
+  fk_espec INT NOT NULL,
+  PRIMARY KEY (id_pendencia),
+  CONSTRAINT fk_pendencia_medico1
+    FOREIGN KEY (medico_id)
+    REFERENCES medico (id_medico),
+  CONSTRAINT fk_notas_perm
+    FOREIGN KEY (fk_perm)
+    REFERENCES permissionamento (id_perm),
+  CONSTRAINT fk_notas_espec
+    FOREIGN KEY (fk_espec)
+    REFERENCES especificacao_medica (id_espec)
 );
 
-CREATE TABLE IF NOT EXISTS TipoDeContato (
-  idTipoCont INT auto_increment PRIMARY KEY NOT NULL,
-  Fase_contato VARCHAR(45) NULL
+CREATE TABLE IF NOT EXISTS tipo_de_contato (
+  id_tipo_cont INT auto_increment PRIMARY KEY NOT NULL,
+  fase_contato VARCHAR(45) NULL
 );
 
-CREATE TABLE IF NOT EXISTS PossivelCliente (
-  idPCliente INT NOT NULL AUTO_INCREMENT,
-  Nome VARCHAR(45) NULL,
-  Sobrenome VARCHAR(45) NULL,
+CREATE TABLE IF NOT EXISTS possivel_cliente (
+  id_pcliente INT NOT NULL AUTO_INCREMENT,
+  nome VARCHAR(45) NULL,
+  sobrenome VARCHAR(45) NULL,
   email VARCHAR(45) NULL,
   cpf CHAR(11) NULL,
-  Telefone CHAR(11) NULL,
-  dtNasc DATE NULL,
-  fk_Tipo_De_Contato INT NOT NULL,
-  PRIMARY KEY (idPCliente),
-  CONSTRAINT fk_Tipo_De_Contato
-    FOREIGN KEY (fk_Tipo_De_Contato)
-    REFERENCES TipoDeContato (idTipoCont)
+  telefone CHAR(11) NULL,
+  dt_nasc DATE NULL,
+  fk_tipo_de_contato INT NOT NULL,
+  PRIMARY KEY (id_pcliente),
+  CONSTRAINT fk_tipo_de_contato
+    FOREIGN KEY (fk_tipo_de_contato)
+    REFERENCES tipo_de_contato (id_tipo_cont)
 );

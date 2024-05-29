@@ -258,7 +258,7 @@ WHERE CEP = '12345-678';
 SELECT * FROM acompanhamento_da_consulta
 WHERE Paciente = 'Ana';
 
-SELECT COUNT(*)
+SELECT COUNT(*) as Numero_De_Leads_Convertidos
 FROM PossivelCliente pc
 JOIN Paciente p ON pc.cpf = p.cpf;
 
