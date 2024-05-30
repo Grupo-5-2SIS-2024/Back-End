@@ -2,6 +2,7 @@ package Multiclinics.SpringV2.Service
 
 import Multiclinics.SpringV2.dominio.Medico
 import Multiclinics.SpringV2.repository.MedicoRepository
+import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -9,7 +10,8 @@ import org.springframework.web.server.ResponseStatusException
 
 @Service
 class MedicoService(
-    val medicoRepository: MedicoRepository
+    val medicoRepository: MedicoRepository,
+    val modelMapper: ModelMapper = ModelMapper(),
 ) {
     fun validarLista(lista:List<*>) {
         if (lista.isEmpty()) {
@@ -18,6 +20,7 @@ class MedicoService(
     }
 
     fun salvar(novoMedico: Medico) {
+
         val medicoExistente = medicoRepository.findByEmail(novoMedico.email?:"")
         if (medicoExistente != null) {
             throw ResponseStatusException(
@@ -27,18 +30,34 @@ class MedicoService(
             ResponseEntity.status(201).body(novoMedico)
         }
     }
-    fun atualizar(novoMedico: Medico, medicoEscolhido: Medico): Medico{
-        medicoEscolhido.nome = novoMedico.nome
-        medicoEscolhido.sobrenome = novoMedico.sobrenome
-        medicoEscolhido.carterinha = novoMedico.carterinha
-        medicoEscolhido.telefone = novoMedico.telefone
-        medicoEscolhido.dataNascimento = novoMedico.dataNascimento
-        medicoEscolhido.email = novoMedico.email
-        medicoEscolhido.senha = novoMedico.senha
-        medicoEscolhido.cpf = novoMedico.cpf
+    fun atualizar(id: Int ,novoMedico: Medico): ResponseEntity<Medico>{
+        val medicoExistente = medicoRepository.findById(id)
+        if (medicoExistente.isPresent) {
+            var medicoEscolhido = medicoExistente.get()
 
-        val medicoAtualizado = medicoRepository.save(medicoEscolhido)
-        return medicoAtualizado
+            medicoEscolhido.nome = novoMedico.nome
+            medicoEscolhido.sobrenome = novoMedico.sobrenome
+            medicoEscolhido.carterinha = novoMedico.carterinha
+            medicoEscolhido.telefone = novoMedico.telefone
+            medicoEscolhido.dataNascimento = novoMedico.dataNascimento
+            medicoEscolhido.email = novoMedico.email
+            medicoEscolhido.senha = novoMedico.senha
+            medicoEscolhido.cpf = novoMedico.cpf
+
+            val medicoAtualizado = medicoRepository.save(medicoEscolhido)
+            return ResponseEntity.status(200).body(medicoAtualizado)
+        } else {
+            return ResponseEntity.status(404).build()
+        }
+
+    }
+    fun deletar(id: Int) {
+        if (!medicoRepository.existsById(id)) {
+            throw IllegalArgumentException("Médico não encontrado")
+        }
+
+        medicoRepository.deleteById(id)
+
     }
 
     fun getLista():List<Medico> {

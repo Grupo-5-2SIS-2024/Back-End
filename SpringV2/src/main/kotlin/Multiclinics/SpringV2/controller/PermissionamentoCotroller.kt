@@ -1,5 +1,6 @@
 package Multiclinics.SpringV2.controller
 
+import Multiclinics.SpringV2.Service.PermissionamentoService
 import Multiclinics.SpringV2.dominio.Paciente
 import Multiclinics.SpringV2.dominio.Permissionamento
 import Multiclinics.SpringV2.repository.PermissionamentoRepository
@@ -10,48 +11,31 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/permissionamentos")
 class PermissionamentoCotroller(
-    val permissionamentoRepository: PermissionamentoRepository
+    val permissionamentoRepository: PermissionamentoRepository,
+    val permissaoService: PermissionamentoService
 ) {
     @PostMapping
     fun adicionarPermissao(@RequestBody novaPermissao: Permissionamento): ResponseEntity<Permissionamento> {
-        val PermissaoExistente = permissionamentoRepository.findByNome(novaPermissao.nome?:"")
-        return if (PermissaoExistente != null) {
-            ResponseEntity.status(401).build()
-        } else {
-            permissionamentoRepository.save(novaPermissao)
-            ResponseEntity.status(201).body(novaPermissao)
-        }
+        permissaoService.salvar(novaPermissao)
+        return ResponseEntity.status(201).body(novaPermissao)
     }
 
     @PutMapping("/{id}")
-    fun atualizarPermissao(@PathVariable id: Int, @RequestBody @Valid novaPermissao: Permissionamento): ResponseEntity<Permissionamento> {
-        val PermissaoExistente = permissionamentoRepository.findById(id)
-        if (PermissaoExistente.isPresent) {
-            val PermissaoEscolhido = PermissaoExistente.get()
-
-            // Atualiza os dados do médico existente com os novos dados
-            PermissaoEscolhido.nome = novaPermissao.nome
-
-
-            val PermissaoAtualizado = permissionamentoRepository.save(PermissaoEscolhido)
-            return ResponseEntity.status(200).body(PermissaoAtualizado)
-        } else {
-            return ResponseEntity.status(404).build()
-        }
+    fun atualizarPermissao(@PathVariable id: Int, @RequestBody @Valid novaPermissao: Permissionamento): ResponseEntity<*> {
+        val permissaoAtualizado = permissaoService.atualizar(id, novaPermissao)
+        return ResponseEntity.ok(permissaoAtualizado)
     }
 
     @DeleteMapping("/{id}")
     fun deletarPermissao(@PathVariable id: Int): ResponseEntity<Permissionamento> {
-        if (permissionamentoRepository.existsById(id)) {
-            permissionamentoRepository.deleteById(id)
+            permissaoService.deletar(id)
             return ResponseEntity.status(200).build()
-        }
-        return ResponseEntity.status(404).build()
+
     }
 
     @GetMapping
     fun listarPermissao(): ResponseEntity<List<Permissionamento>> {
-        val permissoes = permissionamentoRepository.findAll()
+        val permissoes = permissaoService.getLista()
         return ResponseEntity.status(200).body(permissoes)
     }
 

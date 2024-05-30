@@ -26,18 +26,33 @@ class ResponsavelService(
         }
         return responsavelRepository.save(novoResponsavel)
     }
-    fun atualizar(novoResponsavel: Responsavel, ResponsavelEscolhido: Responsavel): Responsavel {
-        ResponsavelEscolhido.nome = novoResponsavel.nome
-        ResponsavelEscolhido.sobrenome = novoResponsavel.sobrenome
-        ResponsavelEscolhido.email = novoResponsavel.email
-        ResponsavelEscolhido.cpf = novoResponsavel.cpf
-        ResponsavelEscolhido.Genero = novoResponsavel.email
-        ResponsavelEscolhido.telefone = novoResponsavel.telefone
-        ResponsavelEscolhido.dataNascimento = novoResponsavel.dataNascimento
-        ResponsavelEscolhido.endereco = novoResponsavel.endereco
+    fun atualizar(id: Int, novoResponsavel: Responsavel): ResponseEntity<Responsavel> {
+        val ResponsavelExistente = responsavelRepository.findById(id)
+        if (ResponsavelExistente.isPresent) {
+            val ResponsavelEscolhido = ResponsavelExistente.get()
 
-        val ResponsavelAtualizado = responsavelRepository.save(ResponsavelEscolhido)
-        return ResponsavelAtualizado
+            ResponsavelEscolhido.nome = novoResponsavel.nome
+            ResponsavelEscolhido.sobrenome = novoResponsavel.sobrenome
+            ResponsavelEscolhido.email = novoResponsavel.email
+            ResponsavelEscolhido.cpf = novoResponsavel.cpf
+            ResponsavelEscolhido.Genero = novoResponsavel.email
+            ResponsavelEscolhido.telefone = novoResponsavel.telefone
+            ResponsavelEscolhido.dataNascimento = novoResponsavel.dataNascimento
+            ResponsavelEscolhido.endereco = novoResponsavel.endereco
+
+            val ResponsavelAtualizado = responsavelRepository.save(ResponsavelEscolhido)
+            return ResponseEntity.status(200).body(ResponsavelAtualizado)
+        }else {
+            return ResponseEntity.status(404).build()
+        }
+    }
+    fun deletar(id: Int) {
+        if (!responsavelRepository.existsById(id)) {
+            throw IllegalArgumentException("Responsavel não encontrado")
+        }
+
+        responsavelRepository.deleteById(id)
+
     }
 
     fun getLista():List<Responsavel> {

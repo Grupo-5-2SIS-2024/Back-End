@@ -37,12 +37,12 @@ data class Paciente(
    var telefone: String?,
 
    @field:OneToOne
-   var responsavel: Responsavel,
+   var responsavel: Responsavel?,
 
    var dataNascimento: LocalDate?,
 
    @field: OneToOne
-   var endereco: Endereco
+   var endereco: Endereco?
 
 
 

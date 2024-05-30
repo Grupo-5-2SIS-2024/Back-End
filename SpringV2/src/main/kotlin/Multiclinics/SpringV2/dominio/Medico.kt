@@ -28,10 +28,10 @@ class Medico(
     var carterinha: String?,
 
     @field: ManyToOne
-    var especificacaoMedica: EspecificacaoMedica,
+    var especificacaoMedica: EspecificacaoMedica?,
 
     @field: ManyToOne
-    var tipo : Permissionamento,
+    var permissao : Permissionamento?,
 
     @field:NotBlank(message = "O telefone não pode estar em branco.")
     var telefone: String?,

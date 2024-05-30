@@ -21,25 +21,17 @@ class ResponsavelController(
     }
 
     @PutMapping("/{id}")
-    fun atualizarResponsavel(@PathVariable id: Int, @RequestBody @Valid novoResponsavel: Responsavel): ResponseEntity<Responsavel> {
-        val ResponsavelExistente = responsavelRepository.findById(id)
-        if (ResponsavelExistente.isPresent) {
-            val ResponsavelEscolhido = ResponsavelExistente.get()
+    fun atualizarResponsavel(@PathVariable id: Int, @RequestBody @Valid novoResponsavel: Responsavel): ResponseEntity<*> {
 
-            val ResponsavelAtualizado = responsavelService.atualizar(novoResponsavel, ResponsavelEscolhido)
+            val ResponsavelAtualizado = responsavelService.atualizar(id, novoResponsavel)
             return ResponseEntity.status(200).body(ResponsavelAtualizado)
-        } else {
-            return ResponseEntity.status(404).build()
-        }
+
     }
 
     @DeleteMapping("/{id}")
     fun deletarResponsavel(@PathVariable id: Int): ResponseEntity<Responsavel> {
-        if (responsavelRepository.existsById(id)) {
-            responsavelRepository.deleteById(id)
-            return ResponseEntity.status(200).build()
-        }
-        return ResponseEntity.status(404).build()
+        responsavelService.deletar(id)
+        return ResponseEntity.status(200).build()
     }
 
     @GetMapping

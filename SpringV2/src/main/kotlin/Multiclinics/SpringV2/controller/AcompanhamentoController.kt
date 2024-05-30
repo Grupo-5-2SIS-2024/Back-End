@@ -1,5 +1,6 @@
 package Multiclinics.SpringV2.controller
 
+import Multiclinics.SpringV2.Service.AcompanhamentoService
 import Multiclinics.SpringV2.dominio.Acompanhamento
 import Multiclinics.SpringV2.dominio.Notas
 import Multiclinics.SpringV2.repository.AcompanhamentoRepository
@@ -10,47 +11,30 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/acompanhamentos")
 class AcompanhamentoController(
-    val acompanhamentoRepository: AcompanhamentoRepository
+    val acompanhamentoRepository: AcompanhamentoRepository,
+    val acompanhamentoService: AcompanhamentoService
 ) {
     @PostMapping
     fun adicionarAcompanhamento(@RequestBody novaAcompanhamento: Acompanhamento): ResponseEntity<Acompanhamento> {
 
-        acompanhamentoRepository.save(novaAcompanhamento)
+        acompanhamentoService.salvar(novaAcompanhamento)
         return ResponseEntity.status(201).body(novaAcompanhamento)
 
     }
     @PutMapping("/{id}")
-    fun atualizarAcompanhamento(@PathVariable id: Int, @RequestBody @Valid novaAcompanhamento: Acompanhamento): ResponseEntity<Acompanhamento> {
-        val AcompanhamentoExistente = acompanhamentoRepository.findById(id)
-        if (AcompanhamentoExistente.isPresent) {
-            val AcompanhamentoEscolhido = AcompanhamentoExistente.get()
-
-            // Atualiza os dados do médico existente com os novos dados
-
-            AcompanhamentoEscolhido.Relatorio = novaAcompanhamento.Relatorio
-            AcompanhamentoEscolhido.resumo = novaAcompanhamento.resumo
-
-
-
-
-            val AcompanhamentoAtualizado = acompanhamentoRepository.save(AcompanhamentoEscolhido)
-            return ResponseEntity.status(200).body(AcompanhamentoAtualizado)
-        } else {
-            return ResponseEntity.status(404).build()
-        }
+    fun atualizarAcompanhamento(@PathVariable id: Int, @RequestBody @Valid novoAcompanhamento: Acompanhamento): ResponseEntity<*> {
+        val acompanhamentoAtualizada = acompanhamentoService.atualizar(id, novoAcompanhamento)
+        return ResponseEntity.ok(acompanhamentoAtualizada)
     }
 
     @DeleteMapping("/{id}")
     fun deletarAcompanhamento(@PathVariable id: Int): ResponseEntity<Acompanhamento> {
-        if (acompanhamentoRepository.existsById(id)) {
-            acompanhamentoRepository.deleteById(id)
-            return ResponseEntity.status(200).build()
-        }
-        return ResponseEntity.status(404).build()
+        acompanhamentoService.deletar(id)
+        return  ResponseEntity.status(200).build()
     }
     @GetMapping
     fun listarAcompanhamento(): ResponseEntity<List<Acompanhamento>> {
-        val acompanhamentos = acompanhamentoRepository.findAll()
+        val acompanhamentos = acompanhamentoService.getLista()
         return ResponseEntity.status(200).body(acompanhamentos)
     }
   /*

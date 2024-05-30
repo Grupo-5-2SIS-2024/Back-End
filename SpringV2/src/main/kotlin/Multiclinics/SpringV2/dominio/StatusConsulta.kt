@@ -13,5 +13,5 @@ data class StatusConsulta (
     var id: Int?,
 
     @field:NotBlank(message = "O status não pode estar em branco.")
-    var NomeStatus: String?
+    var nomeStatus: String?
 )

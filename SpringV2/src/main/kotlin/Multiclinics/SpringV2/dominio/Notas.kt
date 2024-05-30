@@ -19,7 +19,7 @@ data class Notas(
     @field:NotBlank(message = "A Descrição não pode estar em branco.")
     var Descricao: String?,
 
-     @field: ManyToOne
+    @field: ManyToOne
     var medico: Medico
 
 

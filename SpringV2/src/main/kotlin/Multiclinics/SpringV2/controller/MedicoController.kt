@@ -52,25 +52,17 @@ class MedicoController(
     }
 
     @PutMapping("/{id}")
-    fun atualizarMedico(@PathVariable id: Int, @RequestBody @Valid novoMedico: Medico): ResponseEntity<Medico> {
-        val medicoExistente = medicoRepository.findById(id)
-        if (medicoExistente.isPresent) {
-            var medicoEscolhido = medicoExistente.get()
+    fun atualizarMedico(@PathVariable id: Int, @RequestBody @Valid novoMedico: Medico): ResponseEntity<*>{
+            val medicoAtualizado = medicoService.atualizar(id, novoMedico)
+            return ResponseEntity.ok(medicoAtualizado)
 
-            val medicoAtualizado = medicoService.atualizar(novoMedico, medicoEscolhido)
-            return ResponseEntity.status(200).body(medicoAtualizado)
-        } else {
-            return ResponseEntity.status(404).build()
-        }
     }
 
     @DeleteMapping("/{id}")
     fun deletarMedico(@PathVariable id: Int): ResponseEntity<Medico> {
-        if (medicoRepository.existsById(id)) {
-            medicoRepository.deleteById(id)
+            medicoService.deletar(id)
             return ResponseEntity.status(200).build()
-        }
-        return ResponseEntity.status(404).build()
+
     }
 
     @GetMapping

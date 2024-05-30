@@ -8,6 +8,7 @@ import jakarta.persistence.ManyToOne
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import java.sql.Time
+import java.time.LocalDate
 import java.util.*
 
 @Entity
@@ -17,22 +18,22 @@ data class Consulta(
     var id: Int?,
 
     @field:NotNull(message = "A data da consulta não pode ser nula.")
-    var data: Date,
+    var data: Date?,
 
     @field:NotNull(message = "A hora da consulta não pode ser nula.")
-    var hora: Time,
+    var hora: Time?,
 
     @field:NotBlank(message = "A área da consulta não pode estar em branco.")
-    var area: String,
+    var area: String?,
 
     @field: ManyToOne
-    var medico: Medico,
+    var medico: Medico?,
 
     @field: ManyToOne
-    var statusConsulta: StatusConsulta,
+    var statusConsulta: StatusConsulta?,
 
 
     @field: ManyToOne
-    var paciente: Paciente,
+    var paciente: Paciente?,
 ) {
 }

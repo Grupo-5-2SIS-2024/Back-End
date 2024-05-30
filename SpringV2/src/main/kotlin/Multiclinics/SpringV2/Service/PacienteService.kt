@@ -57,9 +57,9 @@ class PacienteService(
         pacienteDominio.endereco = enderecoCriado
 
         // se o paciente tiver mais de 15 anos, salva o responsável
-        if (pacienteDominio.dataNascimento!!.isBefore(LocalDate.now().minusYears(15))) {
-            pacienteDominio.responsavel.endereco = enderecoCriado
-            val responsavelCriado = responsavelService.salvar(pacienteDominio.responsavel)
+        if (pacienteDominio.dataNascimento!!.isAfter(LocalDate.now().minusYears(15))) {
+            pacienteDominio.responsavel!!.endereco = enderecoCriado
+            val responsavelCriado = responsavelService.salvar(pacienteDominio.responsavel!!)
             pacienteDominio.responsavel = responsavelCriado
         }
 
@@ -78,7 +78,10 @@ class PacienteService(
 //        }
     }
 
-    fun atualizar(novoPaciente: Paciente, pacienteEscolhido: Paciente): Paciente {
+    fun atualizar(id: Int, novoPaciente: Paciente): ResponseEntity<Paciente> {
+        val PacienteExistente = pacienteRepository.findById(id)
+        if (PacienteExistente.isPresent) {
+            var pacienteEscolhido = PacienteExistente.get()
         pacienteEscolhido.nome = novoPaciente.nome
         pacienteEscolhido.sobrenome = novoPaciente.sobrenome
         pacienteEscolhido.email = novoPaciente.email
@@ -90,7 +93,19 @@ class PacienteService(
 
 
         val pacienteAtualizado = pacienteRepository.save(pacienteEscolhido)
-        return pacienteAtualizado
+        return ResponseEntity.status(200).body(pacienteAtualizado)
+        }else {
+            return ResponseEntity.status(404).build()
+        }
+    }
+
+    fun deletar(id: Int) {
+        if (!pacienteRepository.existsById(id)) {
+            throw IllegalArgumentException("Paciente não encontrado")
+        }
+
+        pacienteRepository.deleteById(id)
+
     }
 
     fun getLista(): List<Paciente> {
