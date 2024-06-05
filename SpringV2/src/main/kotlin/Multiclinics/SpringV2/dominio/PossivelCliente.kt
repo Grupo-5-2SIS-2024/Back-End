@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.br.CPF
 import java.util.*
 
 @Entity
-data class Lead(
+data class PossivelCliente(
     @field:Id
     @field:GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int?,

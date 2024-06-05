@@ -1,7 +1,7 @@
 package Multiclinics.SpringV2.controller
 
-import Multiclinics.SpringV2.dominio.Lead
-import Multiclinics.SpringV2.repository.LeadRepository
+import Multiclinics.SpringV2.dominio.PossivelCliente
+import Multiclinics.SpringV2.repository.PossivelClienteRepository
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/leads")
 class LeadController(
-    val leadRepository: LeadRepository
+    val leadRepository: PossivelClienteRepository
 ) {
     @PostMapping
-    fun adicionarLead(@RequestBody novoLead: Lead): ResponseEntity<Lead> {
+    fun adicionarLead(@RequestBody novoLead: PossivelCliente): ResponseEntity<PossivelCliente> {
         val LeadExistente = leadRepository.findByEmail(novoLead.email?:"")
         return if (LeadExistente != null) {
             ResponseEntity.status(401).build()
@@ -23,7 +23,7 @@ class LeadController(
     }
 
     @PutMapping("/{id}")
-    fun atualizarLead(@PathVariable id: Int, @RequestBody @Valid novoLead: Lead): ResponseEntity<Lead> {
+    fun atualizarLead(@PathVariable id: Int, @RequestBody @Valid novoLead: PossivelCliente): ResponseEntity<PossivelCliente> {
         val LeadExistente = leadRepository.findById(id)
         if (LeadExistente.isPresent) {
             val LeadEscolhido = LeadExistente.get()
@@ -46,7 +46,7 @@ class LeadController(
     }
 
     @DeleteMapping("/{id}")
-    fun deletarLead(@PathVariable id: Int): ResponseEntity<Lead> {
+    fun deletarLead(@PathVariable id: Int): ResponseEntity<PossivelCliente> {
         if (leadRepository.existsById(id)) {
             leadRepository.deleteById(id)
             return ResponseEntity.status(200).build()
@@ -55,7 +55,7 @@ class LeadController(
     }
 
     @GetMapping
-    fun listarLead(): ResponseEntity<List<Lead>> {
+    fun listarLead(): ResponseEntity<List<PossivelCliente>> {
         val leads = leadRepository.findAll()
         return ResponseEntity.status(200).body(leads)
     }
