@@ -71,6 +71,29 @@ class ConsultaService(
     }
 
 
+    fun getTop3ConsultasByData(): List<Map<String, Any?>> {
+        val consultas = consultaRepository.findTop3ByOrderByDataAsc()
+        return consultas.map { array ->
+            mapOf(
+                "nomePaciente" to array[0],
+                "dataConsulta" to array[1],
+                "especialidadeMedico" to array[2]
+            )
+        }
+    }
+
+    fun getPercentagemConcluidos(): Double {
+        val total = consultaRepository.countTotal()
+        val concluidos = consultaRepository.countConcluidos()
+
+        return if (total > 0) {
+            (concluidos.toDouble() / total) * 100
+        } else {
+            0.0
+        }
+    }
+
+
     fun getLista():List<Consulta> {
         val lista = consultaRepository.findAll()
         validarLista(lista)

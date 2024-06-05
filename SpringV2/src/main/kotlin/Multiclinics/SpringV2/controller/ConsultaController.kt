@@ -34,6 +34,16 @@ class ConsultaController(
         consultaService.deletar(id)
         return  ResponseEntity.status(200).build()
     }
+    @GetMapping("/agendamentosProximos")
+    fun agendamentosProximos():ResponseEntity<*>{
+        val agendamentoProximos = consultaService.getTop3ConsultasByData()
+        return ResponseEntity.ok(agendamentoProximos)
+    }
+    @GetMapping("/percentagem-concluidos")
+    fun getPercentagemConcluidos(): Map<String, Double> {
+        val percentagem = consultaService.getPercentagemConcluidos()
+        return mapOf("percentagemConcluidos" to percentagem)
+    }
 
     @GetMapping
     fun listar(): ResponseEntity<List<Consulta>> {
