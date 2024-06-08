@@ -1,26 +1,23 @@
 package Multiclinics.SpringV2.dominio
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.ManyToOne
+import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 
 @Entity
 data class Notas(
-    @field:Id
-    @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int?,
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Int? = null,
 
-    @field:NotBlank(message = "O titulo não pode estar em branco.")
-    var Titulo: String?,
+    @Column(name = "titulo")
+    @NotBlank(message = "O título não pode estar em branco.")
+    var titulo: String? = null,
 
-    @field:NotBlank(message = "A Descrição não pode estar em branco.")
-    var Descricao: String?,
+    @Column(name = "descricao")
+    @NotBlank(message = "A descrição não pode estar em branco.")
+    var descricao: String? = null,
 
-    @field: ManyToOne
-    var medico: Medico
-
-
+    @ManyToOne
+    @JoinColumn(name = "medico")
+    var medico: Medico? = null
 )

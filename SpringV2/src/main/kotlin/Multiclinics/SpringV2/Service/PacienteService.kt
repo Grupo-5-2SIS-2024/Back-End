@@ -57,7 +57,7 @@ class PacienteService(
         pacienteDominio.endereco = enderecoCriado
 
         // se o paciente tiver mais de 15 anos, salva o responsável
-        if (pacienteDominio.dataNascimento!!.isAfter(LocalDate.now().minusYears(15))) {
+        if (pacienteDominio.dtNasc!!.isAfter(LocalDate.now().minusYears(15))) {
             pacienteDominio.responsavel!!.endereco = enderecoCriado
             val responsavelCriado = responsavelService.salvar(pacienteDominio.responsavel!!)
             pacienteDominio.responsavel = responsavelCriado
@@ -79,25 +79,27 @@ class PacienteService(
     }
 
     fun atualizar(id: Int, novoPaciente: Paciente): ResponseEntity<Paciente> {
-        val PacienteExistente = pacienteRepository.findById(id)
-        if (PacienteExistente.isPresent) {
-            var pacienteEscolhido = PacienteExistente.get()
-        pacienteEscolhido.nome = novoPaciente.nome
-        pacienteEscolhido.sobrenome = novoPaciente.sobrenome
-        pacienteEscolhido.email = novoPaciente.email
-        pacienteEscolhido.cpf = novoPaciente.cpf
-        pacienteEscolhido.Genero = novoPaciente.email
-        pacienteEscolhido.telefone = novoPaciente.telefone
-        pacienteEscolhido.dataNascimento = novoPaciente.dataNascimento
-        pacienteEscolhido.endereco = novoPaciente.endereco
+        val pacienteExistente = pacienteRepository.findById(id)
+        return if (pacienteExistente.isPresent) {
+            val pacienteEscolhido = pacienteExistente.get()
+            pacienteEscolhido.apply {
+                nome = novoPaciente.nome
+                sobrenome = novoPaciente.sobrenome
+                email = novoPaciente.email
+                cpf = novoPaciente.cpf
+                genero = novoPaciente.genero
+                telefone = novoPaciente.telefone
+                dtNasc = novoPaciente.dtNasc
+                endereco = novoPaciente.endereco
+            }
 
-
-        val pacienteAtualizado = pacienteRepository.save(pacienteEscolhido)
-        return ResponseEntity.status(200).body(pacienteAtualizado)
-        }else {
-            return ResponseEntity.status(404).build()
+            val pacienteAtualizado = pacienteRepository.save(pacienteEscolhido)
+            ResponseEntity.status(200).body(pacienteAtualizado)
+        } else {
+            ResponseEntity.status(404).build()
         }
     }
+
 
     fun deletar(id: Int) {
         if (!pacienteRepository.existsById(id)) {

@@ -22,21 +22,24 @@ data class Responsavel(
     var email: String?,
 
     @field:NotBlank(message = "O Telefone não pode estar em branco.")
+    @Column(length = 11, columnDefinition = "CHAR(11)")
     var telefone: String?,
 
     @field:NotBlank(message = "O CPF não pode estar em branco.")
     @field:CPF(message = "O CPF fornecido não é válido.")
+    @Column(length = 11, columnDefinition = "CHAR(11)")
     var cpf: String?,
 
     @field: OneToOne
-    var endereco: Endereco? = null,
+    @JoinColumn(name = "endereco")
+    var endereco: Endereco?,
 
     @field:NotBlank(message = "O genero não pode estar em branco.")
     var Genero: String?,
 
 
-    @field:NotNull
-    @field:Past
-    var dataNascimento: LocalDate?
+    @NotNull(message = "A data de nascimento não pode estar em branco.")
+    @Column(name = "dt_nasc")
+    var dataNascimento: LocalDate? = null,
 
     )

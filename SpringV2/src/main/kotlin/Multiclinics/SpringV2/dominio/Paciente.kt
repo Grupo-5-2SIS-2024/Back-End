@@ -7,43 +7,54 @@ import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Past
 import jakarta.validation.constraints.Size
 import org.hibernate.validator.constraints.br.CPF
-import java.sql.Time
 import java.time.LocalDate
-import java.util.*
 
 @Entity
 data class Paciente(
-   @field:Id
-   @field:GeneratedValue(strategy = GenerationType.IDENTITY)
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
    var id: Int?,
 
-   @field: Size(min = 3)
+   @NotBlank
+   @Column(length = 45)
    var nome: String?,
 
-   @field: Size(min = 3)
+   @NotBlank
+   @Column(length = 45)
    var sobrenome: String?,
 
-   @field:Email(message = "O email fornecido não é válido.")
+   @Email
+   @Column(length = 45)
    var email: String?,
 
-   @field:NotBlank(message = "O CPF não pode estar em branco.")
-   @field:CPF(message = "O CPF fornecido não é válido.")
+   @NotBlank
+   @CPF
+   @Column(length = 11, columnDefinition = "CHAR(11)")
    var cpf: String?,
 
-   @field:NotBlank(message = "O genero não pode estar em branco.")
-   var Genero: String?,
+   @NotBlank
+   @Column(length = 45)
+   var genero: String?,
 
-   @field:NotBlank(message = "O telefone não pode estar em branco.")
+   @NotBlank
+   @Column(length = 11, columnDefinition = "CHAR(11)")
    var telefone: String?,
 
-   @field:OneToOne
+   @ManyToOne
+   @JoinColumn(name = "responsavel")
    var responsavel: Responsavel?,
 
-   var dataNascimento: LocalDate?,
+   @NotNull
+   var dtNasc: LocalDate?,
 
-   @field: OneToOne
-   var endereco: Endereco?
+   @ManyToOne
+   @JoinColumn(name = "endereco")
+   var endereco: Endereco?,
 
+   var dtEntrada: LocalDate?,
 
+   var dtSaida: LocalDate?,
 
+   @Column(length = 15)
+   var cns: String?
 )

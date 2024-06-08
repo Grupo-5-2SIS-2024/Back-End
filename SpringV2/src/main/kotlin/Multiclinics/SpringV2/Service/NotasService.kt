@@ -23,18 +23,19 @@ class NotasService(
         notasRepository.save(novaNota)
         ResponseEntity.status(201).body(novaNota)
     }
-    fun atualizar(id: Int, novaNota: Notas): ResponseEntity<Notas>{
-        val NotaExistente = notasRepository.findById(id)
-        if (NotaExistente.isPresent) {
-            val notaEscolhida = NotaExistente.get()
-            notaEscolhida.Titulo = novaNota.Titulo
-            notaEscolhida.Descricao = novaNota.Descricao
-            notaEscolhida.medico.id = novaNota.medico.id
 
-        val NotaAtualizado = notasRepository.save(notaEscolhida)
-        return ResponseEntity.status(200).body(NotaAtualizado)
-        }else {
-            return ResponseEntity.status(404).build()
+    fun atualizar(id: Int, novaNota: Notas): ResponseEntity<Notas> {
+        val notaExistente = notasRepository.findById(id)
+        return if (notaExistente.isPresent) {
+            val notaEscolhida = notaExistente.get()
+            notaEscolhida.titulo = novaNota.titulo
+            notaEscolhida.descricao = novaNota.descricao
+            notaEscolhida.medico = novaNota.medico
+
+            val notaAtualizada = notasRepository.save(notaEscolhida)
+            ResponseEntity.ok(notaAtualizada)
+        } else {
+            ResponseEntity.notFound().build()
         }
     }
     fun deletar(id: Int) {

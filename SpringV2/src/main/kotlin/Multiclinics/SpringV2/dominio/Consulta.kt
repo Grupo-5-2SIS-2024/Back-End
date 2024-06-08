@@ -1,39 +1,41 @@
 package Multiclinics.SpringV2.dominio
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.ManyToOne
+import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
-import java.sql.Time
-import java.time.LocalDate
-import java.util.*
+import java.time.LocalDateTime
+import java.time.LocalTime
 
 @Entity
 data class Consulta(
-    @field:Id
-    @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int?,
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Int? = null,
 
-    @field:NotNull(message = "A data da consulta não pode ser nula.")
-    var data: Date?,
+    @NotNull(message = "A data e hora da consulta não podem ser nulas.")
+    @Column(name = "datahora_consulta")
+    var datahoraConsulta: LocalDateTime? = null,
 
-    @field:NotNull(message = "A hora da consulta não pode ser nula.")
-    var hora: Time?,
+    @NotBlank(message = "A descrição da consulta não pode estar em branco.")
+    var descricao: String? = null,
 
-    @field:NotBlank(message = "A área da consulta não pode estar em branco.")
-    var area: String?,
+    @ManyToOne
+    @JoinColumn(name = "medico")
+    var medico: Medico? = null,
 
-    @field: ManyToOne
-    var medico: Medico?,
+    @ManyToOne
+    @JoinColumn(name = "especificacao_medica")
+    var especificacaoMedica: EspecificacaoMedica? = null,
 
-    @field: ManyToOne
-    var statusConsulta: StatusConsulta?,
+    @ManyToOne
+    @JoinColumn(name = "status_consulta")
+    var statusConsulta: StatusConsulta? = null,
 
+    @ManyToOne
+    @JoinColumn(name = "paciente")
+    var paciente: Paciente? = null,
 
-    @field: ManyToOne
-    var paciente: Paciente?,
-) {
-}
+    @NotNull(message = "A duração da consulta não pode ser nula.")
+    @Column(name = "duracao_Consulta")
+    var duracaoConsulta: LocalTime? = null
+)

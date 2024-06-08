@@ -7,50 +7,55 @@ import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 import org.hibernate.validator.constraints.br.CPF
 import java.time.LocalDate
-import java.util.*
 
 @Entity
 class Medico(
-    @field:Id
-    @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int?,
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Int? = null,
 
-    @field: Size(min = 3)
-    var nome: String?,
+    @Size(min = 3, max = 45, message = "O nome deve ter entre 3 e 45 caracteres.")
+    @Column(length = 45)
+    var nome: String? = null,
 
-    @field: Size(min = 3)
-    var sobrenome: String?,
+    @Size(min = 3, max = 45, message = "O sobrenome deve ter entre 3 e 45 caracteres.")
+    @Column(length = 45)
+    var sobrenome: String? = null,
 
-    @field:Email(message = "O email fornecido não é válido.")
-    var email: String?,
+    @Email(message = "O email fornecido não é válido.")
+    @Column(length = 45)
+    var email: String? = null,
 
-    @field:NotBlank(message = "A Carterinha não pode estar em branco.")
-    var carterinha: String?,
+    @NotBlank(message = "O telefone não pode estar em branco.")
+    @Column(length = 45)
+    var telefone: String? = null,
 
-    @field: ManyToOne
-    var especificacaoMedica: EspecificacaoMedica?,
+    @NotBlank(message = "A senha não pode estar em branco.")
+    @Size(min = 6, max = 45, message = "A senha deve ter entre 6 e 45 caracteres.")
+    @Column(length = 45)
+    var senha: String? = null,
 
-    @field: ManyToOne
-    var permissao : Permissionamento?,
+    @NotBlank(message = "A Carterinha não pode estar em branco.")
+    @Column(name = "carteira_representante", length = 45)
+    var carterinha: String? = null,
 
-    @field:NotBlank(message = "O telefone não pode estar em branco.")
-    var telefone: String?,
+    @ManyToOne
+    @JoinColumn(name = "especificacao_medica")
+    var especificacaoMedica: EspecificacaoMedica? = null,
 
-    @field:NotNull(message = "A data de nascimento não pode estar em branco.")
-    var dataNascimento: Date?,
+    @NotNull(message = "A data de nascimento não pode estar em branco.")
+    @Column(name = "dt_nasc")
+    var dataNascimento: LocalDate? = null,
 
-    @field:NotBlank(message = "A senha não pode estar em branco.")
-    @field:Size(min = 6, message = "A senha deve ter pelo menos 6 caracteres.")
-    var senha: String?,
+    @NotBlank(message = "O CPF não pode estar em branco.")
+    @CPF(message = "O CPF fornecido não é válido.")
+    @Column(length = 11, columnDefinition = "CHAR(11)")
+    var cpf: String? = null,
 
-    @field:NotBlank(message = "O CPF não pode estar em branco.")
-    @field:CPF(message = "O CPF fornecido não é válido.")
-    var cpf: String?,
+    @NotNull
+    var ativo: Boolean = false,
 
-    var ativo:Boolean = false
-
-
-
-
-){
-}
+    @ManyToOne
+    @JoinColumn(name = "permissionamento")
+    var permissao: Permissionamento? = null
+)

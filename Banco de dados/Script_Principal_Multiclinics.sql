@@ -8,15 +8,15 @@ CREATE TABLE tipo_de_contato (
 );
 
 CREATE TABLE possivel_cliente (
-    idlead INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(45),
     sobrenome VARCHAR(45),
     email VARCHAR(45),
     cpf CHAR(11),
     telefone CHAR(11),
-    dataNascimento DATE,
-    tipoDeContato INT,
-    FOREIGN KEY (tipoDeContato) REFERENCES tipo_de_contato(id)
+    dt_nasc DATE,
+    tipo_de_contato INT,
+    FOREIGN KEY (tipo_de_contato) REFERENCES tipo_de_contato(id)
 );
 
 CREATE TABLE endereco (
@@ -32,12 +32,17 @@ CREATE TABLE responsavel (
     nome VARCHAR(45),
     sobrenome VARCHAR(45),
     email VARCHAR(45),
-    telefone VARCHAR(45),
-    cpf VARCHAR(45),
+    telefone CHAR(11),
+    cpf CHAR(11),
     endereco INT,
     genero VARCHAR(45),
     dt_nasc DATE,
     FOREIGN KEY (endereco) REFERENCES endereco(id)
+);
+
+CREATE TABLE permissionamento (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(45)
 );
 
 CREATE TABLE paciente (
@@ -63,11 +68,6 @@ CREATE TABLE especificacao_medica (
     area VARCHAR(45)
 );
 
-CREATE TABLE tipo (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(45)
-);
-
 CREATE TABLE medico (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(45),
@@ -76,13 +76,14 @@ CREATE TABLE medico (
     telefone VARCHAR(45),
     senha VARCHAR(45),
     carteira_representante VARCHAR(45),
-    tipo_id INT,
+    tipo VARCHAR(45),
     especificacao_medica INT,
     dt_nasc DATE,
     cpf CHAR(11),
-    ativo TINYINT,
-    FOREIGN KEY (tipo_id) REFERENCES tipo(id),
-    FOREIGN KEY (especificacao_medica) REFERENCES especificacao_medica(id)
+    ativo BOOLEAN,
+    permissionamento INT,  
+    FOREIGN KEY (especificacao_medica) REFERENCES especificacao_medica(id),
+    FOREIGN KEY (permissionamento) REFERENCES permissionamento(id)
 );
 
 CREATE TABLE status_consulta (
@@ -95,12 +96,11 @@ CREATE TABLE consulta (
     datahora_consulta DATETIME,
     descricao VARCHAR(45),
     medico INT,
-    medico_tipo INT,
     especificacao_medica INT,
     status_consulta INT,
     paciente INT,
+    duracao_Consulta TIME,
     FOREIGN KEY (medico) REFERENCES medico(id),
-    FOREIGN KEY (medico_tipo) REFERENCES tipo(id),
     FOREIGN KEY (especificacao_medica) REFERENCES especificacao_medica(id),
     FOREIGN KEY (status_consulta) REFERENCES status_consulta(id),
     FOREIGN KEY (paciente) REFERENCES paciente(id)
@@ -112,21 +112,14 @@ CREATE TABLE acompanhamento (
     relatorio VARCHAR(45),
     consulta_id INT,
     medico INT,
-    medico_tipo INT,
     especificacao_medica INT,
     status_consulta INT,
     paciente INT,
     FOREIGN KEY (consulta_id) REFERENCES consulta(id),
     FOREIGN KEY (medico) REFERENCES medico(id),
-    FOREIGN KEY (medico_tipo) REFERENCES tipo(id),
     FOREIGN KEY (especificacao_medica) REFERENCES especificacao_medica(id),
     FOREIGN KEY (status_consulta) REFERENCES status_consulta(id),
     FOREIGN KEY (paciente) REFERENCES paciente(id)
-);
-
-CREATE TABLE permissionamento (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(45)
 );
 
 CREATE TABLE notas (
@@ -134,10 +127,8 @@ CREATE TABLE notas (
     titulo VARCHAR(45),
     descricao VARCHAR(90),
     medico INT,
-    medico_tipo INT,
     especificacao_medica INT,
     FOREIGN KEY (medico) REFERENCES medico(id),
-    FOREIGN KEY (medico_tipo) REFERENCES tipo(id),
     FOREIGN KEY (especificacao_medica) REFERENCES especificacao_medica(id)
 );
 
@@ -147,8 +138,8 @@ INSERT INTO tipo_de_contato (fase_contato) VALUES ('Seguimento');
 INSERT INTO tipo_de_contato (fase_contato) VALUES ('Fechamento');
 
 -- Inserindo dados em possivel_cliente
-INSERT INTO possivel_cliente (nome, sobrenome, email, cpf, telefone, dataNascimento, TipoDeContato) VALUES ('João', 'Silva', 'joao.silva@example.com', '12345678901', '11987654321', '1990-01-01', 1);
-INSERT INTO possivel_cliente (nome, sobrenome, email, cpf, telefone, dataNascimento, TipoDeContato) VALUES ('Maria', 'Oliveira', 'maria.oliveira@example.com', '10987654321', '11912345678', '1985-05-15', 2);
+INSERT INTO possivel_cliente (nome, sobrenome, email, cpf, telefone, dt_nasc, tipo_de_contato) VALUES ('João', 'Silva', 'joao.silva@example.com', '12345678901', '11987654321', '1990-01-01', 1);
+INSERT INTO possivel_cliente (nome, sobrenome, email, cpf, telefone, dt_nasc, tipo_de_contato) VALUES ('Maria', 'Oliveira', 'maria.oliveira@example.com', '10987654321', '11912345678', '1985-05-15', 2);
 
 -- Inserindo dados em endereco
 INSERT INTO endereco (cep, logradouro, complemento, bairro) VALUES ('12345678', 'Rua A', 'Apto 1', 'Bairro X');
@@ -166,14 +157,10 @@ INSERT INTO paciente (nome, sobrenome, email, cpf, genero, telefone, responsavel
 INSERT INTO especificacao_medica (area) VALUES ('Cardiologia');
 INSERT INTO especificacao_medica (area) VALUES ('Dermatologia');
 
--- Inserindo dados em tipo
-INSERT INTO tipo (nome) VALUES ('Clínico Geral');
-INSERT INTO tipo (nome) VALUES ('Especialista');
-
 -- Inserindo dados em medico
-INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo_id, especificacao_medica, dt_nasc, cpf, ativo) VALUES ('Pedro', 'Pinto', 'pedro.pinto@sptech.school', '11987654323', 'senha123', '12345', 1, 1, '1975-06-06', '12345678904', 1);
-INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo_id, especificacao_medica, dt_nasc, cpf, ativo) VALUES ('namorada do', 'pedro', 'sofiavvcastro@gmail.com', '11987654323', 'senha123', '12345', 1, 1, '1975-06-06', '12345678904', 1);
-INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo_id, especificacao_medica, dt_nasc, cpf, ativo) VALUES ('Dra. Maria', 'Fernandes', 'dra.maria.fernandes@example.com', '11912345680', 'senha456', '67890', 2, 2, '1980-07-07', '10987654324', 1);
+INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo) VALUES ('Pedro', 'Pinto', 'pedro.pinto@sptech.school', '11987654323', 'senha123', '12345', 'Clínico Geral', 1, '1975-06-06', '12345678904', 1);
+INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo) VALUES ('namorada do', 'pedro', 'sofiavvcastro@gmail.com', '11987654323', 'senha123', '12345', 'Clínico Geral', 1, '1975-06-06', '12345678904', 1);
+INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo) VALUES ('Dra. Maria', 'Fernandes', 'dra.maria.fernandes@example.com', '11912345680', 'senha456', '67890', 'Especialista', 2, '1980-07-07', '10987654324', 1);
 
 -- Inserindo dados em status_consulta
 INSERT INTO status_consulta (nome_status) VALUES ('Agendada');
@@ -181,12 +168,12 @@ INSERT INTO status_consulta (nome_status) VALUES ('Realizada');
 INSERT INTO status_consulta (nome_status) VALUES ('Cancelada');
 
 -- Inserindo dados em consulta
-INSERT INTO consulta (datahora_consulta, descricao, medico, medico_tipo, especificacao_medica, status_consulta, paciente, duracao_consulta) VALUES ('2024-06-01 10:00:00', 'Consulta inicial', 1, 1, 1, 1, 1, '01:00:00');
-INSERT INTO consulta (datahora_consulta, descricao, medico, medico_tipo, especificacao_medica, status_consulta, paciente, duracao_consulta) VALUES ('2024-06-02 11:00:00', 'Revisão', 2, 1, 1, 2, 2, '00:30:00');
+INSERT INTO consulta (datahora_consulta, descricao, medico, especificacao_medica, status_consulta, paciente, duracao_consulta) VALUES ('2024-06-01 10:00:00', 'Consulta inicial', 1, 1, 1, 1, '01:00:00');
+INSERT INTO consulta (datahora_consulta, descricao, medico, especificacao_medica, status_consulta, paciente, duracao_consulta) VALUES ('2024-06-02 11:00:00', 'Revisão', 2, 1, 2, 2, '00:30:00');
 
 -- Inserindo dados em acompanhamento
-INSERT INTO acompanhamento (resumo, relatorio, consulta_id, medico, medico_tipo, especificacao_medica, status_consulta, paciente) VALUES ('Paciente apresentou melhora', 'Relatório detalhado', 1, 1, 1, 1, 2, 1);
-INSERT INTO acompanhamento (resumo, relatorio, consulta_id, medico, medico_tipo, especificacao_medica, status_consulta, paciente) VALUES ('Paciente está estável', 'Relatório detalhado', 2, 2, 1, 1, 1, 2);
+INSERT INTO acompanhamento (resumo, relatorio, consulta_id, medico, especificacao_medica, status_consulta, paciente) VALUES ('Paciente apresentou melhora', 'Relatório detalhado', 1, 1, 1, 2, 1);
+INSERT INTO acompanhamento (resumo, relatorio, consulta_id, medico, especificacao_medica, status_consulta, paciente) VALUES ('Paciente está estável', 'Relatório detalhado', 2, 2, 1, 1, 2);
 
 -- Inserindo dados em permissionamento
 INSERT INTO permissionamento (nome) VALUES ('Admin');
@@ -194,62 +181,61 @@ INSERT INTO permissionamento (nome) VALUES ('Médico');
 INSERT INTO permissionamento (nome) VALUES ('Recepcionista');
 
 -- Inserindo dados em notas
-INSERT INTO notas (titulo, descricao, medico, medico_tipo, especificacao_medica) VALUES ('Nota 1', 'Descrição da nota 1', 1, 1, 1);
-INSERT INTO notas (titulo, descricao, medico, medico_tipo, especificacao_medica) VALUES ('Nota 2', 'Descrição da nota 2', 2, 1, 1);
+INSERT INTO notas (titulo, descricao, medico, especificacao_medica) VALUES ('Nota 1', 'Descrição da nota 1', 1, 1);
+INSERT INTO notas (titulo, descricao, medico, especificacao_medica) VALUES ('Nota 2', 'Descrição da nota 2', 2, 1);
 
 -- VIEWS
 
-CREATE VIEW status_da_consulta_do_paciente AS
-SELECT p.nome AS paciente, c.descricao AS consulta, s.nome_status AS status
-FROM paciente p
-JOIN consulta c ON p.id = c.paciente
-JOIN status_consulta s ON c.status_consulta = s.id;
+-- CREATE VIEW status_da_consulta_do_paciente AS
+-- SELECT p.nome AS paciente, c.descricao AS consulta, s.nome_status AS status
+-- FROM paciente p
+-- JOIN consulta c ON p.id = c.paciente
+-- JOIN status_consulta s ON c.status_consulta = s.id;
 
-CREATE VIEW consultas_do_medico AS
-SELECT m.nome AS médico, c.datahora_consulta AS data_consulta, c.descricao AS consulta
-FROM medico m
-JOIN consulta c ON m.id = c.medico;
+-- CREATE VIEW consultas_do_medico AS
+-- SELECT m.nome AS médico, c.datahora_consulta AS data_consulta, c.descricao AS consulta
+-- FROM medico m
+-- JOIN consulta c ON m.id = c.medico;
 
-CREATE VIEW endereco_do_paciente_e_responsavel AS
-SELECT e.cep AS cep, r.nome AS responsavel, r.telefone AS telefone_responsavel
-FROM paciente p
-JOIN responsavel r ON p.responsavel = r.id
-JOIN endereco e ON r.endereco = e.id;
+-- CREATE VIEW endereco_do_paciente_e_responsavel AS
+-- SELECT e.cep AS cep, r.nome AS responsavel, r.telefone AS telefone_responsavel
+-- FROM paciente p
+-- JOIN responsavel r ON p.responsavel = r.id
+-- JOIN endereco e ON r.endereco = e.id;
 
-CREATE VIEW acompanhamento_da_consulta AS
-SELECT p.nome AS paciente, c.descricao AS consulta, a.relatorio AS relatorio_acompanhamento
-FROM paciente p
-JOIN consulta c ON p.id = c.paciente
-JOIN acompanhamento a ON c.id = a.consulta_id;
+-- CREATE VIEW acompanhamento_da_consulta AS
+-- SELECT p.nome AS paciente, c.descricao AS consulta, a.relatorio AS relatorio_acompanhamento
+-- FROM paciente p
+-- JOIN consulta c ON p.id = c.paciente
+-- JOIN acompanhamento a ON c.id = a.consulta_id;
 
--- SELECTS de cada tabela
+-- -- SELECTS de cada tabela
 
-SELECT * FROM tipo_de_contato;
-SELECT * FROM possivel_cliente;
-SELECT * FROM endereco;
-SELECT * FROM responsavel;
-SELECT * FROM paciente;
-SELECT * FROM especificacao_medica;
-SELECT * FROM tipo;
-SELECT * FROM medico;
-SELECT * FROM status_consulta;
-SELECT * FROM consulta;
-SELECT * FROM acompanhamento;
-SELECT * FROM permissionamento;
-SELECT * FROM notas;
+-- SELECT * FROM tipo_de_contato;
+-- SELECT * FROM possivel_cliente;
+-- SELECT * FROM endereco;
+-- SELECT * FROM responsavel;
+-- SELECT * FROM paciente;
+-- SELECT * FROM especificacao_medica;
+-- SELECT * FROM medico;
+-- SELECT * FROM status_consulta;
+-- SELECT * FROM consulta;
+-- SELECT * FROM acompanhamento;
+-- SELECT * FROM permissionamento;
+-- SELECT * FROM notas;
 
-SELECT * FROM status_da_consulta_do_paciente
-WHERE paciente = 'Pedro';
+-- SELECT * FROM status_da_consulta_do_paciente
+-- WHERE paciente = 'Pedro';
 
-SELECT * FROM consultas_do_medico
-WHERE médico = 'Maria';
+-- SELECT * FROM consultas_do_medico
+-- WHERE médico = 'Maria';
 
-SELECT * FROM endereco_do_paciente_e_responsavel
-WHERE cep = '12345678';
+-- SELECT * FROM endereco_do_paciente_e_responsavel
+-- WHERE cep = '12345678';
 
-SELECT * FROM acompanhamento_da_consulta
-WHERE paciente = 'Ana';
+-- SELECT * FROM acompanhamento_da_consulta
+-- WHERE paciente = 'Ana';
 
-SELECT COUNT(*)
-FROM possivel_cliente pc
-JOIN paciente p ON pc.cpf = p.cpf;
+-- SELECT COUNT(*)
+-- FROM possivel_cliente pc
+-- JOIN paciente p ON pc.cpf = p.cpf;

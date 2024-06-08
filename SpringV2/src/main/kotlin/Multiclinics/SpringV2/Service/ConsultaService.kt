@@ -1,9 +1,7 @@
 package Multiclinics.SpringV2.Service
 
 import Multiclinics.SpringV2.dominio.Consulta
-import Multiclinics.SpringV2.dominio.EspecificacaoMedica
 import Multiclinics.SpringV2.dominio.Medico
-import Multiclinics.SpringV2.dominio.Responsavel
 import Multiclinics.SpringV2.repository.ConsultaRepository
 import Multiclinics.SpringV2.repository.MedicoRepository
 import org.springframework.http.HttpStatusCode
@@ -18,13 +16,13 @@ class ConsultaService(
     val consultaRepository: ConsultaRepository,
     val medicoRepository: MedicoRepository
 ) {
-    fun validarLista(lista:List<*>) {
+    fun validarLista(lista: List<*>) {
         if (lista.isEmpty()) {
             throw ResponseStatusException(HttpStatusCode.valueOf(204))
         }
     }
 
-    fun atualizar(id: Int ,novaConsulta: Consulta): ResponseEntity<Consulta> {
+    fun atualizar(id: Int, novaConsulta: Consulta): ResponseEntity<Consulta> {
         if (!medicoRepository.existsById(novaConsulta.medico!!.id!!)) {
             return ResponseEntity.status(404).build()
         }
@@ -35,12 +33,13 @@ class ConsultaService(
 
             // Atualiza os dados da consulta existente com os novos dados
             val consultaAtualizada = consultaEscolhida.copy(
+                datahoraConsulta = novaConsulta.datahoraConsulta,
+                descricao = novaConsulta.descricao,
                 medico = novaConsulta.medico,
+                especificacaoMedica = novaConsulta.especificacaoMedica,
+                statusConsulta = novaConsulta.statusConsulta,
                 paciente = novaConsulta.paciente,
-                data = novaConsulta.data,
-                hora = novaConsulta.hora,
-                area = novaConsulta.area,
-                statusConsulta = novaConsulta.statusConsulta
+                duracaoConsulta = novaConsulta.duracaoConsulta
             )
 
             val consultaAlterada = consultaRepository.save(consultaAtualizada)
@@ -52,13 +51,12 @@ class ConsultaService(
 
     fun salvar(novaConsulta: Consulta): Consulta {
         if (!medicoRepository.existsById(novaConsulta.medico!!.id!!)) {
-            throw ResponseStatusException(
-                HttpStatusCode.valueOf(404))
+            throw ResponseStatusException(HttpStatusCode.valueOf(404))
         }
         return consultaRepository.save(novaConsulta)
     }
 
-    fun deletar(id: Int):ResponseEntity<Any>{
+    fun deletar(id: Int): ResponseEntity<Any> {
         val consultaExistente = consultaRepository.findById(id)
         return if (consultaExistente.isPresent) {
             val consultaEscolhida = consultaExistente.get()
@@ -67,12 +65,10 @@ class ConsultaService(
         } else {
             ResponseEntity.status(404).build()
         }
-
     }
 
-
     fun getTop3ConsultasByData(): List<Map<String, Any?>> {
-        val consultas = consultaRepository.findTop3ByOrderByDataAsc()
+        val consultas = consultaRepository.findTop3ByOrderByDatahoraConsultaDesc()
         return consultas.map { array ->
             mapOf(
                 "nomePaciente" to array[0],
@@ -93,8 +89,7 @@ class ConsultaService(
         }
     }
 
-
-    fun getLista():List<Consulta> {
+    fun getLista(): List<Consulta> {
         val lista = consultaRepository.findAll()
         validarLista(lista)
 
@@ -105,5 +100,4 @@ class ConsultaService(
         val consultasMedico = consultaRepository.findByMedicoNome(nome)
         return ResponseEntity.status(200).body(consultasMedico)
     }
-
 }
