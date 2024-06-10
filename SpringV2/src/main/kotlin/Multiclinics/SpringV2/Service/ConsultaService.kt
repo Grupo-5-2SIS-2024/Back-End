@@ -78,16 +78,7 @@ class ConsultaService(
         }
     }
 
-    fun getPercentagemConcluidos(): Double {
-        val total = consultaRepository.countTotal()
-        val concluidos = consultaRepository.countConcluidos()
 
-        return if (total > 0) {
-            (concluidos.toDouble() / total) * 100
-        } else {
-            0.0
-        }
-    }
 
     fun getLista(): List<Consulta> {
         val lista = consultaRepository.findAll()
@@ -100,4 +91,35 @@ class ConsultaService(
         val consultasMedico = consultaRepository.findByMedicoNome(nome)
         return ResponseEntity.status(200).body(consultasMedico)
     }
+
+
+
+    // API INDIVIDUAL PEDRO
+
+
+
+    fun getAltasUltimosSeisMeses(): List<Map<String, Any>> {
+        val result = consultaRepository.findAltasUltimosSeisMeses()
+        return result.map {
+            mapOf("mes" to it[0], "total" to it[1])
+        }
+    }
+
+    fun getHorariosUltimosSeisMeses(): List<Map<String, Any>> {
+        val result = consultaRepository.findHorariosUltimosSeisMeses()
+        return result.map {
+            mapOf("mes" to it[0], "agendados" to it[1], "disponiveis" to it[2])
+        }
+    }
+    fun getPercentagemConcluidos(): Double {
+        val total = consultaRepository.countTotal()
+        val concluidos = consultaRepository.countConcluidos()
+
+        return if (total > 0) {
+            (concluidos.toDouble() / total) * 100
+        } else {
+            0.0
+        }
+    }
+
 }

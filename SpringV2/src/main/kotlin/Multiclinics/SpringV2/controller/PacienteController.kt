@@ -40,4 +40,14 @@ class PacienteController(
         return ResponseEntity.status(200).body(pacientes)
     }
 
+
+    // API INDIVIDUAL PEDRO
+
+    @GetMapping("/conversoes-ultimos-seis-meses")
+    fun getConversoesUltimosSeisMeses(): ResponseEntity<List<Map<String, Any>>> {
+        val conversoes = pacienteService.getConversoesUltimosSeisMeses()
+        return ResponseEntity.ok(conversoes)
+    }
+
+
 }

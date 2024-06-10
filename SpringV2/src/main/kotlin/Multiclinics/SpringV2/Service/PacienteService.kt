@@ -117,4 +117,15 @@ class PacienteService(
         return lista
     }
 
+    // API INDIVIDUAL PEDRO
+
+    fun getConversoesUltimosSeisMeses(): List<Map<String, Any>> {
+        val result = pacienteRepository.countPossiveisClientesConvertidos()
+        return result.map {
+            mapOf("mes" to it[0], "total" to it[1])
+        }
+    }
+
+
+
 }

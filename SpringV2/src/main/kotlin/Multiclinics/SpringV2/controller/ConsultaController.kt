@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/consultas")
-class ConsultaController(
+class                  ConsultaController(
     val consultaRepository: ConsultaRepository,
     val medicoRepository: MedicoRepository,
     val consultaService: ConsultaService
@@ -39,11 +39,6 @@ class ConsultaController(
         val agendamentoProximos = consultaService.getTop3ConsultasByData()
         return ResponseEntity.ok(agendamentoProximos)
     }
-    @GetMapping("/percentagem-concluidos")
-    fun getPercentagemConcluidos(): Map<String, Double> {
-        val percentagem = consultaService.getPercentagemConcluidos()
-        return mapOf("percentagemConcluidos" to percentagem)
-    }
 
     @GetMapping
     fun listar(): ResponseEntity<List<Consulta>> {
@@ -58,5 +53,30 @@ class ConsultaController(
         val consultasMedico = consultaService.getListaNome(nome)
         return ResponseEntity.status(200).body(consultasMedico)
     }
+
+
+
+
+// API INDIVIDUAL PEDRI
+
+    @GetMapping("/altas-ultimos-seis-meses")
+    fun getAltasUltimosSeisMeses(): ResponseEntity<List<Map<String, Any>>> {
+        val altas = consultaService.getAltasUltimosSeisMeses()
+        return ResponseEntity.ok(altas)
+    }
+
+    @GetMapping("/horarios-ultimos-seis-meses")
+    fun getHorariosUltimosSeisMeses(): ResponseEntity<List<Map<String, Any>>> {
+        val horarios = consultaService.getHorariosUltimosSeisMeses()
+        return ResponseEntity.ok(horarios)
+    }
+    @GetMapping("/percentagem-concluidos")
+    fun getPercentagemConcluidos(): Map<String, Double> {
+        val percentagem = consultaService.getPercentagemConcluidos()
+        return mapOf("percentagemConcluidos" to percentagem)
+    }
+
+
+
 
 }
