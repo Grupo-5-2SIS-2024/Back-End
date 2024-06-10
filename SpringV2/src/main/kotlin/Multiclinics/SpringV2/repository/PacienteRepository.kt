@@ -18,7 +18,7 @@ interface PacienteRepository: JpaRepository<Paciente, Int> {
     @Query("SELECT MONTH(p.dtEntrada) as mes, COUNT(p.id) as total " +
             "FROM Paciente p " +
             "WHERE p.dtEntrada IS NOT NULL " +
-            "AND p.dtEntrada >= DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH) " +
+            "AND p.dtEntrada >= (CURRENT_DATE - 6 MONTH) " +
             "GROUP BY MONTH(p.dtEntrada)")
     fun countPossiveisClientesConvertidos(): List<Array<Any>>
 

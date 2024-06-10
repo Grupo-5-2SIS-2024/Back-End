@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/consultas")
-class                  ConsultaController(
+class ConsultaController(
     val consultaRepository: ConsultaRepository,
     val medicoRepository: MedicoRepository,
     val consultaService: ConsultaService
