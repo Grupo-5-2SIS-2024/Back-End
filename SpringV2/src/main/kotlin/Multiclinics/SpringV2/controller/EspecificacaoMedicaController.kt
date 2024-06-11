@@ -14,12 +14,14 @@ class EspecificacaoMedicaController(
     val especificaoRepository: EspecificacaoMedicaRepository,
     val especificacaoMedicaService: EspecificacaoMedicaService
 ) {
+    @CrossOrigin
     @PostMapping
     fun adicionarEspecificacao(@RequestBody novaEspecificacao: EspecificacaoMedica): ResponseEntity<EspecificacaoMedica> {
         especificacaoMedicaService.salvar(novaEspecificacao)
         return ResponseEntity.status(201).body(novaEspecificacao)
     }
 
+    @CrossOrigin
     @PutMapping("/{id}")
     fun atualizarEspecificaca(@PathVariable id: Int, @RequestBody @Valid novaEspecificacao: EspecificacaoMedica): ResponseEntity<*> {
 
@@ -28,13 +30,14 @@ class EspecificacaoMedicaController(
             return ResponseEntity.ok(EspecificacaoAtualizado)
 
     }
-
+    @CrossOrigin
     @DeleteMapping("/{id}")
     fun deletarEspecificacao(@PathVariable id: Int): ResponseEntity<EspecificacaoMedica> {
         especificacaoMedicaService.deletar(id)
         return ResponseEntity.status(200).build()
     }
 
+    @CrossOrigin
     @GetMapping
     fun listarEspecificacao(): ResponseEntity<List<EspecificacaoMedica>> {
         val especificacoes = especificacaoMedicaService.getLista()

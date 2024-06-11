@@ -16,6 +16,7 @@ class MedicoController(
     val medicoService: MedicoService
 ) {
 
+    @CrossOrigin
     @PutMapping("/login")
     fun logarMedico(@RequestBody medico: Medico): ResponseEntity<Medico> {
         val medicoLogado = medicoRepository.findByEmailAndSenha(medico.email ?: "", medico.senha ?: "")
@@ -29,6 +30,7 @@ class MedicoController(
         }
     }
 
+    @CrossOrigin
     @PutMapping("/logout")
     fun deslogarMedico(@RequestBody medico: Medico): ResponseEntity<Medico> {
         val medicoLogado = medicoRepository.findByEmail(medico.email ?: "")
@@ -45,12 +47,14 @@ class MedicoController(
 
 
 
+    @CrossOrigin
     @PostMapping
     fun adicionarMedico(@RequestBody @Valid novoMedico: Medico): ResponseEntity<Medico> {
         medicoService.salvar(novoMedico)
         return ResponseEntity.status(201).body(novoMedico)
     }
 
+    @CrossOrigin
     @PutMapping("/{id}")
     fun atualizarMedico(@PathVariable id: Int, @RequestBody @Valid novoMedico: Medico): ResponseEntity<*>{
             val medicoAtualizado = medicoService.atualizar(id, novoMedico)
@@ -58,6 +62,7 @@ class MedicoController(
 
     }
 
+    @CrossOrigin
     @DeleteMapping("/{id}")
     fun deletarMedico(@PathVariable id: Int): ResponseEntity<Medico> {
             medicoService.deletar(id)
@@ -65,10 +70,33 @@ class MedicoController(
 
     }
 
+    @CrossOrigin
     @GetMapping
     fun listarMedicos(): ResponseEntity<List<Medico>> {
         val medicos = medicoService.getLista()
         return ResponseEntity.status(200).body(medicos)
+    }
+
+    @CrossOrigin
+    @PatchMapping(value = ["/foto/{id}"],
+        //"image/jpeg", "image/png", "image/gif" ou "image/*"
+        consumes = ["image/*"])
+    fun patchFoto(@PathVariable id: Int,
+                  @RequestBody novafoto: ByteArray):ResponseEntity<Void> {
+        val medico = medicoRepository.findById(id).get()
+        medico.foto = novafoto
+        medicoRepository.save(medico)
+        return ResponseEntity.status(204).build()
+    }
+
+    @CrossOrigin
+    @GetMapping(value = ["/foto/{id}"],
+        //"image/*"  não funicona para download
+        produces = ["image/jpeg"]
+    )
+    fun getFoto(@PathVariable id: Int):ResponseEntity<ByteArray> {
+        val foto = medicoRepository.recuperarFoto(id)
+        return ResponseEntity.status(200).body(foto)
     }
 
 

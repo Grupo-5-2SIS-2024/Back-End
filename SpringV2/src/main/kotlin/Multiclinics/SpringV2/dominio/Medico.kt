@@ -1,5 +1,6 @@
 package Multiclinics.SpringV2.dominio
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
@@ -57,5 +58,9 @@ class Medico(
 
     @ManyToOne
     @JoinColumn(name = "permissionamento")
-    var permissao: Permissionamento? = null
+    var permissao: Permissionamento? = null,
+
+    @field:Column(length = 10 * 1024 * 1024)
+    @field:JsonIgnore
+    var foto:ByteArray
 )
