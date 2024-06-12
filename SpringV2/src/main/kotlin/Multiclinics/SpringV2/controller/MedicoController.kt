@@ -78,6 +78,13 @@ class MedicoController(
     }
 
     @CrossOrigin
+    @GetMapping("/{id}")
+    fun listarMedicoPorId(@PathVariable id: Int): ResponseEntity<Medico> {
+        val medico = medicoService.listarPorId(id)
+        return ResponseEntity.status(200).body(medico)
+    }
+
+    @CrossOrigin
     @PatchMapping(value = ["/foto/{id}"],
         //"image/jpeg", "image/png", "image/gif" ou "image/*"
         consumes = ["image/*"])

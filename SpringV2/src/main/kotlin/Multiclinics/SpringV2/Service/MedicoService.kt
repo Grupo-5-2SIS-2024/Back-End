@@ -60,11 +60,18 @@ class MedicoService(
 
     }
 
+
     fun getLista():List<Medico> {
         val lista = medicoRepository.findAll()
         validarLista(lista)
 
         return lista
+    }
+
+    fun listarPorId(id: Int): Medico {
+        return medicoRepository.findById(id).orElseThrow {
+            ResponseStatusException(HttpStatusCode.valueOf(404), "Médico não encontrado")
+        }
     }
 
 
