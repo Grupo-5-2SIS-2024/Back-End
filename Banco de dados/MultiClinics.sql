@@ -133,6 +133,11 @@ CREATE TABLE notas (
     FOREIGN KEY (especificacao_medica) REFERENCES especificacao_medica(id)
 );
 
+-- Inserindo dados em permissionamento
+INSERT INTO permissionamento (nome) VALUES ('Admin');
+INSERT INTO permissionamento (nome) VALUES ('Médico');
+INSERT INTO permissionamento (nome) VALUES ('Recepcionista');
+
 -- Inserindo dados em tipo_de_contato
 INSERT INTO tipo_de_contato (fase_contato) VALUES ('Inicial');
 INSERT INTO tipo_de_contato (fase_contato) VALUES ('Seguimento');
@@ -159,9 +164,9 @@ INSERT INTO especificacao_medica (area) VALUES ('Cardiologia');
 INSERT INTO especificacao_medica (area) VALUES ('Dermatologia');
 
 -- Inserindo dados em medico
-INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, foto) VALUES ('Pedro', 'Pinto', 'pedro.pinto@sptech.school', '11987654323', 'senha123', '12345', 'Clínico Geral', 1, '1975-06-06', '12345678904', 1, '1234567890hgfdswwawsedrftgyh');
-INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, foto) VALUES ('namorada do', 'pedro', 'sofiavvcastro@gmail.com', '11987654323', 'senha123', '12345', 'Clínico Geral', 1, '1975-06-06', '12345678904', 1, '1234567890hgfdswwawsedrftgyh');
-INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, foto) VALUES ('Dra. Maria', 'Fernandes', 'dra.maria.fernandes@example.com', '11912345680', 'senha456', '67890', 'Especialista', 2, '1980-07-07', '10987654324', 1, '1234567890hgfdswwawsedrftgyh');
+INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES ('Pedro', 'Pinto', 'pedro.pinto@sptech.school', '11987654323', 'senha123', '12345', 'Clínico Geral', 1, '1975-06-06', '12345678904', true, 1, '1234567890hgfdswwawsedrftgyh');
+INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES ('namorada do', 'pedro', 'sofiavvcastro@gmail.com', '11987654323', 'senha123', '12345', 'Clínico Geral', 1, '1975-06-06', '12345678904', false,  1, '1234567890hgfdswwawsedrftgyh');
+INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES ('Dra. Maria', 'Fernandes', 'dra.maria.fernandes@example.com', '11912345680', 'senha456', '67890', 'Especialista', 2, '1980-07-07', '10987654324', true, 1, '1234567890hgfdswwawsedrftgyh');
 
 
 
@@ -178,10 +183,7 @@ INSERT INTO consulta (datahora_consulta, descricao, medico, especificacao_medica
 INSERT INTO acompanhamento (resumo, relatorio, consulta_id, medico, especificacao_medica, status_consulta, paciente) VALUES ('Paciente apresentou melhora', 'Relatório detalhado', 1, 1, 1, 2, 1);
 INSERT INTO acompanhamento (resumo, relatorio, consulta_id, medico, especificacao_medica, status_consulta, paciente) VALUES ('Paciente está estável', 'Relatório detalhado', 2, 2, 1, 1, 2);
 
--- Inserindo dados em permissionamento
-INSERT INTO permissionamento (nome) VALUES ('Admin');
-INSERT INTO permissionamento (nome) VALUES ('Médico');
-INSERT INTO permissionamento (nome) VALUES ('Recepcionista');
+
 
 -- Inserindo dados em notas
 INSERT INTO notas (titulo, descricao, medico, especificacao_medica) VALUES ('Nota 1', 'Descrição da nota 1', 1, 1);
