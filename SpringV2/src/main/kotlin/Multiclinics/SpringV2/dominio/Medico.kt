@@ -61,6 +61,5 @@ class Medico(
     var permissao: Permissionamento? = null,
 
     @field:Column(length = 10 * 1024 * 1024)
-    @field:JsonIgnore
-    var foto:ByteArray
+    @field:JsonIgnore var foto:ByteArray? = null
 )
