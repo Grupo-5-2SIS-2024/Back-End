@@ -160,14 +160,14 @@ INSERT INTO paciente (nome, sobrenome, email, cpf, genero, telefone, responsavel
 INSERT INTO paciente (nome, sobrenome, email, cpf, genero, telefone, responsavel, dt_nasc, endereco, dt_entrada, dt_saida, cns) VALUES ('Juliana', 'Mendes', 'juliana.mendes@example.com', '10987654323', 'Feminino', '11912345679', 2, '1995-05-05', 2, '2024-02-01', '2024-07-01', '654321987654321');
 
 -- Inserindo dados em especificacao_medica
-INSERT INTO especificacao_medica (area) VALUES ('Cardiologia');
-INSERT INTO especificacao_medica (area) VALUES ('Dermatologia');
+INSERT INTO especificacao_medica (area) VALUES ('Psicólogo');
+INSERT INTO especificacao_medica (area) VALUES ('Terapeuta');
+INSERT INTO especificacao_medica (area) VALUES ('Fonoaudiologa');
 
 -- Inserindo dados em medico
-INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES ('Pedro', 'Pinto', 'pedro.pinto@sptech.school', '11987654323', 'senha123', '12345', 'Clínico Geral', 1, '1975-06-06', '12345678904', true, 1, '1234567890hgfdswwawsedrftgyh');
-INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES ('namorada do', 'pedro', 'sofiavvcastro@gmail.com', '11987654323', 'senha123', '12345', 'Clínico Geral', 1, '1975-06-06', '12345678904', false,  1, '1234567890hgfdswwawsedrftgyh');
-INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES ('Dra. Maria', 'Fernandes', 'dra.maria.fernandes@example.com', '11912345680', 'senha456', '67890', 'Especialista', 2, '1980-07-07', '10987654324', true, 1, '1234567890hgfdswwawsedrftgyh');
-
+INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES ('Pedro', 'Pinto', 'pedro.pinto@sptech.school', '11987654323', 'senha123', '12345', 'Clínico Geral', 1, '1975-06-06', '12345678904', true, 2, '1234567890hgfdswwawsedrftgyh');
+INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES ('Jonathan', 'Almeida', 'jonathan@gmail.com', '11987654323', 'senha123', '12345', 'Clínico Geral', 1, '1975-06-06', '12345678904', false,  2, '1234567890hgfdswwawsedrftgyh');
+INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES ('Gabriel', 'Sanchez', 'gabriel.cestari@example.com', '11912345680', 'senha456', '67890', 'Especialista', 2, '1980-07-07', '10987654324', true, 2, '1234567890hgfdswwawsedrftgyh');
 
 
 -- Inserindo dados em status_consulta
