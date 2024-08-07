@@ -115,11 +115,26 @@ class ConsultaService(
         val total = consultaRepository.countTotal()
         val concluidos = consultaRepository.countConcluidos()
 
+        return concluidos.toDouble()
+    }
+    fun getPercentagemConcluidos2(): Double {
+        val total = consultaRepository.countTotal()
+        val concluidos = consultaRepository.countConcluidos()
+
         return if (total > 0) {
-            (concluidos.toDouble() / total) * 100
+            ( total - concluidos.toDouble() )
         } else {
             0.0
         }
     }
+
+    fun getPercentagemConcluidos3(): Double {
+        val cancelados = consultaRepository.countCancelada()
+
+        return cancelados.toDouble()
+    }
+
+
+
 
 }

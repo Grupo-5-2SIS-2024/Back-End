@@ -85,7 +85,21 @@ class ConsultaController(
         return mapOf("percentagemConcluidos" to percentagem)
     }
 
+    @CrossOrigin
+    @GetMapping("/percentagem-concluidos2")
+    fun getPercentagemConcluidos2(): Map<String, Double> {
+        val percentagem = consultaService.getPercentagemConcluidos2()
+        return mapOf("percentagemConcluidos" to percentagem)
+    }
 
+    @CrossOrigin
+    @GetMapping("/percentagem-concluidos3")
+    fun getPercentagemConcluidos3(): Map<String, Double> {
+        val percentagem = consultaService.getPercentagemConcluidos3()
+        return mapOf("percentagempendete" to percentagem)
+
+
+    }
 
 
 }

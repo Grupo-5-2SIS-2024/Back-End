@@ -34,8 +34,11 @@ interface ConsultaRepository : JpaRepository<Consulta, Int> {
 
 
 
-    @Query("SELECT COUNT(c) FROM Consulta c WHERE c.statusConsulta.nomeStatus = 'fechado'")
+    @Query("SELECT COUNT(c) FROM Consulta c WHERE c.statusConsulta.nomeStatus = 'Realizada'")
     fun countConcluidos(): Long
+
+    @Query("SELECT COUNT(c) FROM Consulta c WHERE c.statusConsulta.nomeStatus = 'Cancelada'")
+    fun countCancelada(): Long
 
 
 }
