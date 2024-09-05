@@ -5,42 +5,42 @@ from mysql.connector import connect, Error
 import time
 
 # Função para obter conexão com o MySQL
-def mysql_connection(host, user, passwd, database=None):
-    return connect(host=host, user=user, passwd=passwd, database=database)
+def conexao_mysql(host, usuario, senha, banco=None):
+    return connect(host=host, user=usuario, passwd=senha, database=banco)
 
 # Função para enviar e-mails
-def send_email(subject, body, recipient_email):
-    sender_email = "pedro.pinto@sptech.school"  # Substitua pelo seu e-mail
-    password = "#Gf49147963840"  # Substitua pela sua senha
-    smtp_server = "smtp-mail.outlook.com"
-    port = 587
+def enviar_email(assunto, corpo, email_destinatario):
+    email_remetente = "seuemail@exemplo.com"  # Substitua pelo seu e-mail
+    senha = "suasenha"  # Substitua pela sua senha
+    servidor_smtp = "smtp-mail.outlook.com"
+    porta = 587
 
-    message = MIMEMultipart()
-    message["From"] = sender_email
-    message["To"] = recipient_email
-    message["Subject"] = subject
+    mensagem = MIMEMultipart()
+    mensagem["From"] = email_remetente
+    mensagem["To"] = email_destinatario
+    mensagem["Subject"] = assunto
 
-    message.attach(MIMEText(body, "html"))
+    mensagem.attach(MIMEText(corpo, "html"))
 
     try:
-        with smtplib.SMTP(smtp_server, port) as server:
-            server.starttls()
-            server.login(sender_email, password)
-            server.sendmail(sender_email, recipient_email, message.as_string())
-        print(f"Email enviado para {recipient_email}")
+        with smtplib.SMTP(servidor_smtp, porta) as servidor:
+            servidor.starttls()
+            servidor.login(email_remetente, senha)
+            servidor.sendmail(email_remetente, email_destinatario, mensagem.as_string())
+        print(f"E-mail enviado para {email_destinatario}")
     except Exception as e:
-        print(f"Erro ao enviar email para {recipient_email}: {e}")
+        print(f"Erro ao enviar e-mail para {email_destinatario}: {e}")
 
 # Função para criar o corpo do e-mail
-def create_email_body(nome, nome_paciente, data_consulta, horario_consulta, duracao_consulta, message):
+def criar_corpo_email(nome, nome_paciente, data_consulta, horario_consulta, duracao_consulta, mensagem):
     return f"""
     <!DOCTYPE html>
-    <html lang="en">
+    <html lang="pt">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Email Notificação</title>
+        <title>Notificação por E-mail</title>
     </head>
     <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f2f2f2;">
         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f2f2f2;">
@@ -50,7 +50,7 @@ def create_email_body(nome, nome_paciente, data_consulta, horario_consulta, dura
                         <tr>
                             <td align="center" style="padding: 40px 0;">
                                 <p style="margin-top: 20px; text-align: center;">Olá, {nome}!</p>
-                                <p style="text-align: center;">{message} <b>{nome_paciente}</b> foi marcada no dia {data_consulta} às {horario_consulta} com a duração de {duracao_consulta}.</p>
+                                <p style="text-align: center;">{mensagem} <b>{nome_paciente}</b> foi marcada no dia {data_consulta} às {horario_consulta} com a duração de {duracao_consulta}.</p>
                                 <p style="text-align: center;">Agradecemos por ter recebido este e-mail!</p>
                                 <p style="text-align: center;">Favor não responder. Tenha um ótimo trabalho</p>
                             </td>
@@ -64,18 +64,18 @@ def create_email_body(nome, nome_paciente, data_consulta, horario_consulta, dura
     """
 
 # Função para enviar e-mails para pacientes
-def check_and_send_patient_emails(connection, query, subject, message, sent_ids):
+def verificar_enviar_emails_pacientes(conexao, consulta, assunto, mensagem, ids_enviados):
     try:
-        cursor = connection.cursor()
-        cursor.execute(query)
-        result = cursor.fetchall()
+        cursor = conexao.cursor()
+        cursor.execute(consulta)
+        resultado = cursor.fetchall()
 
-        if result:
-            for id_consulta, data_consulta, duracao_consulta, horario_consulta, nome_paciente, email, nome in result:
-                if id_consulta not in sent_ids:
-                    body = create_email_body(nome, nome_paciente, data_consulta, horario_consulta, duracao_consulta, message)
-                    send_email(subject, body, email)
-                    sent_ids.add(id_consulta)
+        if resultado:
+            for id_consulta, data_consulta, duracao_consulta, horario_consulta, nome_paciente, email, nome in resultado:
+                if id_consulta not in ids_enviados:
+                    corpo = criar_corpo_email(nome, nome_paciente, data_consulta, horario_consulta, duracao_consulta, mensagem)
+                    enviar_email(assunto, corpo, email)
+                    ids_enviados.add(id_consulta)
 
     except Error as e:
         print(f"Erro ao executar consulta para pacientes: {e}")
@@ -83,46 +83,46 @@ def check_and_send_patient_emails(connection, query, subject, message, sent_ids)
         cursor.close()
 
 # Função para enviar e-mails para médicos
-def check_and_send_medico_emails(connection, query, email_message_template, sent_ids):
+def verificar_enviar_emails_medicos(conexao, consulta, modelo_mensagem_email, ids_enviados):
     try:
-        cursor = connection.cursor()
-        cursor.execute(query)
-        email_result = cursor.fetchall()
+        cursor = conexao.cursor()
+        cursor.execute(consulta)
+        resultado_email = cursor.fetchall()
 
-        for email, nome, consultas_realizadas, consultas_totais in email_result:
-            percentage = (consultas_realizadas / consultas_totais) * 100
-            if percentage == 100:
-                message = email_message_template['100%']
-            elif 90 <= percentage < 100:
-                message = email_message_template['90-99%']
-            elif 60 <= percentage < 90:
-                message = email_message_template['60-89%']
-            elif 40 <= percentage < 60:
-                message = email_message_template['40-59%']
+        for email, nome, consultas_realizadas, consultas_totais in resultado_email:
+            porcentagem = (consultas_realizadas / consultas_totais) * 100
+            if porcentagem == 100:
+                mensagem = modelo_mensagem_email['100%']
+            elif 90 <= porcentagem < 100:
+                mensagem = modelo_mensagem_email['90-99%']
+            elif 60 <= porcentagem < 90:
+                mensagem = modelo_mensagem_email['60-89%']
+            elif 40 <= porcentagem < 60:
+                mensagem = modelo_mensagem_email['40-59%']
             else:
-                message = email_message_template['<40%']
+                mensagem = modelo_mensagem_email['<40%']
 
-            subject = 'Relatório de agendamentos'
-            body = create_email_body(nome, '', '', '', '', message)
+            assunto = 'Relatório de agendamentos'
+            corpo = criar_corpo_email(nome, '', '', '', '', mensagem)
 
-            if email not in sent_ids:
-                send_email(subject, body, email)
-                sent_ids.add(email)
+            if email not in ids_enviados:
+                enviar_email(assunto, corpo, email)
+                ids_enviados.add(email)
 
     except Error as e:
         print(f"Erro ao executar consulta para médicos: {e}")
     finally:
         cursor.close()
 
-def main():
+def principal():
     try:
-        connection = mysql_connection('localhost', 'root', 'Pedroca12@', 'MultiClinics')
-        sent_consulta_ids = set()
-        sent_medico_ids = set()
+        conexao = conexao_mysql('localhost', 'root', 'sua_senha', 'MultiClinics')
+        ids_consulta_enviados = set()
+        ids_medico_enviados = set()
 
-        patient_queries = [
+        consultas_pacientes = [
             {
-                'query': '''
+                'consulta': '''
                     SELECT c.id,
                            DATE_FORMAT(c.datahora_consulta, '%d/%m/%Y') AS DataConsulta,
                            TIME_FORMAT(c.duracao_consulta, '%H:%i') AS DuracaoConsulta,
@@ -134,11 +134,11 @@ def main():
                     JOIN paciente AS p ON c.paciente = p.id
                     WHERE c.datahora_consulta <= DATE_SUB(CURRENT_DATE, INTERVAL 11 MONTH);
                 ''',
-                'subject': 'E-mail de alerta de 11 meses desde a última consulta',
-                'message': 'Este é um e-mail para alertar que faz 11 meses desde a última consulta com'
+                'assunto': 'E-mail de alerta de 11 meses desde a última consulta',
+                'mensagem': 'Este é um e-mail para alertar que faz 11 meses desde a última consulta com'
             },
             {
-                'query': '''
+                'consulta': '''
                     SELECT c.id,
                            DATE_FORMAT(c.datahora_consulta, '%d/%m/%Y') AS DataConsulta,
                            TIME_FORMAT(c.duracao_consulta, '%H:%i') AS DuracaoConsulta,
@@ -150,13 +150,13 @@ def main():
                     JOIN paciente AS p ON c.paciente = p.id
                     WHERE DATE(c.datahora_consulta) = DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY);
                 ''',
-                'subject': 'E-mail de alerta de 1 semana antes do vencimento',
-                'message': 'Este é um e-mail para alertar que falta uma semana para o vencimento da consulta com'
+                'assunto': 'E-mail de alerta de 1 semana antes do vencimento',
+                'mensagem': 'Este é um e-mail para alertar que falta uma semana para o vencimento da consulta com'
             },
             # Adicione as outras regras para pacientes aqui
         ]
 
-        medico_query = '''
+        consulta_medico = '''
             SELECT m.email, m.nome, 
                    COUNT(c.id) AS consultas_realizadas, 
                    (SELECT COUNT(*) FROM consulta WHERE medico = m.id) AS consultas_totais
@@ -165,7 +165,7 @@ def main():
             GROUP BY m.id;
         '''
 
-        email_message_template = {
+        modelo_mensagem_email = {
             '100%': 'Parabéns! Você realizou 100% das consultas agendadas neste mês.',
             '90-99%': 'Ótimo trabalho! Você realizou mais de 90% das consultas agendadas neste mês.',
             '60-89%': 'Bom trabalho! Você realizou entre 60% e 89% das consultas agendadas neste mês.',
@@ -175,19 +175,19 @@ def main():
 
         while True:
             # Verifica e envia e-mails para pacientes
-            for query_data in patient_queries:
-                check_and_send_patient_emails(connection, query_data['query'], query_data['subject'], query_data['message'], sent_consulta_ids)
+            for dados_consulta in consultas_pacientes:
+                verificar_enviar_emails_pacientes(conexao, dados_consulta['consulta'], dados_consulta['assunto'], dados_consulta['mensagem'], ids_consulta_enviados)
 
             # Verifica e envia e-mails para médicos
-            check_and_send_medico_emails(connection, medico_query, email_message_template, sent_medico_ids)
+            verificar_enviar_emails_medicos(conexao, consulta_medico, modelo_mensagem_email, ids_medico_enviados)
 
             time.sleep(60)  # Intervalo de 1 minuto entre as verificações
 
     except Exception as e:
         print(f"Erro geral: {e}")
     finally:
-        if connection and connection.is_connected():
-            connection.close()
+        if conexao and conexao.is_connected():
+            conexao.close()
 
 if __name__ == '__main__':
-    main()
+    principal()
