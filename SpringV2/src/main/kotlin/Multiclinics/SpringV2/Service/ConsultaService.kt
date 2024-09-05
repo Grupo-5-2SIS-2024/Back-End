@@ -92,6 +92,10 @@ class ConsultaService(
         return ResponseEntity.status(200).body(consultasMedico)
     }
 
+    fun getListaID(id: Int): ResponseEntity<List<Consulta>> {
+        val consultasMedico = consultaRepository.findByMedicoId(id)
+        return ResponseEntity.status(200).body(consultasMedico)
+    }
 
 
     // API INDIVIDUAL PEDRO

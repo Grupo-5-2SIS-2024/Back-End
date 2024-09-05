@@ -60,6 +60,13 @@ class ConsultaController(
         return ResponseEntity.status(200).body(consultasMedico)
     }
 
+    @CrossOrigin
+    @GetMapping("/listarConsultasMedicoID/{id}")
+    fun listarConsultasMedicoID(@PathVariable id: Int): ResponseEntity<*> {
+        val consultasMedico = consultaService.getListaID(id)
+        return ResponseEntity.status(200).body(consultasMedico)
+    }
+
 
 
 

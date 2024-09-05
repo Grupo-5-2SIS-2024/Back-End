@@ -9,7 +9,7 @@ class EnderecoService(
     val enderecoRespository: EnderecoRespository
 ) {
 
-    fun criar(endereco: Endereco) : Endereco {
+    fun criar(endereco: Endereco) : Endereco?{
         return enderecoRespository.save(endereco)
     }
 }

@@ -35,10 +35,10 @@ class ResponsavelService(
             ResponsavelEscolhido.sobrenome = novoResponsavel.sobrenome
             ResponsavelEscolhido.email = novoResponsavel.email
             ResponsavelEscolhido.cpf = novoResponsavel.cpf
-            ResponsavelEscolhido.Genero = novoResponsavel.email
+            ResponsavelEscolhido.genero = novoResponsavel.genero
             ResponsavelEscolhido.telefone = novoResponsavel.telefone
             ResponsavelEscolhido.dataNascimento = novoResponsavel.dataNascimento
-            ResponsavelEscolhido.endereco = novoResponsavel.endereco
+
 
             val ResponsavelAtualizado = responsavelRepository.save(ResponsavelEscolhido)
             return ResponseEntity.status(200).body(ResponsavelAtualizado)

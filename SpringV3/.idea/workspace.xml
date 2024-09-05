@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="db21e371-460e-45e9-8c05-a8b47a0bcd8e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../SpringV2/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SpringV2/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/Integration/ViaCepClient.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/Integration/dto/EnderecoCepDto.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/Service/ConsultaService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/Service/ConsultaService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/Service/EnderecoService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/Service/EnderecoService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/Service/PacienteService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/Service/PacienteService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/Service/ResponsavelService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/Service/ResponsavelService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/controller/ConsultaController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/controller/ConsultaController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/controller/PacienteController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/controller/PacienteController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/dominio/Endereco.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/dominio/Endereco.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/dominio/Paciente.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/dominio/Paciente.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/dominio/Responsavel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/dominio/Responsavel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/dto/PacienteCriacaoDto.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/repository/ConsultaRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/repository/ConsultaRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/repository/PacienteRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../SpringV2/src/main/kotlin/Multiclinics/SpringV2/repository/PacienteRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpringV2/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../SpringV2/src/main/resources/application.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="workspaceImportEnabled" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2lRDoDrsoALGdosoPJ3spBZDngZ" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Latitude/OneDrive/Documentos/SPTECH/projeto/backend-certo/Back-End/SpringV2/pom.xml&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="SpringV2ApplicationKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Multiclinics.SpringV2.SpringV2ApplicationKt" />
+      <module name="SpringV2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Kotlin.SpringV2ApplicationKt" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="db21e371-460e-45e9-8c05-a8b47a0bcd8e" name="Changes" comment="" />
+      <created>1725134174937</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1725134174937</updated>
+    </task>
+    <servers />
+  </component>
+</project>

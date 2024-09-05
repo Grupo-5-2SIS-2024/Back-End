@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query
 
 interface ConsultaRepository : JpaRepository<Consulta, Int> {
     fun findByMedicoNome(nome: String): List<Consulta>
+    fun findByMedicoId(id: Int): List<Consulta>
 
     @Query("SELECT p.nome, c.datahoraConsulta, c.especificacaoMedica.area FROM Consulta c JOIN c.paciente p ORDER BY c.datahoraConsulta DESC LIMIT 3")
     fun findTop3ByOrderByDatahoraConsultaDesc(): List<Array<Any>>

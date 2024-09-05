@@ -11,50 +11,18 @@ import java.time.LocalDate
 
 @Entity
 data class Paciente(
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   var id: Int?,
-
-   @NotBlank
-   @Column(length = 45)
-   var nome: String?,
-
-   @NotBlank
-   @Column(length = 45)
-   var sobrenome: String?,
-
-   @Email
-   @Column(length = 45)
-   var email: String?,
-
-   @NotBlank
-   @CPF
-   @Column(length = 11, columnDefinition = "CHAR(11)")
-   var cpf: String?,
-
-   @NotBlank
-   @Column(length = 45)
-   var genero: String?,
-
-   @NotBlank
-   @Column(length = 11, columnDefinition = "CHAR(11)")
-   var telefone: String?,
-
-   @ManyToOne
-   @JoinColumn(name = "responsavel")
-   var responsavel: Responsavel?,
-
-   @NotNull
-   var dtNasc: LocalDate?,
-
-   @ManyToOne
-   @JoinColumn(name = "endereco")
-   var endereco: Endereco?,
 
    var dtEntrada: LocalDate?,
 
    var dtSaida: LocalDate?,
 
    @Column(length = 15)
-   var cns: String?
-)
+   var cns: String?,
+
+   @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST, CascadeType.MERGE])
+   @JoinColumn(name = "responsavel", nullable = true)
+   var responsavel: Responsavel? = null,
+
+   @ManyToOne
+   var endereco: Endereco? = null
+):Cliente()

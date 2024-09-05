@@ -2,15 +2,14 @@ package Multiclinics.SpringV2.dto
 
 import Multiclinics.SpringV2.dominio.Endereco
 import Multiclinics.SpringV2.dominio.Responsavel
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.OneToOne
+import jakarta.persistence.Column
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
 import jakarta.validation.constraints.*
 import org.hibernate.validator.constraints.br.CPF
 import java.time.LocalDate
 
-data class PacienteCriacaoDto (
+data class PacienteComResponsavel (
     @field: Size(min = 3)
     var nome: String?,
 
@@ -30,11 +29,16 @@ data class PacienteCriacaoDto (
     @field:NotBlank(message = "O telefone não pode estar em branco.")
     var telefone: String?,
 
-    var responsavel: Responsavel? = null,
-
     @field:NotNull
     @field:Past
     var dataNascimento: LocalDate?,
 
-    var cep: String
+    //@ManyToOne
+    //@JoinColumn(name = "responsavel")
+    //var responsavel: Responsavel? ,
+
+    @Column(length = 15)
+    var cns: String?,
+
+    open var endereco: Endereco? = null
 )

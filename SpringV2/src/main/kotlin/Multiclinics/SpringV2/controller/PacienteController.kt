@@ -3,7 +3,9 @@ package Multiclinics.SpringV2.controller
 import Multiclinics.SpringV2.Service.PacienteService
 import Multiclinics.SpringV2.dominio.Medico
 import Multiclinics.SpringV2.dominio.Paciente
-import Multiclinics.SpringV2.dto.PacienteCriacaoDto
+import Multiclinics.SpringV2.dto.PacienteComResponsavel
+import Multiclinics.SpringV2.dto.PacienteMedicoDto
+import Multiclinics.SpringV2.dto.PacienteSemResponsavel
 import Multiclinics.SpringV2.repository.PacienteRepository
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
@@ -16,9 +18,16 @@ class PacienteController(
     val pacienteService: PacienteService
 ) {
     @CrossOrigin
-    @PostMapping
-    fun adicionarPaciente(@RequestBody novoPaciente: PacienteCriacaoDto): ResponseEntity<Paciente> {
+    @PostMapping("/ComResponsavel")
+    fun adicionarPaciente(@RequestBody novoPaciente: PacienteComResponsavel): ResponseEntity<Paciente> {
         val pacienteCriado = pacienteService.salvar(novoPaciente)
+        return ResponseEntity.status(201).body(pacienteCriado)
+    }
+
+    @CrossOrigin
+    @PostMapping("/SemResponsavel")
+    fun adicionarPacienteSemResponsavel(@RequestBody novoPaciente: PacienteSemResponsavel): ResponseEntity<Paciente> {
+        val pacienteCriado = pacienteService.salvarSemResponsavel(novoPaciente)
         return ResponseEntity.status(201).body(pacienteCriado)
     }
 
@@ -39,7 +48,7 @@ class PacienteController(
 
     @CrossOrigin
     @GetMapping
-    fun listarPaciente(): ResponseEntity<List<Paciente>> {
+    fun listarPaciente(): ResponseEntity<List<PacienteMedicoDto>> {
         val pacientes = pacienteService.getLista()
         return ResponseEntity.status(200).body(pacientes)
     }
