@@ -10,8 +10,8 @@ def mysql_connection(host, user, passwd, database=None):
 
 # Função para enviar e-mails
 def send_email(subject, body, recipient_email):
-    sender_email = "pedro.pinto@sptech.school"
-    password = "#Gf49147963840"
+    sender_email = "pedro.pinto@sptech.school"  # Substitua pelo seu e-mail
+    password = "#Gf49147963840"  # Substitua pela sua senha
     smtp_server = "smtp-mail.outlook.com"
     port = 587
 
@@ -49,7 +49,6 @@ def create_email_body(nome, nome_paciente, data_consulta, horario_consulta, dura
                     <table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff;">
                         <tr>
                             <td align="center" style="padding: 40px 0;">
-                                <img src="https://img.freepik.com/fotos-gratis/paisagem-de-nevoeiro-matinal-e-montanhas-com-baloes-de-ar-quente-ao-nascer-do-sol_335224-794.jpg" alt="Paisagem" width="400" style="display: block; margin: 0 auto;">
                                 <p style="margin-top: 20px; text-align: center;">Olá, {nome}!</p>
                                 <p style="text-align: center;">{message} <b>{nome_paciente}</b> foi marcada no dia {data_consulta} às {horario_consulta} com a duração de {duracao_consulta}.</p>
                                 <p style="text-align: center;">Agradecemos por ter recebido este e-mail!</p>
@@ -64,34 +63,30 @@ def create_email_body(nome, nome_paciente, data_consulta, horario_consulta, dura
     </html>
     """
 
-# Função para checar e enviar e-mails
-def check_and_send_emails(connection, interval_query, email_query, subject, email_message, sent_ids):
+# Função para enviar e-mails para pacientes
+def check_and_send_patient_emails(connection, query, subject, message, sent_ids):
     try:
         cursor = connection.cursor()
-        cursor.execute(interval_query)
+        cursor.execute(query)
         result = cursor.fetchall()
 
         if result:
-            for id_consulta, data_consulta, duracao_consulta, horario_consulta, nome_paciente in result:
+            for id_consulta, data_consulta, duracao_consulta, horario_consulta, nome_paciente, email, nome in result:
                 if id_consulta not in sent_ids:
-                    cursor.execute(email_query, (id_consulta,))
-                    email_result = cursor.fetchall()
-
-                    for email, nome in email_result:
-                        body = create_email_body(nome, nome_paciente, data_consulta, horario_consulta, duracao_consulta, email_message)
-                        send_email(subject, body, email)
-                   
+                    body = create_email_body(nome, nome_paciente, data_consulta, horario_consulta, duracao_consulta, message)
+                    send_email(subject, body, email)
                     sent_ids.add(id_consulta)
 
     except Error as e:
-        print(f"Erro ao executar consulta: {e}")
+        print(f"Erro ao executar consulta para pacientes: {e}")
     finally:
         cursor.close()
 
-def check_and_send_medico_emails(connection, email_query, email_message_template, sent_ids):
+# Função para enviar e-mails para médicos
+def check_and_send_medico_emails(connection, query, email_message_template, sent_ids):
     try:
         cursor = connection.cursor()
-        cursor.execute(email_query)
+        cursor.execute(query)
         email_result = cursor.fetchall()
 
         for email, nome, consultas_realizadas, consultas_totais in email_result:
@@ -109,13 +104,13 @@ def check_and_send_medico_emails(connection, email_query, email_message_template
 
             subject = 'Relatório de agendamentos'
             body = create_email_body(nome, '', '', '', '', message)
-           
+
             if email not in sent_ids:
                 send_email(subject, body, email)
                 sent_ids.add(email)
 
     except Error as e:
-        print(f"Erro ao executar consulta: {e}")
+        print(f"Erro ao executar consulta para médicos: {e}")
     finally:
         cursor.close()
 
@@ -125,22 +120,19 @@ def main():
         sent_consulta_ids = set()
         sent_medico_ids = set()
 
-        queries = [
+        patient_queries = [
             {
                 'query': '''
                     SELECT c.id,
                            DATE_FORMAT(c.datahora_consulta, '%d/%m/%Y') AS DataConsulta,
                            TIME_FORMAT(c.duracao_consulta, '%H:%i') AS DuracaoConsulta,
                            TIME_FORMAT(c.datahora_consulta, '%H:%i') AS HoraConsulta,
-                           p.nome AS NomePaciente
+                           p.nome AS NomePaciente,
+                           p.email,
+                           p.nome
                     FROM consulta AS c
                     JOIN paciente AS p ON c.paciente = p.id
-                    JOIN (
-                        SELECT paciente, MIN(datahora_consulta) AS PrimeiraConsulta
-                        FROM consulta
-                        GROUP BY paciente
-                        HAVING MIN(datahora_consulta) <= DATE_SUB(CURRENT_DATE, INTERVAL 11 MONTH)
-                    ) pc ON c.paciente = pc.paciente AND c.datahora_consulta = pc.PrimeiraConsulta;
+                    WHERE c.datahora_consulta <= DATE_SUB(CURRENT_DATE, INTERVAL 11 MONTH);
                 ''',
                 'subject': 'E-mail de alerta de 11 meses desde a última consulta',
                 'message': 'Este é um e-mail para alertar que faz 11 meses desde a última consulta com'
@@ -151,7 +143,9 @@ def main():
                            DATE_FORMAT(c.datahora_consulta, '%d/%m/%Y') AS DataConsulta,
                            TIME_FORMAT(c.duracao_consulta, '%H:%i') AS DuracaoConsulta,
                            TIME_FORMAT(c.datahora_consulta, '%H:%i') AS HoraConsulta,
-                           p.nome AS NomePaciente
+                           p.nome AS NomePaciente,
+                           p.email,
+                           p.nome
                     FROM consulta AS c
                     JOIN paciente AS p ON c.paciente = p.id
                     WHERE DATE(c.datahora_consulta) = DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY);
@@ -159,87 +153,41 @@ def main():
                 'subject': 'E-mail de alerta de 1 semana antes do vencimento',
                 'message': 'Este é um e-mail para alertar que falta uma semana para o vencimento da consulta com'
             },
-            {
-                'query': '''
-                    SELECT c.id,
-                           DATE_FORMAT(c.datahora_consulta, '%d/%m/%Y') AS DataConsulta,
-                           TIME_FORMAT(c.duracao_consulta, '%H:%i') AS DuracaoConsulta,
-                           TIME_FORMAT(c.datahora_consulta, '%H:%i') AS HoraConsulta,
-                           p.nome AS NomePaciente
-                    FROM consulta AS c
-                    JOIN paciente AS p ON c.paciente = p.id
-                    WHERE DATE(c.datahora_consulta) = DATE_SUB(CURRENT_DATE, INTERVAL 1 DAY);
-                ''',
-                'subject': 'E-mail de alerta de 24 horas antes do vencimento',
-                'message': 'Este é um e-mail para alertar que falta 24 horas para o vencimento da consulta com'
-            },
-            {
-                'query': '''
-                    SELECT c.id,
-                           DATE_FORMAT(c.datahora_consulta, '%d/%m/%Y') AS DataConsulta,
-                           TIME_FORMAT(c.duracao_consulta, '%H:%i') AS DuracaoConsulta,
-                           TIME_FORMAT(c.datahora_consulta, '%H:%i') AS HoraConsulta,
-                           p.nome AS NomePaciente
-                    FROM consulta AS c
-                    JOIN paciente AS p ON c.paciente = p.id
-                    WHERE DATE(c.datahora_consulta) = CURRENT_DATE;
-                ''',
-                'subject': 'E-mail de alerta para consultas do dia',
-                'message': 'Este é um e-mail para alertar que hoje é o dia da consulta com'
-            },
-            {
-                'query': '''
-                    SELECT c.id,
-                           DATE_FORMAT(c.datahora_consulta, '%d/%m/%Y') AS DataConsulta,
-                           TIME_FORMAT(c.duracao_consulta, '%H:%i') AS DuracaoConsulta,
-                           TIME_FORMAT(c.datahora_consulta, '%H:%i') AS HoraConsulta,
-                           p.nome AS NomePaciente
-                    FROM consulta AS c
-                    JOIN paciente AS p ON c.paciente = p.id
-                    WHERE DATE(c.datahora_consulta) = DATE_SUB(CURRENT_DATE, INTERVAL -7 DAY);
-                ''',
-                'subject': 'E-mail de alerta de uma semana após a consulta',
-                'message': 'Este é um e-mail para alertar que já passou uma semana após a consulta com'
-            },
+            # Adicione as outras regras para pacientes aqui
         ]
 
-        email_query = '''
-            SELECT m.email, m.nome
-            FROM medico AS m
-            JOIN consulta AS c ON m.id = c.medico
-            WHERE c.id = %s;
-        '''
-
         medico_query = '''
-            SELECT m.email, m.nome,
-                COUNT(CASE WHEN c.id IS NOT NULL THEN 1 ELSE NULL END) AS consultas_realizadas,
-                COUNT(*) AS consultas_totais
+            SELECT m.email, m.nome, 
+                   COUNT(c.id) AS consultas_realizadas, 
+                   (SELECT COUNT(*) FROM consulta WHERE medico = m.id) AS consultas_totais
             FROM medico AS m
-            LEFT JOIN consulta AS c ON m.id = c.medico AND MONTH(c.datahora_consulta) = MONTH(CURRENT_DATE)
-            LEFT JOIN consulta AS a ON m.id = a.medico AND MONTH(a.datahora_consulta) = MONTH(CURRENT_DATE)
+            LEFT JOIN consulta AS c ON m.id = c.medico AND c.datahora_consulta BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH) AND CURRENT_DATE
             GROUP BY m.id;
         '''
 
         email_message_template = {
-            '100%': 'Parabéns, você alcançou 100% das suas consultas!',
-            '90-99%': 'Você alcançou 90-99% das suas consultas.',
-            '60-89%': 'Você alcançou 60-89% das suas consultas.',
-            '40-59%': 'Você alcançou 40-59% das suas consultas.',
-            '<40%': 'Você alcançou menos de 40% das suas consultas.'
+            '100%': 'Parabéns! Você realizou 100% das consultas agendadas neste mês.',
+            '90-99%': 'Ótimo trabalho! Você realizou mais de 90% das consultas agendadas neste mês.',
+            '60-89%': 'Bom trabalho! Você realizou entre 60% e 89% das consultas agendadas neste mês.',
+            '40-59%': 'Atenção! Você realizou entre 40% e 59% das consultas agendadas neste mês.',
+            '<40%': 'Alerta! Você realizou menos de 40% das consultas agendadas neste mês.'
         }
 
         while True:
-            for query in queries:
-                check_and_send_emails(connection, query['query'], email_query, query['subject'], query['message'], sent_consulta_ids)
-           
-            check_and_send_medico_emails(connection, medico_query, email_message_template, sent_medico_ids)
-            time.sleep(60)  # Espera 1 minuto antes de repetir o while
+            # Verifica e envia e-mails para pacientes
+            for query_data in patient_queries:
+                check_and_send_patient_emails(connection, query_data['query'], query_data['subject'], query_data['message'], sent_consulta_ids)
 
-    except Error as e:
-        print(f"Erro de conexão: {e}")
+            # Verifica e envia e-mails para médicos
+            check_and_send_medico_emails(connection, medico_query, email_message_template, sent_medico_ids)
+
+            time.sleep(60)  # Intervalo de 1 minuto entre as verificações
+
+    except Exception as e:
+        print(f"Erro geral: {e}")
     finally:
-        if connection.is_connected():
+        if connection and connection.is_connected():
             connection.close()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
