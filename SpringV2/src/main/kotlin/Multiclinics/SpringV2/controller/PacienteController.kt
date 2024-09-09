@@ -48,8 +48,15 @@ class PacienteController(
 
     @CrossOrigin
     @GetMapping
-    fun listarPaciente(): ResponseEntity<List<PacienteMedicoDto>> {
+    fun listarPaciente(): ResponseEntity<List<Paciente>> {
         val pacientes = pacienteService.getLista()
+        return ResponseEntity.status(200).body(pacientes)
+    }
+
+    @CrossOrigin
+    @GetMapping("/medicoResponsavel")
+    fun listarPacienteMedicoAndEspecialista(): ResponseEntity<List<PacienteMedicoDto>> {
+        val pacientes = pacienteService.getListaMedicoAndEspecialista()
         return ResponseEntity.status(200).body(pacientes)
     }
 

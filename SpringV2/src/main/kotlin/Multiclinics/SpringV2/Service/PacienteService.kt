@@ -111,13 +111,18 @@ class PacienteService(
 
     }
 
-    fun getLista(): List<PacienteMedicoDto> {
+    fun getLista(): List<Paciente> {
+        val lista = pacienteRepository.findAll()
+        validarLista(lista)
+        return lista
+    }
+
+    fun getListaMedicoAndEspecialista(): List<PacienteMedicoDto> {
         val lista = pacienteRepository.getPacienteByMedicoByEspecialidade()
         validarLista(lista)
         return lista
     }
 
-    // API INDIVIDUAL PEDRO
 
     fun getConversoesUltimosSeisMeses(): List<Map<String, Any>> {
         val result = pacienteRepository.countPossiveisClientesConvertidos()

@@ -14,5 +14,5 @@ data class Endereco(
     var logradouro: String?,
     var complemento: String?,
     var bairro: String?,
-    var numero: Int
+    var numero: Int?
     )

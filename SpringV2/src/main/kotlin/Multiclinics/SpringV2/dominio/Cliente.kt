@@ -43,4 +43,6 @@ abstract class Cliente (
     @Past
     open var dataNascimento: LocalDate? = null,
 
-    )
+    ){
+    abstract fun cadastrar()
+}
