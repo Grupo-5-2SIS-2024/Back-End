@@ -25,18 +25,22 @@ data class PossivelCliente(
 
     @field:NotBlank(message = "O CPF não pode estar em branco.")
     @field:CPF(message = "O CPF fornecido não é válido.")
-    @Column(length = 11, columnDefinition = "CHAR(11)")
+    @Column(length = 14, columnDefinition = "CHAR(14)")
     var cpf: String?,
 
 
     @field:NotBlank(message = "O telefone não pode estar em branco.")
-    @Column(length = 11, columnDefinition = "CHAR(11)")
+    @Column(length = 15, columnDefinition = "CHAR(15)")
     var telefone: String?,
 
 
     @NotNull(message = "A data de nascimento não pode estar em branco.")
     @Column(name = "dt_nasc")
     var dataNascimento: LocalDate? = null,
+
+    @field:NotBlank(message = "A fase do lead não pode estar em branco")
+    @Column(length = 45, columnDefinition = "CHAR(45)")
+    var fase: String?,
 
     @field:ManyToOne
     @JoinColumn(name = "tipo_de_contato")
