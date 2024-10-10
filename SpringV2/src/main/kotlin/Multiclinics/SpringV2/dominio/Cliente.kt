@@ -44,5 +44,4 @@ abstract class Cliente (
     open var dataNascimento: LocalDate? = null,
 
     ){
-    abstract fun cadastrar()
 }

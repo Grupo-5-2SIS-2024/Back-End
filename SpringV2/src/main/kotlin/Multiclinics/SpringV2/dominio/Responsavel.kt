@@ -9,11 +9,4 @@ import java.util.*
 
 @Entity
 class Responsavel:Cliente(){
-    fun getIdade(): Int {
-        return Period.between(this.dataNascimento, LocalDate.now()).years
-    }
-    override fun cadastrar() {
-        println("Cadastrando responsável.")
-        // Lógica para cadastrar o responsável no banco de dados
-    }
 }

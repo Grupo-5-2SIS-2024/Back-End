@@ -82,7 +82,7 @@ CREATE TABLE medico (
     cpf CHAR(11),
     ativo BOOLEAN,
     permissionamento INT,  
-    foto longblob ,
+    foto longtext ,
     FOREIGN KEY (especificacao_medica) REFERENCES especificacao_medica(id),
     FOREIGN KEY (permissionamento) REFERENCES permissionamento(id)
 );
@@ -152,12 +152,12 @@ INSERT INTO endereco (cep, logradouro, complemento, bairro) VALUES ('12345678', 
 INSERT INTO endereco (cep, logradouro, complemento, bairro) VALUES ('87654321', 'Rua B', 'Apto 2', 'Bairro Z');
 
 -- Inserindo dados em responsavel
-INSERT INTO responsavel (nome, sobrenome, email, telefone, cpf, genero, data_nascimento) VALUES ('Paola', 'Gomes', 'paola.gomes@example.com', '11987654321', '12345678902', 'Masculino', '1970-02-02');
-INSERT INTO responsavel (nome, sobrenome, email, telefone, cpf, genero, data_nascimento) VALUES ('Ana', 'Costa', 'ana.costa@example.com', '11912345678', '10987654322', 'Feminino', '1980-03-03');
+INSERT INTO responsavel (nome, sobrenome, email, telefone, cpf, genero, data_nascimento) VALUES ('Matheus', 'Silva', 'paola.gomes@gmail.com', '11987654321', '12345678902', 'Masculino', '1970-02-02');
+INSERT INTO responsavel (nome, sobrenome, email, telefone, cpf, genero, data_nascimento) VALUES ('Ana', 'Costa', 'ana.costa@gmail.com', '11912345678', '10987654322', 'Feminino', '1980-03-03');
 
 -- Inserindo dados em paciente
-INSERT INTO paciente (nome, sobrenome, email, cpf, genero, telefone, responsavel, data_nascimento, endereco_id, dt_entrada, dt_saida, cns) VALUES ('Jonathan', 'Alborghetti', 'jonny@example.com', '12345678903', 'Masculino', '11987654322', 1, '2000-04-04', 1, '2024-01-01', '2024-06-01', '123456789123456');
-INSERT INTO paciente (nome, sobrenome, email, cpf, genero, telefone, responsavel, data_nascimento, endereco_id, dt_entrada, dt_saida, cns) VALUES ('Giovanna', 'Freitas', 'juliana.mendes@example.com', '10987654323', 'Feminino', '11912345679', 2, '1995-05-05', 2, '2024-02-01', '2024-07-01', '654321987654321');
+INSERT INTO paciente (nome, sobrenome, email, cpf, genero, telefone, responsavel, data_nascimento, endereco_id, dt_entrada, dt_saida, cns) VALUES ('Marcos', 'Feu', 'marcos@gmail.com', '12345678903', 'Masculino', '11987654322', 1, '2000-04-04', 1, '2024-01-01', '2024-06-01', '123456789123456');
+INSERT INTO paciente (nome, sobrenome, email, cpf, genero, telefone, responsavel, data_nascimento, endereco_id, dt_entrada, dt_saida, cns) VALUES ('Livia', 'Lanes', 'livia@gmail.com', '10987654323', 'Feminino', '11912345679', 2, '1995-05-05', 2, '2024-02-01', '2024-07-01', '654321987654321');
 
 -- Inserindo dados em especificacao_medica
 INSERT INTO especificacao_medica (area) VALUES ('Fonoudiologa');
@@ -165,11 +165,13 @@ INSERT INTO especificacao_medica (area) VALUES ('Terapeuta');
 INSERT INTO especificacao_medica (area) VALUES ('Psicóloga');
 
 -- Inserindo dados em medico
-INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES ('Pedro', 'Pinto', 'pedro.pinto@sptech.school', '11987654323', 'Senha123', '12345', 'Clínico Geral', 1, '1975-06-06', '12345678904', true, 1, '1234567890hgfdswwawsedrftgyh');
-INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES ('Guilherme', 'Gonçalves', 'guigon@gmail.com', '11987654323', 'Senha123', '12345', 'Clínico Geral', 1, '1975-06-06', '12345678904', false,  2, '1234567890hgfdswwawsedrftgyh');
-INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES ('João', 'gomes', 'joao.gomes@example.com', '11912345680', 'Senha456', '67890', 'Especialista', 2, '1980-07-07', '10987654324', true, 3, '1234567890hgfdswwawsedrftgyh');
-
-
+INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES ('Jonathan', 'Almeida', 'jonny@gmail.com', '11987654323', 'Senha123', '12345', 'Clínico Geral', 1, '1975-06-06', '12345678904', true, 1, null);
+INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES ('Guilherme', 'Gonçalves', 'guigon@gmail.com', '11987654323', 'Senha123', '12345', 'Clínico Geral', 1, '1975-06-06', '12345678904', false,  2, null);
+INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES ('Paola', 'Gomes', 'paola@gmail.com', '11987654323', 'Senha123', '12345', 'Clínico Geral', 2, '1975-06-06', '12345678904', false,  2, null);
+INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES ('Giovanna', 'Freitas', 'marcos@gmail.com', '11987654323', 'Senha123', '12345', 'Clínico Geral', 1, '1975-06-06', '12345678904', false,  3, null);
+INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES ('Natalia', 'Russo', 'livia@gmail.com', '11987654323', 'Senha123', '12345', 'Clínico Geral', 1, '1975-06-06', '12345678904', false,  3, null);
+INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES ('Gabriel', 'Sanchez', 'Biel@gmail.com', '11987654323', 'Senha123', '12345', 'Clínico Geral', 2, '1975-06-06', '12345678904', false,  3, null);
+INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES ('Pedro', 'Pinto', 'pedpinto@gmail', '11912345680', 'Senha123', '67890', 'Especialista', 2, '1980-07-07', '10987654324', true, 3, null);
 
 -- Inserindo dados em status_consulta
 INSERT INTO status_consulta (nome_status) VALUES ('Agendada');

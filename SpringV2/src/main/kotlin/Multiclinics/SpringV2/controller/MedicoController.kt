@@ -84,17 +84,17 @@ class MedicoController(
         return ResponseEntity.status(200).body(medico)
     }
 
-    @CrossOrigin
-    @PatchMapping(value = ["/foto/{id}"],
-        //"image/jpeg", "image/png", "image/gif" ou "image/*"
-        consumes = ["image/*"])
-    fun patchFoto(@PathVariable id: Int,
-                  @RequestBody novafoto: ByteArray):ResponseEntity<Void> {
-        val medico = medicoRepository.findById(id).get()
-        medico.foto = novafoto
-        medicoRepository.save(medico)
-        return ResponseEntity.status(204).build()
-    }
+//    @CrossOrigin
+//    @PatchMapping(value = ["/foto/{id}"],
+//        //"image/jpeg", "image/png", "image/gif" ou "image/*"
+//        consumes = ["image/*"])
+//    fun patchFoto(@PathVariable id: Int,
+//                  @RequestBody novafoto: ByteArray):ResponseEntity<Void> {
+//        val medico = medicoRepository.findById(id).get()
+//        medico.foto = novafoto
+//        medicoRepository.save(medico)
+//        return ResponseEntity.status(204).build()
+//    }
 
     @CrossOrigin
     @GetMapping(value = ["/foto/{id}"],

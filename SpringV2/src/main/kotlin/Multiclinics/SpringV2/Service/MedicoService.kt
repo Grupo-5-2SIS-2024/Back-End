@@ -43,6 +43,9 @@ class MedicoService(
             medicoEscolhido.email = novoMedico.email
             medicoEscolhido.senha = novoMedico.senha
             medicoEscolhido.cpf = novoMedico.cpf
+            medicoEscolhido.especificacaoMedica = novoMedico.especificacaoMedica
+            medicoEscolhido.permissao = novoMedico.permissao
+            medicoEscolhido.foto = novoMedico.foto
 
             val medicoAtualizado = medicoRepository.save(medicoEscolhido)
             return ResponseEntity.status(200).body(medicoAtualizado)
