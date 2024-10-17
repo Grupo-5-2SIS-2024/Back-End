@@ -84,28 +84,18 @@ class MedicoController(
         return ResponseEntity.status(200).body(medico)
     }
 
-//    @CrossOrigin
-//    @PatchMapping(value = ["/foto/{id}"],
-//        //"image/jpeg", "image/png", "image/gif" ou "image/*"
-//        consumes = ["image/*"])
-//    fun patchFoto(@PathVariable id: Int,
-//                  @RequestBody novafoto: ByteArray):ResponseEntity<Void> {
-//        val medico = medicoRepository.findById(id).get()
-//        medico.foto = novafoto
-//        medicoRepository.save(medico)
-//        return ResponseEntity.status(204).build()
-//    }
-
     @CrossOrigin
-    @GetMapping(value = ["/foto/{id}"],
-        //"image/*"  não funicona para download
-        produces = ["image/jpeg"]
-    )
-    fun getFoto(@PathVariable id: Int):ResponseEntity<ByteArray> {
-        val foto = medicoRepository.recuperarFoto(id)
-        return ResponseEntity.status(200).body(foto)
+    @GetMapping("/totalAdministradores")
+    fun totalAdministradores(): ResponseEntity<Long> {
+        val total = medicoService.totalAdministradores()
+        return ResponseEntity.status(200).body(total)
     }
 
-
+    @CrossOrigin
+    @GetMapping("/totalAdministradoresAtivos")
+    fun totalAdministradoresAtivos(): ResponseEntity<Long> {
+        val total = medicoService.totalAdministradoresAtivos()
+        return ResponseEntity.status(200).body(total)
+    }
 
 }

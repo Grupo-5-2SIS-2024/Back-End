@@ -117,13 +117,6 @@ class PacienteService(
         return lista
     }
 
-    fun getListaMedicoAndEspecialista(): List<PacienteMedicoDto> {
-        val lista = pacienteRepository.getPacienteByMedicoByEspecialidade()
-        validarLista(lista)
-        return lista
-    }
-
-
     fun getConversoesUltimosSeisMeses(): List<Map<String, Any>> {
         val result = pacienteRepository.countPossiveisClientesConvertidos()
         return result.map {
@@ -131,6 +124,19 @@ class PacienteService(
         }
     }
 
+    fun calcularPorcentagemPacientesABA(): Double {
+        return pacienteRepository.calcularPorcentagemPacientesABA()
+    }
 
+    fun contarPacientesAtivos(): Long {
+        return pacienteRepository.contarPacientesAtivos()
+    }
 
+    fun contarPacientesUltimoTrimestre(): Long {
+        return pacienteRepository.contarPacientesUltimoTrimestre()
+    }
+
+    fun contarAgendamentosVencidos(): Long {
+        return pacienteRepository.contarAgendamentosVencidos()
+    }
 }

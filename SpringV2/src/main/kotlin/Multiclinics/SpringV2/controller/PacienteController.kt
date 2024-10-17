@@ -54,21 +54,38 @@ class PacienteController(
     }
 
     @CrossOrigin
-    @GetMapping("/medicoResponsavel")
-    fun listarPacienteMedicoAndEspecialista(): ResponseEntity<List<PacienteMedicoDto>> {
-        val pacientes = pacienteService.getListaMedicoAndEspecialista()
-        return ResponseEntity.status(200).body(pacientes)
-    }
-
-
-    // API INDIVIDUAL PEDRO
-
-    @CrossOrigin
     @GetMapping("/conversoes-ultimos-seis-meses")
     fun getConversoesUltimosSeisMeses(): ResponseEntity<List<Map<String, Any>>> {
         val conversoes = pacienteService.getConversoesUltimosSeisMeses()
         return ResponseEntity.ok(conversoes)
     }
 
+    @CrossOrigin
+    @GetMapping("/porcentagem-aba")
+    fun calcularPorcentagemPacientesABA(): ResponseEntity<Double> {
+        val porcentagemABA = pacienteService.calcularPorcentagemPacientesABA()
+        return ResponseEntity.ok(porcentagemABA)
+    }
+
+    @CrossOrigin
+    @GetMapping("/ativos")
+    fun contarPacientesAtivos(): ResponseEntity<Long> {
+        val pacientesAtivos = pacienteService.contarPacientesAtivos()
+        return ResponseEntity.ok(pacientesAtivos)
+    }
+
+    @CrossOrigin
+    @GetMapping("/ultimo-trimestre")
+    fun contarPacientesUltimoTrimestre(): ResponseEntity<Long> {
+        val pacientesUltimoTrimestre = pacienteService.contarPacientesUltimoTrimestre()
+        return ResponseEntity.ok(pacientesUltimoTrimestre)
+    }
+
+    @CrossOrigin
+    @GetMapping("/agendamentos-vencidos")
+    fun contarAgendamentosVencidos(): ResponseEntity<Long> {
+        val agendamentosVencidos = pacienteService.contarAgendamentosVencidos()
+        return ResponseEntity.ok(agendamentosVencidos)
+    }
 
 }

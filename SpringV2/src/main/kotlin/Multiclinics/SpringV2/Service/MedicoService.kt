@@ -77,5 +77,12 @@ class MedicoService(
         }
     }
 
+    fun totalAdministradores(): Long {
+        return medicoRepository.totalAdministradores()
+    }
+
+    fun totalAdministradoresAtivos(): Long {
+        return medicoRepository.totalAdministradoresAtivos()
+    }
 
 }
