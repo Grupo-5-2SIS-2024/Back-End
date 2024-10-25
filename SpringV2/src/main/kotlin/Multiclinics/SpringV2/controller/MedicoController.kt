@@ -3,6 +3,7 @@ package Multiclinics.SpringV2.controller
 import Multiclinics.SpringV2.Service.MedicoService
 import Multiclinics.SpringV2.dominio.Consulta
 import Multiclinics.SpringV2.dominio.Medico
+import Multiclinics.SpringV2.dto.GraficoGeralAdm
 import Multiclinics.SpringV2.repository.ConsultaRepository
 import Multiclinics.SpringV2.repository.MedicoRepository
 import jakarta.validation.Valid
@@ -96,6 +97,13 @@ class MedicoController(
     fun totalAdministradoresAtivos(): ResponseEntity<Long> {
         val total = medicoService.totalAdministradoresAtivos()
         return ResponseEntity.status(200).body(total)
+    }
+
+    @CrossOrigin
+    @GetMapping("/graficoGeral")
+    fun obterDadosGraficoGeral(): ResponseEntity<List<GraficoGeralAdm>> {
+        val dadosGrafico = medicoService.obterDadosGraficoGeral()
+        return ResponseEntity.ok(dadosGrafico)
     }
 
 }

@@ -61,5 +61,9 @@ class Medico(
     var permissao: Permissionamento? = null,
 
     @field:Column(length = 10 * 1024 * 1024)
-    var foto:String? = null
+    var foto:String? = null,
+
+    @OneToMany(mappedBy = "medico", fetch = FetchType.LAZY)
+    @JsonIgnore
+    val consultas: List<Consulta> = emptyList()
 )

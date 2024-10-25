@@ -16,9 +16,9 @@ class EspecificacaoMedicaController(
 ) {
     @CrossOrigin
     @PostMapping
-    fun adicionarEspecificacao(@RequestBody novaEspecificacao: EspecificacaoMedica): ResponseEntity<EspecificacaoMedica> {
+    fun adicionarEspecificacao(@RequestBody novaEspecificacao: EspecificacaoMedica): ResponseEntity<String> {
         especificacaoMedicaService.salvar(novaEspecificacao)
-        return ResponseEntity.status(201).body(novaEspecificacao)
+        return ResponseEntity.status(201).body("ok")
     }
 
     @CrossOrigin

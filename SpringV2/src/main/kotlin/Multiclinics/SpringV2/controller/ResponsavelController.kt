@@ -43,4 +43,14 @@ class ResponsavelController(
         return ResponseEntity.status(200).body(responsaveis)
     }
 
+    @CrossOrigin
+    @GetMapping("/cpf")
+    fun buscarResponsavelPorCpf(@RequestParam cpf: String): ResponseEntity<Responsavel> {
+        val responsavel = responsavelService.buscarPorCpf(cpf)
+        return if (responsavel != null) {
+            ResponseEntity.status(200).body(responsavel)
+        } else {
+            ResponseEntity.status(404).build()
+        }
+    }
 }

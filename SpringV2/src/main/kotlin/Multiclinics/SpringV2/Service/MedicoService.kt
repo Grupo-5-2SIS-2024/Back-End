@@ -1,6 +1,7 @@
 package Multiclinics.SpringV2.Service
 
 import Multiclinics.SpringV2.dominio.Medico
+import Multiclinics.SpringV2.dto.GraficoGeralAdm
 import Multiclinics.SpringV2.repository.MedicoRepository
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatusCode
@@ -83,6 +84,10 @@ class MedicoService(
 
     fun totalAdministradoresAtivos(): Long {
         return medicoRepository.totalAdministradoresAtivos()
+    }
+
+    fun obterDadosGraficoGeral(): List<GraficoGeralAdm> {
+        return medicoRepository.obterDadosGraficoGeral()
     }
 
 }
