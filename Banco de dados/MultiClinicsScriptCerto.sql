@@ -143,10 +143,6 @@ INSERT INTO tipo_de_contato (fase_contato) VALUES ('Inicial');
 INSERT INTO tipo_de_contato (fase_contato) VALUES ('Seguimento');
 INSERT INTO tipo_de_contato (fase_contato) VALUES ('Fechamento');
 
--- Inserindo dados em possivel_cliente
-INSERT INTO possivel_cliente (nome, sobrenome, email, cpf, telefone, dt_nasc, tipo_de_contato) VALUES ('João', 'Silva', 'joao.silva@example.com', '12345678901', '11987654321', '1990-01-01', 1);
-INSERT INTO possivel_cliente (nome, sobrenome, email, cpf, telefone, dt_nasc, tipo_de_contato) VALUES ('Maria', 'Oliveira', 'maria.oliveira@example.com', '10987654321', '11912345678', '1985-05-15', 2);
-
 -- Inserindo dados em endereco
 INSERT INTO endereco (cep, logradouro, complemento, bairro) VALUES ('12345678', 'Rua A', 'Apto 1', 'Bairro X');
 INSERT INTO endereco (cep, logradouro, complemento, bairro) VALUES ('87654321', 'Rua B', 'Apto 2', 'Bairro Z');
@@ -222,7 +218,7 @@ INSERT INTO notas (titulo, descricao, medico, especificacao_medica) VALUES ('Not
 -- -- SELECTS de cada tabela
 
 -- SELECT * FROM tipo_de_contato;
--- SELECT * FROM possivel_cliente;
+SELECT * FROM possivel_cliente;
  SELECT * FROM endereco;
 SELECT * FROM responsavel;
  SELECT * FROM paciente;
@@ -249,3 +245,12 @@ SELECT * FROM responsavel;
 -- SELECT COUNT(*)
 -- FROM possivel_cliente pc
 -- JOIN paciente p ON pc.cpf = p.cpf;
+
+SELECT 
+    COALESCE((COUNT(DISTINCT p.id) / NULLIF(COUNT(DISTINCT pc.id), 0)) * 100, 0) AS perc_leads_convertidos
+FROM 
+    possivel_cliente pc
+LEFT JOIN 
+    paciente p ON pc.cpf = p.cpf
+WHERE 
+    pc.dt_nasc >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH);

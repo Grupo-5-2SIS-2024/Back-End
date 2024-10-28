@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 import org.hibernate.validator.constraints.br.CPF
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 
 @Entity
@@ -41,6 +42,10 @@ data class PossivelCliente(
     @field:NotBlank(message = "A fase do lead não pode estar em branco")
     @Column(length = 45, columnDefinition = "CHAR(45)")
     var fase: String?,
+
+    @NotNull(message = "A data de nascimento não pode estar em branco.")
+    @Column(name = "data_insercao")
+    var dataEntrada: LocalDateTime? = null,
 
     @field:ManyToOne
     @JoinColumn(name = "tipo_de_contato")

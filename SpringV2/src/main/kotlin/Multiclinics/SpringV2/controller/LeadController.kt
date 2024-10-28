@@ -63,4 +63,11 @@ class LeadController(
         val leads = leadRepository.findAll()
         return ResponseEntity.status(200).body(leads)
     }
+
+    @CrossOrigin
+    @GetMapping("/percentual-convertidos")
+    fun percentualLeadsConvertidos(): ResponseEntity<Double> {
+        val percentual = leadRepository.percentualLeadsConvertidos()
+        return ResponseEntity.ok(percentual)
+    }
 }

@@ -3,6 +3,7 @@ import mysql.connector
 import re
 from datetime import datetime, time as dt_time
 import time  # Import necessário para o sleep
+import pymysql
 
 # Token de autenticação da API do Pipefy
 PIPEFY_API_TOKEN = 'eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJQaXBlZnkiLCJpYXQiOjE3MjcxMjA2MTYsImp0aSI6ImQwNjU2YzM1LWVlZmUtNDU0My1hMTEzLTI5YjRjMTBjZjJlOCIsInN1YiI6MzA1MTI4Mjk4LCJ1c2VyIjp7ImlkIjozMDUxMjgyOTgsImVtYWlsIjoibWFyY29zLmZldUBzcHRlY2guc2Nob29sIn19.MQc2LOxS9woi6UPCTjql5bkXff4Lw-iT3T4Kahb1LnViV3JoAZQFRdaXprWNe7ok4ttkrJUQZvlCuXSe26mafA'
@@ -81,10 +82,10 @@ def validate_data(dt_nasc):
 
 def lead_exists(cpf):
     """Verifica se um lead com o CPF já existe no banco de dados."""
-    conn = mysql.connector.connect(
+    conn = pymysql.connect(
         host="localhost",
         user="root",
-        password="sptech",  # Altere para sua senha
+        password="1234",
         database="multiclinics"
     )
     
@@ -114,10 +115,10 @@ def insert_lead_into_mysql(nome, sobrenome, email, cpf, telefone, dt_nasc, tipo_
         return
 
     # Conecta ao banco de dados
-    conn = mysql.connector.connect(
+    conn = pymysql.connect(
         host="localhost",
         user="root",
-        password="sptech",  # Altere para sua senha
+        password="1234",
         database="multiclinics"
     )
 
@@ -164,4 +165,4 @@ def sync_pipefy_leads_to_mysql(pipe_id):
 while True:
     sync_pipefy_leads_to_mysql(304633201)  # ID do pipeline
     print("Sincronização completa. Aguardando 5 horas para a próxima execução...")
-    time.sleep(5 * 60 * 60)  # Pausa por 5 horas
+    time.sleep(0 * 00 * 10)  # Pausa por 5 horas
