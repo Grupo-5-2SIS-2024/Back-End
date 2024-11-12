@@ -54,6 +54,12 @@ class PacienteController(
     }
 
     @CrossOrigin
+    @GetMapping("/{id}")
+    fun buscarPacientePorId(@PathVariable id: Int): ResponseEntity<Paciente> {
+        return pacienteService.buscarPacientePorId(id)
+    }
+
+    @CrossOrigin
     @GetMapping("/conversoes-ultimos-seis-meses")
     fun getConversoesUltimosSeisMeses(): ResponseEntity<List<Map<String, Any>>> {
         val conversoes = pacienteService.getConversoesUltimosSeisMeses()

@@ -35,5 +35,8 @@ class PacienteSemResponsavel(
     @Column(length = 15)
     var cns: String?,
 
+    @field:Column(length = 10 * 1024 * 1024)
+    var foto:String? = null,
+
     open var endereco: Endereco? = null
 )

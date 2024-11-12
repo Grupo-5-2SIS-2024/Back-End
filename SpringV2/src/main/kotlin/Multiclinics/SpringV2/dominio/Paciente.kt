@@ -20,6 +20,9 @@ data class Paciente(
    @Column(length = 15)
    var cns: String?,
 
+   @field:Column(length = 10 * 1024 * 1024)
+   var foto:String? = null,
+
    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST, CascadeType.MERGE])
    @JoinColumn(name = "responsavel", nullable = true)
    var responsavel: Responsavel? = null,

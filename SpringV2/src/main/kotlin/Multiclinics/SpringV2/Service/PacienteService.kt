@@ -91,6 +91,7 @@ class PacienteService(
                 genero = novoPaciente.genero
                 telefone = novoPaciente.telefone
                 dataNascimento = novoPaciente.dataNascimento
+                foto = novoPaciente.foto
 
             }
 
@@ -115,6 +116,15 @@ class PacienteService(
         val lista = pacienteRepository.findAll()
         validarLista(lista)
         return lista
+    }
+
+    fun buscarPacientePorId(id: Int): ResponseEntity<Paciente> {
+        val pacienteExistente = pacienteRepository.findById(id)
+        return if (pacienteExistente.isPresent) {
+            ResponseEntity.ok(pacienteExistente.get())
+        } else {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+        }
     }
 
     fun getConversoesUltimosSeisMeses(): List<Map<String, Any>> {

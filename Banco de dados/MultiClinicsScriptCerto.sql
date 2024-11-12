@@ -17,6 +17,7 @@ CREATE TABLE possivel_cliente (
     fase varchar(45),
     dt_nasc DATE,
     tipo_de_contato INT,
+    data_insercao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (tipo_de_contato) REFERENCES tipo_de_contato(id)
 );
 
@@ -59,6 +60,7 @@ CREATE TABLE paciente (
     dt_entrada DATE,
     dt_saida DATE,
     cns VARCHAR(15),
+    foto longtext,
     FOREIGN KEY (responsavel) REFERENCES responsavel(id),
     FOREIGN KEY (endereco_id) REFERENCES endereco(id)
 );
@@ -246,11 +248,4 @@ SELECT * FROM responsavel;
 -- FROM possivel_cliente pc
 -- JOIN paciente p ON pc.cpf = p.cpf;
 
-SELECT 
-    COALESCE((COUNT(DISTINCT p.id) / NULLIF(COUNT(DISTINCT pc.id), 0)) * 100, 0) AS perc_leads_convertidos
-FROM 
-    possivel_cliente pc
-LEFT JOIN 
-    paciente p ON pc.cpf = p.cpf
-WHERE 
-    pc.dt_nasc >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH);
+

@@ -33,6 +33,9 @@ data class PacienteComResponsavel (
     @field:Past
     var dataNascimento: LocalDate?,
 
+    @field:Column(length = 10 * 1024 * 1024)
+    var foto:String? = null,
+
     //@ManyToOne
     //@JoinColumn(name = "responsavel")
     //var responsavel: Responsavel? ,
