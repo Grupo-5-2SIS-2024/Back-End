@@ -5,8 +5,10 @@ import Multiclinics.SpringV2.dominio.Acompanhamento
 import Multiclinics.SpringV2.dominio.Notas
 import Multiclinics.SpringV2.repository.AcompanhamentoRepository
 import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.lang.Exception
 
 @RestController
 @RequestMapping("/acompanhamentos")
@@ -40,6 +42,19 @@ class AcompanhamentoController(
     fun listarAcompanhamento(): ResponseEntity<List<Acompanhamento>> {
         val acompanhamentos = acompanhamentoService.getLista()
         return ResponseEntity.status(200).body(acompanhamentos)
+    }
+    @PostMapping(
+        value = ["/importar-feedback-txt/{fkConsulta}"],
+        consumes = ["text/plain"]
+    )
+    fun importarFeedbackTxt(@PathVariable fkConsulta: Int, @RequestBody fileContent: String): ResponseEntity<String>{
+        return try{
+            acompanhamentoService.lerArquivoTxt(fileContent, fkConsulta)
+            ResponseEntity.ok("Importação TXT bem sucedida!")
+        } catch (e: Exception){
+            e.printStackTrace()
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao impoertar TXT: ${e.message}")
+        }
     }
   /*
     @PatchMapping(value = ["/documento/{codigo} "],
