@@ -4,9 +4,17 @@ import Multiclinics.SpringV2.Service.ConsultaService
 import Multiclinics.SpringV2.dominio.Consulta
 import Multiclinics.SpringV2.repository.ConsultaRepository
 import Multiclinics.SpringV2.repository.MedicoRepository
+import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.io.ByteArrayOutputStream
+import java.io.OutputStreamWriter
+import java.nio.charset.StandardCharsets
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
+
+
 
 @RestController
 @RequestMapping("/consultas")
@@ -107,6 +115,41 @@ class ConsultaController(
 
 
     }
+
+
+
+
+
+
+    @CrossOrigin
+    @GetMapping("/export/csv")
+    fun exportarConsultasCsv(response: HttpServletResponse) {
+        val consultas = consultaService.getLista()
+
+
+        response.contentType = "text/csv"
+        response.setHeader("Content-Disposition", "attachment; filename=consultas.csv")
+
+        
+        val writer = response.writer
+        writer.append("ID,Data e Hora,Descrição,Médico,Paciente,Status,Especificação Médica\n")
+
+        consultas.forEach { consulta ->
+            writer.append(
+                "${consulta.id}," +
+                        "${consulta.datahoraConsulta}," +
+                        "\"${consulta.descricao}\"," +
+                        "\"${consulta.medico?.nome}\"," +
+                        "\"${consulta.paciente?.nome}\"," +
+                        "\"${consulta.statusConsulta?.nomeStatus}\"," +
+                        "\"${consulta.especificacaoMedica?.area}\"\n"
+            )
+        }
+
+        writer.flush()
+        writer.close()
+    }
+
 
 
 }
