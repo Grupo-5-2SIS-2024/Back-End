@@ -82,8 +82,8 @@ class AcompanhamentoService(
                 println("versao: $versao")
             }else if(registro == "02"){
                 val id = linha.substring(2,7).toInt()
-                val resumo = linha.substring(7,67).trim()
-                val Relatorio = linha.substring(67,127).trim()
+                val resumo = linha.substring(7,52).trim()
+                val Relatorio = linha.substring(52,97).trim()
                 val feedback = Acompanhamento(id, resumo, Relatorio,consulta)
                 acompanhamentoRepository.save(feedback)
                 listaFeedbacks.add(feedback)
