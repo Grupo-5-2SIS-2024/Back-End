@@ -43,6 +43,7 @@ class AcompanhamentoController(
         val acompanhamentos = acompanhamentoService.getLista()
         return ResponseEntity.status(200).body(acompanhamentos)
     }
+    @CrossOrigin
     @PostMapping(
         value = ["/importar-feedback-txt/{fkConsulta}"],
         consumes = ["text/plain"]
