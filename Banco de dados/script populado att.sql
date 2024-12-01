@@ -401,6 +401,28 @@ VALUES
 ('Enviar relatórios', 'Enviar relatórios mensais para análise da direção.', 4, 4),
 ('Preparar materiais', 'Preparar materiais didáticos e informativos para os pacientes.', 5, 1);
 
+INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) 
+VALUES
+('Carlos', 'Silva', 'carlos.silva@email.com', '11999998888', 'senha789', '789123', 'Médico Supervisor', 1, '1975-04-15', '34567890123', TRUE, 2, NULL), -- Cardiologia
+('Mariana', 'Alves', 'mariana.alves@email.com', '11988887777', 'senha101', '987654', 'Médico Supervisor', 2, '1980-11-05', '45678901234', TRUE, 2, NULL), -- Neurologia
+('João', 'Costa', 'joao.costa@email.com', '11977776666', 'senha202', '543210', 'Médico Supervisor', 3, '1983-02-20', '56789012345', TRUE, 2, NULL), -- Dermatologia
+('Fernanda', 'Pereira', 'fernanda.pereira@email.com', '11966665555', 'senha303', '654987', 'Médico Supervisor', 4, '1992-08-18', '67890123456', TRUE, 2, NULL), -- Pediatria
+('Eduardo', 'Rocha', 'eduardo.rocha@email.com', '11955554444', 'senha404', '321654', 'Médico Supervisor', 5, '1988-12-25', '78901234567', TRUE, 2, NULL); -- Ortopedia
+
+INSERT INTO consulta (datahora_consulta, descricao, paciente, medico, especificacao_medica, duracao_consulta)
+VALUES
+('2024-12-02 10:00:00', 'Avaliação inicial.', 1, 1, 1, '01:00:00'), 
+('2024-12-03 11:30:00', 'Revisão de exames.', 2, 2, 2, '00:45:00'), 
+('2024-12-04 09:00:00', 'Diagnóstico inicial.', 3, 3, 3, '00:30:00'), 
+('2024-12-05 14:00:00', 'Consulta pediátrica.', 4, 4, 4, '00:50:00'), 
+('2024-12-06 08:30:00', 'Avaliação ortopédica.', 5, 5, 5, '01:15:00');
+
+
+
+
+
+
+
 -- VIEWS
 
 -- CREATE VIEW status_da_consulta_do_paciente AS
