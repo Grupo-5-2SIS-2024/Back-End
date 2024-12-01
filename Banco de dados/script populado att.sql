@@ -401,6 +401,8 @@ VALUES
 ('Enviar relatórios', 'Enviar relatórios mensais para análise da direção.', 4, 4),
 ('Preparar materiais', 'Preparar materiais didáticos e informativos para os pacientes.', 5, 1);
 
+
+-- adicionando supervisores e sua consultas 
 INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) 
 VALUES
 ('Carlos', 'Silva', 'carlos.silva@email.com', '11999998888', 'senha789', '789123', 'Médico Supervisor', 1, '1975-04-15', '34567890123', TRUE, 2, NULL), -- Cardiologia
@@ -418,6 +420,12 @@ VALUES
 ('2024-12-06 08:30:00', 'Avaliação ortopédica.', 5, 5, 5, '01:15:00');
 
 
+-- adicionado Administradores
+INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto)
+VALUES
+('Fernando', 'Almeida', 'fernando.almeida@email.com', '11991234567', 'senhaadmin1', 'ADM001', 'Administrador', 1, '1978-05-15', '32165498701', TRUE, 1, NULL),
+('Mariana', 'Silva', 'mariana.silva@email.com', '11992345678', 'senhaadmin2', 'ADM002', 'Administrador', 2, '1982-11-25', '65498732102', TRUE, 1, NULL),
+('Carlos', 'Santos', 'carlos.santos@email.com', '11993456789', 'senhaadmin3', 'ADM003', 'Administrador', 3, '1990-02-18', '98732165403', TRUE, 1, NULL);
 
 
 
