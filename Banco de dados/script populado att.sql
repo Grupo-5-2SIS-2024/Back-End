@@ -297,100 +297,70 @@ INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representa
 
 
 -- Inserindo dados em consulta
-INSERT INTO consulta (datahora_consulta, descricao, paciente, medico, especificacao_medica, duracao_consulta)
+INSERT INTO consulta (datahora_consulta, descricao, paciente, medico, especificacao_medica, duracao_consulta, status_consulta)
 VALUES 
-('2024-11-20 09:00:00', 'Consulta de rotina', 1, 1, 1, '01:00:00'),
-('2024-11-20 10:00:00', 'Consulta de rotina', 2, 2, 1, '01:00:00'),
-('2024-11-20 11:00:00', 'Consulta de rotina', 3, 3, 1, '01:00:00'),
-('2024-11-21 09:00:00', 'Consulta de rotina', 4, 4, 1, '01:00:00'),
-('2024-11-21 10:00:00', 'Consulta de rotina', 5, 5, 1, '01:00:00'),
-('2024-11-21 11:00:00', 'Consulta de rotina', 6, 6, 1, '01:00:00'),
-('2024-11-22 09:00:00', 'Consulta de rotina', 7, 7, 1, '01:00:00'),
-('2024-11-22 10:00:00', 'Consulta de rotina', 8, 8, 1, '01:00:00'),
-('2024-11-22 11:00:00', 'Consulta de rotina', 9, 9, 1, '01:00:00'),
-('2024-11-23 09:00:00', 'Consulta de rotina', 10, 10, 1, '01:00:00'),
-('2024-11-24 09:00:00', 'Consulta de rotina', 11, 11, 1, '01:00:00'),
-('2024-11-25 09:00:00', 'Consulta de rotina', 12, 12, 1, '01:00:00'),
-('2024-11-25 10:00:00', 'Consulta de rotina', 13, 13, 1, '01:00:00'),
-('2024-11-26 09:00:00', 'Consulta de rotina', 1, 1, 1, '01:00:00'),
-('2024-11-26 10:00:00', 'Consulta de rotina', 2, 2, 1, '01:00:00'),
-('2024-11-27 09:00:00', 'Consulta de rotina', 3, 3, 1, '01:00:00'),
-('2024-11-27 10:00:00', 'Consulta de rotina', 4, 4, 1, '01:00:00'),
-('2024-11-27 11:00:00', 'Consulta de rotina', 5, 5, 1, '01:00:00'),
-('2024-11-28 09:00:00', 'Consulta de rotina', 6, 6, 1, '01:00:00'),
-('2024-11-29 09:00:00', 'Consulta de rotina', 7, 7, 1, '01:00:00'),
-('2024-11-29 10:00:00', 'Consulta de rotina', 8, 8, 1, '01:00:00'),
-('2024-11-29 11:00:00', 'Consulta de rotina', 9, 9, 1, '01:00:00'),
-('2024-12-02 09:00:00', 'Consulta de rotina', 10, 10, 1, '01:00:00'),
-('2024-12-02 10:00:00', 'Consulta de rotina', 11, 11, 1, '01:00:00'),
-('2024-12-02 11:00:00', 'Consulta de rotina', 12, 12, 1, '01:00:00'),
-('2024-12-03 09:00:00', 'Consulta de rotina', 13, 13, 1, '01:00:00'),
-('2024-12-03 10:00:00', 'Consulta de rotina', 14, 14, 1, '01:00:00'),
-('2024-12-04 09:00:00', 'Consulta de rotina', 15, 15, 1, '01:00:00'),
-('2024-12-04 10:00:00', 'Consulta de rotina', 16, 16, 1, '01:00:00'),
-('2024-12-05 09:00:00', 'Consulta de rotina', 17, 17, 1, '01:00:00'),
-('2024-12-05 10:00:00', 'Consulta de rotina', 18, 18, 1, '01:00:00'),
-('2024-12-06 09:00:00', 'Consulta de rotina', 17, 19, 1, '01:00:00'),
-('2024-12-06 10:00:00', 'Consulta de rotina', 18, 20, 1, '01:00:00'),
-('2024-12-06 11:00:00', 'Consulta de rotina', 3, 19, 1, '01:00:00'),
-('2024-12-09 09:00:00', 'Consulta de rotina', 8, 11, 1, '01:00:00'),
-('2024-12-09 10:00:00', 'Consulta de rotina', 1, 1, 1, '01:00:00'),
-('2024-12-09 11:00:00', 'Consulta de rotina', 2, 2, 1, '01:00:00'),
-('2024-12-10 09:00:00', 'Consulta de rotina', 3, 3, 1, '01:00:00'),
-('2024-12-10 10:00:00', 'Consulta de rotina', 4, 4, 1, '01:00:00'),
-('2024-12-11 09:00:00', 'Consulta de rotina', 5, 5, 1, '01:00:00'),
-('2024-12-11 10:00:00', 'Consulta de rotina', 6, 6, 1, '01:00:00'),
-('2024-12-11 11:00:00', 'Consulta de rotina', 7, 7, 1, '01:00:00'),
-('2024-12-12 09:00:00', 'Consulta de rotina', 8, 8, 1, '01:00:00'),
-('2024-12-12 10:00:00', 'Consulta de rotina', 9, 9, 1, '01:00:00'),
-('2024-12-12 11:00:00', 'Consulta de rotina', 10, 10, 1, '01:00:00'),
-('2024-12-13 09:00:00', 'Consulta de rotina', 11, 11, 1, '01:00:00'),
-('2024-12-13 10:00:00', 'Consulta de rotina', 12, 12, 1, '01:00:00'),
-('2024-12-13 11:00:00', 'Consulta de rotina', 13, 13, 1, '01:00:00'),
-('2024-12-16 09:00:00', 'Consulta de rotina', 14, 14, 1, '01:00:00'),
-('2024-12-16 10:00:00', 'Consulta de rotina', 15, 15, 1, '01:00:00');
-selecT * from paciente;
+('2024-11-20 09:00:00', 'Consulta de rotina', 1, 1, 1, '01:00:00', 1),  -- Agendada
+('2024-11-20 10:00:00', 'Consulta de rotina', 2, 2, 1, '01:00:00', 2),  -- Realizada
+('2024-11-20 11:00:00', 'Consulta de rotina', 3, 3, 1, '01:00:00', 3),  -- Cancelada
+('2024-11-21 09:00:00', 'Consulta de rotina', 4, 4, 1, '01:00:00', 4),  -- Falta do paciente
+('2024-11-21 10:00:00', 'Consulta de rotina', 5, 5, 1, '01:00:00', 5),  -- Falta do médico
+('2024-11-21 11:00:00', 'Consulta de rotina', 6, 6, 1, '01:00:00', 1),  -- Agendada
+('2024-11-22 09:00:00', 'Consulta de rotina', 7, 7, 1, '01:00:00', 2),  -- Realizada
+('2024-11-22 10:00:00', 'Consulta de rotina', 8, 8, 1, '01:00:00', 3),  -- Cancelada
+('2024-11-22 11:00:00', 'Consulta de rotina', 9, 9, 1, '01:00:00', 4),  -- Falta do paciente
+('2024-11-23 09:00:00', 'Consulta de rotina', 10, 10, 1, '01:00:00', 5),  -- Falta do médico
+('2024-11-24 09:00:00', 'Consulta de rotina', 11, 11, 1, '01:00:00', 1),  -- Agendada
+('2024-11-25 09:00:00', 'Consulta de rotina', 12, 12, 1, '01:00:00', 2),  -- Realizada
+('2024-11-25 10:00:00', 'Consulta de rotina', 13, 13, 1, '01:00:00', 3),  -- Cancelada
+('2024-11-26 09:00:00', 'Consulta de rotina', 1, 1, 1, '01:00:00', 4),  -- Falta do paciente
+('2024-11-27 09:00:00', 'Consulta de rotina', 2, 2, 1, '01:00:00', 5),  -- Falta do médico
+('2024-11-28 09:00:00', 'Consulta de rotina', 3, 3, 1, '01:00:00', 1),  -- Agendada
+('2024-11-29 09:00:00', 'Consulta de rotina', 4, 4, 1, '01:00:00', 2),  -- Realizada
+('2024-11-30 09:00:00', 'Consulta de rotina', 5, 5, 1, '01:00:00', 3),  -- Cancelada
+('2024-12-01 09:00:00', 'Consulta de rotina', 6, 6, 1, '01:00:00', 4),  -- Falta do paciente
+('2024-12-02 09:00:00', 'Consulta de rotina', 7, 7, 1, '01:00:00', 5);  -- Falta do médico
+
 
 -- Especialização 2: 'Exame físico'
-INSERT INTO consulta (datahora_consulta, descricao, paciente, medico, especificacao_medica, duracao_consulta)
+INSERT INTO consulta (datahora_consulta, descricao, paciente, medico, especificacao_medica, duracao_consulta, status_consulta)
 VALUES 
-('2024-11-25 09:00:00', 'Exame físico', 12, 12, 2, '00:30:00'),
-('2024-11-25 10:00:00', 'Exame físico', 13, 13, 2, '00:30:00'),
-('2024-11-26 09:00:00', 'Exame físico', 1, 1, 2, '00:30:00'),
-('2024-11-26 10:00:00', 'Exame físico', 2, 2, 2, '00:30:00'),
-('2024-11-27 09:00:00', 'Exame físico', 3, 3, 2, '00:30:00'),
-('2024-11-27 10:00:00', 'Exame físico', 4, 4, 2, '00:30:00');
+('2024-11-25 09:00:00', 'Exame físico', 12, 12, 2, '00:30:00', 2),  -- Realizada
+('2024-11-25 10:00:00', 'Exame físico', 13, 13, 2, '00:30:00', 3),  -- Cancelada
+('2024-11-26 09:00:00', 'Exame físico', 1, 1, 2, '00:30:00', 4),   -- Falta do paciente
+('2024-11-26 10:00:00', 'Exame físico', 2, 2, 2, '00:30:00', 2),   -- Realizada
+('2024-11-27 09:00:00', 'Exame físico', 3, 3, 2, '00:30:00', 5),   -- Falta do médico
+('2024-11-27 10:00:00', 'Exame físico', 4, 4, 2, '00:30:00', 2);   -- Realizada
 
 -- Especialização 3: 'Consulta nutricional'
-INSERT INTO consulta (datahora_consulta, descricao, paciente, medico, especificacao_medica, duracao_consulta)
+INSERT INTO consulta (datahora_consulta, descricao, paciente, medico, especificacao_medica, duracao_consulta, status_consulta)
 VALUES 
-('2024-11-28 09:00:00', 'Consulta nutricional', 5, 5, 3, '00:45:00'),
-('2024-11-28 10:00:00', 'Consulta nutricional', 6, 6, 3, '00:45:00'),
-('2024-11-29 09:00:00', 'Consulta nutricional', 7, 7, 3, '00:45:00'),
-('2024-11-29 10:00:00', 'Consulta nutricional', 8, 8, 3, '00:45:00'),
-('2024-11-30 09:00:00', 'Consulta nutricional', 9, 9, 3, '00:45:00'),
-('2024-12-01 09:00:00', 'Consulta nutricional', 10, 10, 3, '00:45:00');
+('2024-11-28 09:00:00', 'Consulta nutricional', 5, 5, 3, '00:45:00', 2),  -- Realizada
+('2024-11-28 10:00:00', 'Consulta nutricional', 6, 6, 3, '00:45:00', 1),  -- Agendada
+('2024-11-29 09:00:00', 'Consulta nutricional', 7, 7, 3, '00:45:00', 5),  -- Falta do médico
+('2024-11-29 10:00:00', 'Consulta nutricional', 8, 8, 3, '00:45:00', 2),  -- Realizada
+('2024-11-30 09:00:00', 'Consulta nutricional', 9, 9, 3, '00:45:00', 4),  -- Falta do paciente
+('2024-12-01 09:00:00', 'Consulta nutricional', 10, 10, 3, '00:45:00', 1); -- Agendada
 
 -- Especialização 4: 'Consulta psicológica'
-INSERT INTO consulta (datahora_consulta, descricao, paciente, medico, especificacao_medica, duracao_consulta)
+INSERT INTO consulta (datahora_consulta, descricao, paciente, medico, especificacao_medica, duracao_consulta, status_consulta)
 VALUES 
-('2024-12-02 09:00:00', 'Consulta psicológica', 11, 11, 4, '00:50:00'),
-('2024-12-02 10:00:00', 'Consulta psicológica', 12, 12, 4, '00:50:00'),
-('2024-12-03 09:00:00', 'Consulta psicológica', 13, 13, 4, '00:50:00'),
-('2024-12-03 10:00:00', 'Consulta psicológica', 14, 14, 4, '00:50:00'),
-('2024-12-04 09:00:00', 'Consulta psicológica', 15, 15, 4, '00:50:00'),
-('2024-12-04 10:00:00', 'Consulta psicológica', 16, 16, 4, '00:50:00');
+('2024-12-02 09:00:00', 'Consulta psicológica', 11, 11, 4, '00:50:00', 1),  -- Agendada
+('2024-12-02 10:00:00', 'Consulta psicológica', 12, 12, 4, '00:50:00', 2),  -- Realizada
+('2024-12-03 09:00:00', 'Consulta psicológica', 13, 13, 4, '00:50:00', 2),  -- Realizada
+
+('2024-12-03 10:00:00', 'Consulta psicológica', 14, 14, 4, '00:50:00', 5),  -- Falta do médico
+('2024-12-04 09:00:00', 'Consulta psicológica', 15, 15, 4, '00:50:00', 1),  -- Agendada
+('2024-12-04 10:00:00', 'Consulta psicológica', 16, 16, 4, '00:50:00', 1);  -- Agendada
 
 -- Especialização 5: 'Consulta de orientação pedagógica'
-INSERT INTO consulta (datahora_consulta, descricao, paciente, medico, especificacao_medica, duracao_consulta)
+INSERT INTO consulta (datahora_consulta, descricao, paciente, medico, especificacao_medica, duracao_consulta, status_consulta)
 VALUES 
-('2024-12-05 09:00:00', 'Consulta de orientação pedagógica', 17, 17, 5, '00:40:00'),
-('2024-12-05 10:00:00', 'Consulta de orientação pedagógica', 18, 18, 5, '00:40:00'),
-('2024-12-06 09:00:00', 'Consulta de orientação pedagógica', 1, 19, 5, '00:40:00'),
-('2024-12-06 10:00:00', 'Consulta de orientação pedagógica', 2, 20, 5, '00:40:00'),
-('2024-12-07 09:00:00', 'Consulta de orientação pedagógica', 3, 1, 5, '00:40:00'),
-('2024-12-07 10:00:00', 'Consulta de orientação pedagógica', 5, 2, 5, '00:40:00');
-
+('2024-12-05 09:00:00', 'Consulta de orientação pedagógica', 17, 17, 5, '00:40:00', 1),  -- Agendada
+('2024-12-05 10:00:00', 'Consulta de orientação pedagógica', 18, 18, 5, '00:40:00', 2),  -- Realizada
+('2024-12-06 09:00:00', 'Consulta de orientação pedagógica', 1, 19, 5, '00:40:00', 4),  -- Falta do paciente
+('2024-12-06 10:00:00', 'Consulta de orientação pedagógica', 2, 20, 5, '00:40:00', 2),  -- Realizada
+('2024-12-07 09:00:00', 'Consulta de orientação pedagógica', 3, 1, 5, '00:40:00', 1),  -- Agendada
+('2024-12-07 10:00:00', 'Consulta de orientação pedagógica', 5, 2, 5, '00:40:00', 2);  -- Realizada
 
 -- Inserindo dados em notas
 INSERT INTO notas (titulo, descricao, medico, especificacao_medica) 
@@ -413,12 +383,11 @@ VALUES
 
 INSERT INTO consulta (datahora_consulta, descricao, paciente, medico, especificacao_medica, duracao_consulta)
 VALUES
-('2024-12-02 10:00:00', 'Avaliação inicial.', 1, 1, 1, '01:00:00'), 
-('2024-12-03 11:30:00', 'Revisão de exames.', 2, 2, 2, '00:45:00'), 
-('2024-12-04 09:00:00', 'Diagnóstico inicial.', 3, 3, 3, '00:30:00'), 
-('2024-12-05 14:00:00', 'Consulta pediátrica.', 4, 4, 4, '00:50:00'), 
-('2024-12-06 08:30:00', 'Avaliação ortopédica.', 5, 5, 5, '01:15:00');
-
+('2024-12-02 10:00:00', 'Avaliação inicial.', 1, 21, 1, '01:00:00'), 
+('2024-12-03 11:30:00', 'Revisão de exames.', 2, 22, 2, '00:45:00'), 
+('2024-12-04 09:00:00', 'Diagnóstico inicial.', 3, 23, 3, '00:30:00'), 
+('2024-12-05 14:00:00', 'Consulta pediátrica.', 4, 24, 4, '00:50:00'), 
+('2024-12-06 08:30:00', 'Avaliação ortopédica.', 5, 25, 5, '01:15:00');
 
 -- adicionado Administradores
 INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto)
@@ -426,7 +395,6 @@ VALUES
 ('Fernando', 'Almeida', 'fernando.almeida@email.com', '11991234567', 'senhaadmin1', 'ADM001', 'Administrador', 1, '1978-05-15', '32165498701', TRUE, 1, NULL),
 ('Mariana', 'Silva', 'mariana.silva@email.com', '11992345678', 'senhaadmin2', 'ADM002', 'Administrador', 2, '1982-11-25', '65498732102', TRUE, 1, NULL),
 ('Carlos', 'Santos', 'carlos.santos@email.com', '11993456789', 'senhaadmin3', 'ADM003', 'Administrador', 3, '1990-02-18', '98732165403', TRUE, 1, NULL);
-
 
 
 
