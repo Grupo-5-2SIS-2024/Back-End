@@ -66,6 +66,7 @@ class PacienteController(
         return ResponseEntity.ok(conversoes)
     }
 
+
     @CrossOrigin
     @GetMapping("/porcentagem-aba")
     fun calcularPorcentagemPacientesABA(): ResponseEntity<Double> {

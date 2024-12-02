@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.server.ResponseStatusException
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Service
 class ConsultaService(
@@ -73,10 +75,18 @@ class ConsultaService(
             mapOf(
                 "nomePaciente" to array[0],
                 "dataConsulta" to array[1],
-                "especialidadeMedico" to array[2]
+                "especialidadeMedico" to array[2],
+                "details" to mapOf(
+                    "pacienteId" to (array.getOrNull(3)?.toString() ?: "null"),
+                    "medicoId" to (array.getOrNull(4)?.toString() ?: "null"),
+                    "especMedicaId" to (array.getOrNull(5)?.toString() ?: "null"),
+                    "genero" to (array.getOrNull(6)?.toString() ?: "null"),
+                    "statusConsultaId" to (array.getOrNull(7)?.toString() ?: "null")
+                )
             )
         }
     }
+
 
 
 
@@ -104,33 +114,96 @@ class ConsultaService(
 
     fun getAltasUltimosSeisMeses(): List<Map<String, Any>> {
         val result = consultaRepository.findAltasUltimosSeisMeses()
-        return result.map {
-            mapOf("mes" to it[0], "total" to it[1])
+
+        // Agrupando os detalhes por ano e mês
+        val groupedResult = result.groupBy { Pair(it[0], it[1]) } // Agrupa por ano e mês
+
+        return groupedResult.map { (key, records) ->
+            val (ano, mes) = key
+            mapOf(
+                "ano" to ano,
+                "mes" to mes,
+                "total" to records.sumOf { (it[2] as Long) }, // Soma o total
+                "details" to records.map {
+                    mapOf(
+                        "pacienteId" to (it[3]?.toString() ?: "null"),
+                        "medicoId" to (it[4]?.toString() ?: "null"),
+                        "especMedicaId" to (it[5]?.toString() ?: "null"),
+                        "genero" to (it[6]?.toString() ?: "null"),
+                        "statusConsultaId" to (it[7]?.toString() ?: "null")
+                    )
+                }
+            )
         }
     }
+
+
 
     fun getHorariosUltimosSeisMeses(): List<Map<String, Any>> {
         val result = consultaRepository.findHorariosUltimosSeisMeses()
-        return result.map {
-            mapOf("mes" to it[0], "agendados" to it[1], "disponiveis" to it[2])
+
+        // Agrupando os registros por ano e mês
+        val groupedResult = result.groupBy { Pair(it[0], it[1]) } // Agrupa por ano e mês
+
+        return groupedResult.map { (key, records) ->
+            val (ano, mes) = key
+            mapOf(
+                "ano" to ano,
+                "mes" to mes,
+                "agendados" to records.sumOf { it[2] as Long }, // Soma os valores de agendados
+                "disponiveis" to records.first()[3], // disponiveis será o mesmo para o grupo
+                "details" to records.map {
+                    mapOf(
+                        "pacienteId" to (it.getOrNull(4)?.toString() ?: "null"),
+                        "medicoId" to (it.getOrNull(5)?.toString() ?: "null"),
+                        "especMedicaId" to (it.getOrNull(6)?.toString() ?: "null"),
+                        "genero" to (it.getOrNull(7)?.toString() ?: "null"),
+                        "statusConsultaId" to (it.getOrNull(8)?.toString() ?: "null")
+                    )
+                }
+            )
         }
     }
-    fun getPercentagemConcluidos(): Double {
-        val total = consultaRepository.countTotal()
-        val concluidos = consultaRepository.countConcluidos()
 
-        return concluidos.toDouble()
-    }
-    fun getPercentagemConcluidos2(): Double {
-        val total = consultaRepository.countTotal()
-        val concluidos = consultaRepository.countConcluidos()
 
-        return if (total > 0) {
-            ( total - concluidos.toDouble() )
-        } else {
-            0.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    fun getConcluidosETotal(): Map<String, Any> {
+        val concluidos = consultaRepository.countConcluidos()
+        val detailsList = concluidos.map { record ->
+            mapOf(
+                "pacienteID" to (record[2]?.toString() ?: "null"),
+                "medicoID" to (record[3]?.toString() ?: "null"),
+                "especMedicaID" to (record[4]?.toString() ?: "null"),
+                "genero" to (record[5]?.toString() ?: "null"),
+                "statusConsultaID" to (record[6]?.toString() ?: "null")
+            )
         }
+        val realizadas = concluidos.sumOf { (it[0] as Double) }
+        val total = concluidos.sumOf { (it[1] as Double) }
+
+        return mapOf(
+            "realizadas" to realizadas,
+            "total" to total,
+            "details" to detailsList
+        )
     }
+
 
     fun getPercentagemConcluidos3(): Double {
         val cancelados = consultaRepository.countCancelada()

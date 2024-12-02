@@ -129,10 +129,27 @@ class PacienteService(
 
     fun getConversoesUltimosSeisMeses(): List<Map<String, Any>> {
         val result = pacienteRepository.countPossiveisClientesConvertidos()
-        return result.map {
-            mapOf("mes" to it[0], "total" to it[1])
+
+        // Agrupando os registros por data de conversão
+        val groupedResult = result.groupBy { it[0] } // Agrupa por dataConversao
+
+        return groupedResult.map { (dataConversao, records) ->
+            mapOf(
+                "dataConversao" to dataConversao,
+                "totalConvertidos" to records.sumOf { it[1] as Long }, // Soma totalConvertidos por data
+                "details" to records.map {
+                    mapOf(
+                        "pacienteId" to (it.getOrNull(2)?.toString() ?: "null"),
+                        "medicoId" to (it.getOrNull(3)?.toString() ?: "null"),
+                        "especMedicaId" to (it.getOrNull(4)?.toString() ?: "null"),
+                        "genero" to (it.getOrNull(5)?.toString() ?: "null"),
+                        "statusConsultaId" to (it.getOrNull(6)?.toString() ?: "null")
+                    )
+                }
+            )
         }
     }
+
 
     fun calcularPorcentagemPacientesABA(): Double {
         return pacienteRepository.calcularPorcentagemPacientesABA()

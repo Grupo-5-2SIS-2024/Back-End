@@ -12,13 +12,31 @@ interface PacienteRepository: JpaRepository<Paciente, Int> {
     fun existsByEmail(email: String?): Boolean
 
     @Query("""
-        SELECT MONTH(p.dtEntrada) as mes, COUNT(p.id) as total 
-        FROM Paciente p 
-        WHERE p.dtEntrada IS NOT NULL 
-        AND p.dtEntrada >= (CURRENT_DATE - 6 MONTH) 
-        GROUP BY MONTH(p.dtEntrada)
-    """)
+    SELECT 
+        p.dtEntrada AS dataConversao,
+        COUNT(p.id) AS totalConvertidos,
+        p.id AS pacienteId,
+        c.medico.id AS medicoId,
+        c.medico.especificacaoMedica.id AS especMedicaId,
+        p.genero AS genero,
+        c.statusConsulta.id AS statusConsultaId
+    FROM 
+        Paciente p
+    INNER JOIN 
+        Consulta c ON c.paciente.id = p.id
+    INNER JOIN 
+        PossivelCliente pc ON p.cpf = pc.cpf
+    WHERE 
+        p.dtEntrada IS NOT NULL
+    GROUP BY 
+        p.dtEntrada, p.id, c.medico.id, c.medico.especificacaoMedica.id, 
+        p.genero, c.statusConsulta.id
+    ORDER BY 
+        p.dtEntrada
+""")
     fun countPossiveisClientesConvertidos(): List<Array<Any>>
+
+
 
     @Query("""
     SELECT 

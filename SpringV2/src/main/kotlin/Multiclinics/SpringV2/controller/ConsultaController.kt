@@ -47,10 +47,11 @@ class ConsultaController(
     }
     @CrossOrigin
     @GetMapping("/agendamentosProximos")
-    fun agendamentosProximos():ResponseEntity<*>{
+    fun agendamentosProximos(): ResponseEntity<*> {
         val agendamentoProximos = consultaService.getTop3ConsultasByData()
         return ResponseEntity.ok(agendamentoProximos)
     }
+
 
     @CrossOrigin
     @GetMapping
@@ -93,28 +94,16 @@ class ConsultaController(
         val horarios = consultaService.getHorariosUltimosSeisMeses()
         return ResponseEntity.ok(horarios)
     }
+
+
+
     @CrossOrigin
     @GetMapping("/percentagem-concluidos")
-    fun getPercentagemConcluidos(): Map<String, Double> {
-        val percentagem = consultaService.getPercentagemConcluidos()
-        return mapOf("percentagemConcluidos" to percentagem)
+    fun getConcluidosETotal(): Map<String, Any> {
+        return consultaService.getConcluidosETotal()
     }
 
-    @CrossOrigin
-    @GetMapping("/percentagem-concluidos2")
-    fun getPercentagemConcluidos2(): Map<String, Double> {
-        val percentagem = consultaService.getPercentagemConcluidos2()
-        return mapOf("percentagemConcluidos" to percentagem)
-    }
 
-    @CrossOrigin
-    @GetMapping("/percentagem-concluidos3")
-    fun getPercentagemConcluidos3(): Map<String, Double> {
-        val percentagem = consultaService.getPercentagemConcluidos3()
-        return mapOf("percentagempendete" to percentagem)
-
-
-    }
 
 
 
@@ -130,7 +119,7 @@ class ConsultaController(
         response.contentType = "text/csv"
         response.setHeader("Content-Disposition", "attachment; filename=consultas.csv")
 
-        
+
         val writer = response.writer
         writer.append("ID,Data e Hora,Descrição,Médico,Paciente,Status,Especificação Médica\n")
 
