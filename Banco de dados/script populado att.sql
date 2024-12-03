@@ -111,8 +111,8 @@ CREATE TABLE consulta (
 
 CREATE TABLE acompanhamento (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    resumo VARCHAR(45),
-    relatorio VARCHAR(45),
+    resumo TEXT,
+    relatorio TEXT,
     consulta_id INT,
     medico INT,
     especificacao_medica INT,
@@ -152,7 +152,7 @@ INSERT INTO tipo_de_contato (fase_contato) VALUES ('Fechamento');
 INSERT INTO status_consulta (nome_status) VALUES ('Agendada');
 INSERT INTO status_consulta (nome_status) VALUES ('Realizada');
 INSERT INTO status_consulta (nome_status) VALUES ('Cancelada');
-INSERT INTO status_consulta (nome_status) VALUES ('Falta do pacinete');
+INSERT INTO status_consulta (nome_status) VALUES ('Falta do paciente');
 INSERT INTO status_consulta (nome_status) VALUES ('Falta do médico');
 
 
@@ -240,15 +240,15 @@ INSERT INTO especificacao_medica (area) VALUES
 ('Neurologia'),
 ('Enfermagem'),
 ('Assistência Social'),
-('Fisioterapia'),
+('Fisioterapeuta'),
 ('Nutrição');
 
 
 -- Inserindo dados em medico
 -- Psicologia
 INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES
-('Luciana', 'Ribeiro', 'luciana.ribeiro@email.com', '11988887766', 'senha123', '123456', 'Médico', 1, '1985-03-12', '12345678901', TRUE, 3, NULL),
-('Roberta', 'Medeiros', 'roberta.medeiros@email.com', '11987776655', 'senha456', '654321', 'Médico', 1, '1990-07-22', '23456789012', TRUE, 3, NULL);
+('Luciana', 'Ribeiro', 'luciana.ribeiro@email.com', '11988887766', 'senha123', '123456', 'Psicologia', 1, '1985-03-12', '12345678901', TRUE, 3, NULL),
+('Roberta', 'Medeiros', 'roberta.medeiros@email.com', '11987776655', 'senha456', '654321', 'Psicologia', 1, '1990-07-22', '23456789012', TRUE, 3, NULL);
 
 -- Fonoaudiologia
 INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES
@@ -257,8 +257,8 @@ INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representa
 
 -- Terapia Ocupacional
 INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES
-('Ricardo', 'Ferreira', 'ricardo.ferreira@email.com', '11984443322', 'senha112', '321654', 'Médico', 3, '1984-05-06', '56789012345', TRUE, 3, NULL),
-('Tatiane', 'Souza', 'tatiane.souza@email.com', '11983332211', 'senha113', '123123', 'Médico', 3, '1992-09-14', '67890123456', TRUE, 3, NULL);
+('Ricardo', 'Ferreira', 'ricardo.ferreira@email.com', '11984443322', 'senha112', '321654', 'Terapeuta', 3, '1984-05-06', '56789012345', TRUE, 3, NULL),
+('Tatiane', 'Souza', 'tatiane.souza@email.com', '11983332211', 'senha113', '123123', 'Terapeuta', 3, '1992-09-14', '67890123456', TRUE, 3, NULL);
 
 -- Psiquiatria
 INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES
@@ -277,23 +277,23 @@ INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representa
 
 -- Enfermagem
 INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES
-('Marta', 'Costa', 'marta.costa@email.com', '11976665544', 'senha1155', '123654', 'Médico', 7, '1993-03-15', '34534534534', TRUE, 3, NULL),
-('Carlos', 'Pereira', 'carlos.pereira@email.com', '11975554433', 'senha1166', '654321', 'Médico', 7, '1994-06-25', '45645645645', TRUE, 3, NULL);
+('Marta', 'Costa', 'marta.costa@email.com', '11976665544', 'senha1155', '123654', 'Enfermagem', 7, '1993-03-15', '34534534534', TRUE, 3, NULL),
+('Carlos', 'Pereira', 'carlos.pereira@email.com', '11975554433', 'senha1166', '654321', 'Enfermagem', 7, '1994-06-25', '45645645645', TRUE, 3, NULL);
 
 -- Assistência Social
 INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES
-('Jéssica', 'Santos', 'jessica.santos@email.com', '11974443322', 'senha1177', '789654', 'Médico', 8, '1988-11-20', '56756756756', TRUE, 3, NULL),
-('Vera', 'Oliveira', 'vera.oliveira@email.com', '11973332211', 'senha1188', '321987', 'Médico', 8, '1987-09-10', '67867867867', TRUE, 3, NULL);
+('Jéssica', 'Santos', 'jessica.santos@email.com', '11974443322', 'senha1177', '789654', 'Governamental', 8, '1988-11-20', '56756756756', TRUE, 3, NULL),
+('Vera', 'Oliveira', 'vera.oliveira@email.com', '11973332211', 'senha1188', '321987', 'Governamental', 8, '1987-09-10', '67867867867', TRUE, 3, NULL);
 
 -- Fisioterapia
 INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES
-('Larissa', 'Ferreira', 'larissa.ferreira@email.com', '11972221100', 'senha1199', '321432', 'Médico', 9, '1991-05-30', '78978978978', TRUE, 3, NULL),
-('Rogério', 'Dias', 'rogerio.dias@email.com', '11971110099', 'senha1200', '432543', 'Médico', 9, '1994-12-14', '89089089089', TRUE, 3, NULL);
+('Larissa', 'Ferreira', 'larissa.ferreira@email.com', '11972221100', 'senha1199', '321432', 'Fisioterapia', 9, '1991-05-30', '78978978978', TRUE, 3, NULL),
+('Rogério', 'Dias', 'rogerio.dias@email.com', '11971110099', 'senha1200', '432543', 'Fisioterapia', 9, '1994-12-14', '89089089089', TRUE, 3, NULL);
 
 -- Nutrição
 INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto) VALUES
-('Paula', 'Melo', 'paula.melo@email.com', '11970000011', 'senha1211', '543210', 'Médico', 10, '1992-07-22', '90190190190', TRUE, 3, NULL),
-('Tamires', 'Costa', 'tamires.costa@email.com', '11968888822', 'senha1222', '654321', 'Médico', 10, '1993-04-25', '01201201201', TRUE, 3, NULL);
+('Paula', 'Melo', 'paula.melo@email.com', '11970000011', 'senha1211', '543210', 'Nutrologo', 10, '1992-07-22', '90190190190', TRUE, 3, NULL),
+('Tamires', 'Costa', 'tamires.costa@email.com', '11968888822', 'senha1222', '654321', 'Nutrologo', 10, '1993-04-25', '01201201201', TRUE, 3, NULL);
 
 
 -- Inserindo dados em consulta
@@ -381,13 +381,13 @@ VALUES
 ('Fernanda', 'Pereira', 'fernanda.pereira@email.com', '11966665555', 'senha303', '654987', 'Médico Supervisor', 4, '1992-08-18', '67890123456', TRUE, 2, NULL), -- Pediatria
 ('Eduardo', 'Rocha', 'eduardo.rocha@email.com', '11955554444', 'senha404', '321654', 'Médico Supervisor', 5, '1988-12-25', '78901234567', TRUE, 2, NULL); -- Ortopedia
 
-INSERT INTO consulta (datahora_consulta, descricao, paciente, medico, especificacao_medica, duracao_consulta)
+INSERT INTO consulta (datahora_consulta, descricao, paciente, medico, especificacao_medica, duracao_consulta, status_consulta)
 VALUES
-('2024-12-02 10:00:00', 'Avaliação inicial.', 1, 21, 1, '01:00:00'), 
-('2024-12-03 11:30:00', 'Revisão de exames.', 2, 22, 2, '00:45:00'), 
-('2024-12-04 09:00:00', 'Diagnóstico inicial.', 3, 23, 3, '00:30:00'), 
-('2024-12-05 14:00:00', 'Consulta pediátrica.', 4, 24, 4, '00:50:00'), 
-('2024-12-06 08:30:00', 'Avaliação ortopédica.', 5, 25, 5, '01:15:00');
+('2024-12-02 10:00:00', 'Avaliação inicial.', 1, 21, 1, '01:00:00', 1), 
+('2024-12-03 11:30:00', 'Revisão de exames.', 2, 22, 2, '00:45:00', 2), 
+('2024-12-04 09:00:00', 'Diagnóstico inicial.', 3, 23, 3, '00:30:00', 3), 
+('2024-12-05 14:00:00', 'Consulta pediátrica.', 4, 24, 4, '00:50:00', 4), 
+('2024-12-06 08:30:00', 'Avaliação ortopédica.', 5, 25, 5, '01:15:00', 5);
 
 -- adicionado Administradores
 INSERT INTO medico (nome, sobrenome, email, telefone, senha, carteira_representante, tipo, especificacao_medica, dt_nasc, cpf, ativo, permissionamento, foto)
@@ -396,62 +396,32 @@ VALUES
 ('Mariana', 'Silva', 'mariana.silva@email.com', '11992345678', 'senhaadmin2', 'ADM002', 'Administrador', 2, '1982-11-25', '65498732102', TRUE, 1, NULL),
 ('Carlos', 'Santos', 'carlos.santos@email.com', '11993456789', 'senhaadmin3', 'ADM003', 'Administrador', 3, '1990-02-18', '98732165403', TRUE, 1, NULL);
 
-
-
-
--- VIEWS
-
--- CREATE VIEW status_da_consulta_do_paciente AS
--- SELECT p.nome AS paciente, c.descricao AS consulta, s.nome_status AS status
--- FROM paciente p
--- JOIN consulta c ON p.id = c.paciente
--- JOIN status_consulta s ON c.status_consulta = s.id;
-
--- CREATE VIEW consultas_do_medico AS
--- SELECT m.nome AS médico, c.datahora_consulta AS data_consulta, c.descricao AS consulta
--- FROM medico m
--- JOIN consulta c ON m.id = c.medico;
-
--- CREATE VIEW endereco_do_paciente_e_responsavel AS
--- SELECT e.cep AS cep, r.nome AS responsavel, r.telefone AS telefone_responsavel
--- FROM paciente p
--- JOIN responsavel r ON p.responsavel = r.id
--- JOIN endereco e ON r.endereco = e.id;
-
--- CREATE VIEW acompanhamento_da_consulta AS
--- SELECT p.nome AS paciente, c.descricao AS consulta, a.relatorio AS relatorio_acompanhamento
--- FROM paciente p
--- JOIN consulta c ON p.id = c.paciente
--- JOIN acompanhamento a ON c.id = a.consulta_id;
+-- Inserindo dados em acompanhamento
+INSERT INTO acompanhamento (resumo, relatorio, consulta_id, medico, especificacao_medica, status_consulta, paciente) VALUES
+('Consulta inicial de psicologia', 'O paciente apresentou sintomas de ansiedade, e foi iniciado um acompanhamento terapêutico. Aguardando a próxima sessão.', 1, 1, 1, 1, 1),
+('Consulta de fonoaudiologia', 'Paciente com dificuldades na fala, recomendado acompanhamento regular. Realizado diagnóstico inicial.', 2, 2, 2, 1, 2),
+('Sessão de terapia ocupacional', 'O paciente mostrou progresso na coordenação motora, com alguns exercícios de reabilitação. Recomendado continuar com o tratamento.', 3, 3, 3, 2, 3),
+('Consulta psiquiátrica', 'Paciente apresenta quadro de depressão, sendo orientado a iniciar tratamento com medicação. Acompanhamento semanal recomendado.', 4, 4, 4, 1, 4),
+('Consulta pediátrica', 'Criança com quadro de alergia respiratória, sendo tratado com medicamentos prescritos. Aguardar evolução para ajustes no tratamento.', 5, 5, 5, 2, 5),
+('Avaliação neurológica', 'O paciente relatou dores frequentes de cabeça, exames serão solicitados para diagnóstico. Novo acompanhamento agendado para análise dos resultados.', 6, 6, 6, 3, 6),
+('Sessão de enfermagem', 'Paciente em acompanhamento pós-cirúrgico, foi realizado curativo e monitoramento dos sinais vitais. Retorno em uma semana.', 7, 7, 7, 1, 7),
+('Acompanhamento assistencial', 'Paciente com histórico de problemas sociais e familiares. Acompanhamento contínuo foi sugerido para garantir suporte adequado.', 8, 8, 8, 2, 8),
+('Fisioterapia inicial', 'Paciente com dificuldades motoras devido a acidente. Iniciada a fisioterapia com exercícios leves para recuperação de mobilidade.', 9, 9, 9, 1, 9),
+('Consulta de nutrição', 'Paciente com índice de massa corporal elevado, orientações nutricionais foram passadas, acompanhamento mensal recomendado.', 10, 10, 10, 1, 10);
 
 -- -- SELECTS de cada tabela
 
 -- SELECT * FROM tipo_de_contato;
-SELECT * FROM possivel_cliente;
- SELECT * FROM endereco;
-SELECT * FROM responsavel;
- SELECT * FROM paciente;
- SELECT * FROM especificacao_medica;
- SELECT * FROM medico;
+-- SELECT * FROM possivel_cliente;
+-- SELECT * FROM endereco;
+-- SELECT * FROM responsavel;
+-- SELECT * FROM especificacao_medica;
 -- SELECT * FROM status_consulta;
--- SELECT * FROM consulta;
--- SELECT * FROM acompanhamento;
- SELECT * FROM permissionamento;
 -- SELECT * FROM notas;
+ SELECT * FROM paciente;
+ SELECT * FROM medico;
+ SELECT * FROM consulta;
+ SELECT * FROM acompanhamento;
+ SELECT * FROM permissionamento;
 
--- SELECT * FROM status_da_consulta_do_paciente
--- WHERE paciente = 'Pedro';
-
--- SELECT * FROM consultas_do_medico
--- WHERE médico = 'Maria';
-
--- SELECT * FROM endereco_do_paciente_e_responsavel
--- WHERE cep = '12345678';
-
--- SELECT * FROM acompanhamento_da_consulta
--- WHERE paciente = 'Ana';
-
--- SELECT COUNT(*)
--- FROM possivel_cliente pc
--- JOIN paciente p ON pc.cpf = p.cpf;
 
